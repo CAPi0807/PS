@@ -25,24 +25,36 @@ header{
     background-color: #F90505;
 
 }
-nav{
+.rojo2{
     position: absolute;
+
+    margin-left: 95%;
+    margin-top: 0.75%;
+    margin-right: 1%;
+    height: 7%;
+    width: 4%;
+    background-color: #D47474;
+}
+
+nav{
     float: left;
     justify-content: space-around;
     text-align: center;
-    height: 10%;
+    height: 100%;
     width: 80%;
-    margin-left: 10%;
+    margin-top: 1.5%;
+
 }
 .button{
-    padding: 0 5% 0 5%;
-    font-size: 18px;
-    margin-left: 5%;
-    margin-top: 2.3%;
+    padding: 0 2.5% 0 2.5%;
+    font-size: 16px;
+    margin-left: 2.5%;
     color: #000000;
     background: #FBFAFA;
     border: 2px solid #FBFAFA;
     border-radius: 20px 20px 20px 20px;
+    text-decoration: none; /*decoración texto*/
+
 }
 
 .interior{
