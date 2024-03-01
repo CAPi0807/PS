@@ -31,9 +31,18 @@ nav{
     justify-content: space-around;
     text-align: center;
     height: 10%;
-    width: 100%;
+    width: 80%;
+    margin-left: 10%;
 }
 .button{
+    padding: 0 5% 0 5%;
+    font-size: 18px;
+    margin-left: 5%;
+    margin-top: 2.3%;
+    color: #000000;
+    background: #FBFAFA;
+    border: 2px solid #FBFAFA;
+    border-radius: 20px 20px 20px 20px;
 }
 
 .interior{
