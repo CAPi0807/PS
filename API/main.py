@@ -5,7 +5,7 @@ from uvicorn import *
 app = FastAPI()
 ans = 0
 
-
+#---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
 @app.get("/")
 def estoy_funcionando():
     return "¿Cuál es el motivo de nuestra existencia?"
@@ -97,11 +97,23 @@ def tangente(a: int):
 
 
 @app.get("/logaritmo/log({a}, {b})")
-def logaritmo_10(a: int, b: int):
+def logaritmo(a: int, b: int):
     global ans
     ans = math.log(a, b)
     return ans
 
+
+@app.get("/pi")
+def pi():
+    return math.pi
+
+
+@app.get("/e")
+def e():
+    return math.e
+
+
+#---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
 root_path = "/calculadora_multiproposito"
