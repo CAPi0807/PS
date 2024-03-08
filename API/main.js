@@ -4,6 +4,8 @@ let numeros = [];
 
 function actualizarDisplay() {
     document.getElementById('console').value = numeros.join('') + operacionActual;
+    document.getElementById('console').innerText =numeros.join('') + operacionActual;
+
 
 }
 function agregarNumero(numero) {
@@ -22,6 +24,7 @@ function limpiar() {
     numeros = [];
     operacionActual = '';
     actualizarDisplay();
+
 }
 
 function calcularResultado() {
