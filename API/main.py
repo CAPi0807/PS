@@ -123,7 +123,7 @@ def e():
 
 
 #---------------------------------------------Matrices-------------------------------------------------
-
+"""
 
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
@@ -170,7 +170,7 @@ def volumen(a: float, conver: str):
         "dl_a_ml": lambda: a * 100,
     }.get(conver, 0)()
 
-
+"""
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
