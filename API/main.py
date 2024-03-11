@@ -1,6 +1,15 @@
 import math
 from fastapi import FastAPI
+import numpy as np
 from uvicorn import *
+import json
+
+#from myapp.api import api
+
+"""json.dump(
+  get_schema_from_app(api),
+  open('openapi_schema.json', 'w')
+)"""
 
 app = FastAPI()
 ans = 0
@@ -111,6 +120,55 @@ def pi():
 @app.get("/e")
 def e():
     return math.e
+
+
+#---------------------------------------------Matrices-------------------------------------------------
+
+
+@app.get("/suma_matricial/")
+def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
+    matriz1_np = np.array(matriz1)
+    matriz2_np = np.array(matriz2)
+    resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
+    return resultado.tolist()  # Devuelve el resultado como JSON
+
+
+#---------------------------------------------CONVERSIONES-------------------------------------------------
+
+@app.get("/distancia/{conver}/{a}")
+def distancia(a: float, conver: str):
+    return {
+        "m_a_km": lambda: a/1000,
+        "km_a_m": lambda: a*1000,
+        "m_a_cm": lambda: a * 100,
+        "m_a_mm": lambda: a * 1000,
+        "mm_a_m": lambda: a / 1000,
+        "cm_a_m": lambda: a / 100,
+        "mm_a_km": lambda: a / 1000000,
+        "cm_a_km": lambda: a / 100000,
+        "mm_a_cm": lambda: a / 10,
+        "cm_a_mm": lambda: a * 10,
+        "km_a_mm": lambda: a * 1000000,
+        "km_a_cm": lambda: a * 100000,
+    }.get(conver, 0)()
+
+
+@app.get("/volumen/{conver}/{a}")
+def volumen(a: float, conver: str):
+    return {
+        "l_a_ml": lambda: a*1000,
+        "l_a_cl": lambda: a*100,
+        "l_a_dl": lambda: a * 10,
+        "ml_a_l": lambda: a / 1000,
+        "ml_a_dl": lambda: a / 100,
+        "ml_a_cl": lambda: a / 10,
+        "cl_a_l": lambda: a / 100,
+        "cl_a_dl": lambda: a / 10,
+        "cl_a_mm": lambda: a * 10,
+        "dl_a_l": lambda: a / 10,
+        "dl_a_cl": lambda: a * 10,
+        "dl_a_ml": lambda: a * 100,
+    }.get(conver, 0)()
 
 
 #---------------------------------------------SERVIDOR-------------------------------------------------
