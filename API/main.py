@@ -123,7 +123,7 @@ def e():
 
 
 #---------------------------------------------Matrices-------------------------------------------------
-"""
+
 
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
@@ -149,7 +149,7 @@ def distancia(a: float, conver: str):
         "mm_a_cm": lambda: a / 10,
         "cm_a_mm": lambda: a * 10,
         "km_a_mm": lambda: a * 1000000,
-        "km_a_cm": lambda: a * 100000,
+        "km_a_cm": lambda: a * 100000
     }.get(conver, 0)()
 
 
@@ -167,10 +167,62 @@ def volumen(a: float, conver: str):
         "cl_a_mm": lambda: a * 10,
         "dl_a_l": lambda: a / 10,
         "dl_a_cl": lambda: a * 10,
-        "dl_a_ml": lambda: a * 100,
+        "dl_a_ml": lambda: a * 100
     }.get(conver, 0)()
 
-"""
+
+@app.get("/peso/{conver}/{a}")
+def peso(a: float, conver: str):
+    return {
+        "g_a_mg": lambda: a*1000,
+        "g_a_kg": lambda: a/1000,
+        "mg_a_g": lambda: a * 1000,
+        "mg_a_kg": lambda: a / 1000000,
+        "kg_a_g": lambda: a * 1000,
+        "kg_a_mg": lambda: a *1000000
+    }.get(conver, 0)()
+
+
+@app.get("/distancia_imperial/{conver}/{a}")
+def distancia_imperial(a: float, conver: str):
+    return {
+        "pulgada_a_m": lambda: a*0.0254,
+        "pie_a_m": lambda: a*0.3048,
+        "yarda_a_m": lambda: a * 0.9144,
+        "milla_a_m": lambda: a * 1609.34,
+        "pulgada_a_km": lambda: a * 2.54e-5,
+        "pie_a_km": lambda: a * 0.0003048,
+        "yarda_a_km": lambda: a * 0.0009144,
+        "milla_a_km": lambda: a * 1.60934,
+        "m_a_pulgada": lambda: a * 39.3701,
+        "m_a_pie": lambda: a * 3.28084,
+        "m_a_yarda": lambda: a * 1.09361,
+        "m_a_milla": lambda: a * 0.000621371,
+        "km_a_pulgada": lambda: a * 39370.1,
+        "km_a_pie": lambda: a * 3280.84,
+        "km_a_yarda": lambda: a * 1093.61333,
+        "km_a_milla": lambda: a * 0.621371
+    }.get(conver, 0)()
+
+
+@app.get("/peso_imperial/{conver}/{a}")
+def peso_imperial(a: float, conver: str):
+    return {
+        "g_a_onza": lambda: a*0.035274,
+        "g_a_libra": lambda: a*0.00220462,
+        "mg_a_onza": lambda: a * 3.5274e-5,
+        "mg_a_libra": lambda: a * 2.2046e-6,
+        "kg_a_onza": lambda: a * 35.274,
+        "kg_a_libra": lambda: a * 2.20462,
+        "onza_a_g": lambda: a * 28.3495,
+        "libra_a_g": lambda: a * 453.592,
+        "onza_a_mg": lambda: a * 28349.5,
+        "libra_mg": lambda: a * 453592,
+        "onza_a_kg": lambda: a * 0.0283495,
+        "libra_a_kg": lambda: a * 0.453592
+    }.get(conver, 0)()
+
+
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
@@ -183,4 +235,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-#server.run()
+server.run()
+
