@@ -2,6 +2,10 @@
 let operacionActual = '';
 let numeros = [];
 
+function limpiar(){
+    document.getElementById('console').innerText = "";
+
+}
 
 function sumar() {
     const a = document.getElementById("a").value;
@@ -31,7 +35,7 @@ function sumar() {
             console.error('Error al llamar a la API:', error);
         });
     */
-    fetch(`http://127.0.0.1:8000/calculadora_multiproposito/suma_basica/${a}+${b}`)
+    fetch(`http://127.0.0.1:8000/suma_basica/${a}+${b}`)
         .then(function (response) {
             if (!response.ok) {
                 throw new Error(`Error de red - Código de estado: ${response.status}`);
@@ -39,9 +43,9 @@ function sumar() {
             return response.json();
         })
         .then(function (data) {
-            console.log("Después de fetch");
             console.log(data);
-            // Resto del código...
+            document.getElementById("resultado").innerText = `Resultado: ${data}`;
+
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);

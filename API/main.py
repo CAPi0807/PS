@@ -4,6 +4,13 @@ import numpy as np
 from uvicorn import *
 import json
 
+
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
+
 #from myapp.api import api
 
 """json.dump(
@@ -13,6 +20,7 @@ import json
 
 app = FastAPI()
 ans = 0
+
 
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
 @app.get("/")
@@ -172,9 +180,15 @@ def volumen(a: float, conver: str):
 
 """
 #---------------------------------------------SERVIDOR-------------------------------------------------
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:63342"],  # Agrega tu dominio
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Definir tu ruta raíz (root_path)
-root_path = "/calculadora_multiproposito"
+root_path = "/"
 
 # Crear una instancia de Config con la ruta raíz
 config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
