@@ -135,9 +135,40 @@ def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
 
 #---------------------------------------------CONVERSIONES-------------------------------------------------
 
-@app.get("/{unid1}_a_{unid2}/{a}")
-def e(a: float, unid1: str, unid2: str):
-    return a/1000
+@app.get("/distancia/{conver}/{a}")
+def distancia(a: float, conver: str):
+    return {
+        "m_a_km": lambda: a/1000,
+        "km_a_m": lambda: a*1000,
+        "m_a_cm": lambda: a * 100,
+        "m_a_mm": lambda: a * 1000,
+        "mm_a_m": lambda: a / 1000,
+        "cm_a_m": lambda: a / 100,
+        "mm_a_km": lambda: a / 1000000,
+        "cm_a_km": lambda: a / 100000,
+        "mm_a_cm": lambda: a / 10,
+        "cm_a_mm": lambda: a * 10,
+        "km_a_mm": lambda: a * 1000000,
+        "km_a_cm": lambda: a * 100000,
+    }.get(conver, 0)()
+
+
+@app.get("/volumen/{conver}/{a}")
+def volumen(a: float, conver: str):
+    return {
+        "l_a_ml": lambda: a*1000,
+        "l_a_cl": lambda: a*100,
+        "l_a_dl": lambda: a * 10,
+        "ml_a_l": lambda: a / 1000,
+        "ml_a_dl": lambda: a / 100,
+        "ml_a_cl": lambda: a / 10,
+        "cl_a_l": lambda: a / 100,
+        "cl_a_dl": lambda: a / 10,
+        "cl_a_mm": lambda: a * 10,
+        "dl_a_l": lambda: a / 10,
+        "dl_a_cl": lambda: a * 10,
+        "dl_a_ml": lambda: a * 100,
+    }.get(conver, 0)()
 
 
 #---------------------------------------------SERVIDOR-------------------------------------------------
