@@ -1,6 +1,15 @@
 import math
 from fastapi import FastAPI
+import numpy as np
 from uvicorn import *
+import json
+
+#from myapp.api import api
+
+"""json.dump(
+  get_schema_from_app(api),
+  open('openapi_schema.json', 'w')
+)"""
 
 app = FastAPI()
 ans = 0
@@ -111,6 +120,24 @@ def pi():
 @app.get("/e")
 def e():
     return math.e
+
+
+#---------------------------------------------Matrices-------------------------------------------------
+
+
+@app.get("/suma_matricial/")
+def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
+    matriz1_np = np.array(matriz1)
+    matriz2_np = np.array(matriz2)
+    resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
+    return resultado.tolist()  # Devuelve el resultado como JSON
+
+
+#---------------------------------------------CONVERSIONES-------------------------------------------------
+
+@app.get("/{unid1}_a_{unid2}/{a}")
+def e(a: float, unid1: str, unid2: str):
+    return a/1000
 
 
 #---------------------------------------------SERVIDOR-------------------------------------------------
