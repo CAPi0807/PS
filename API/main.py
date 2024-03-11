@@ -125,5 +125,4 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-server.run()
-
+#server.run()
