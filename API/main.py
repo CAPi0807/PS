@@ -132,7 +132,7 @@ def e():
 
 #---------------------------------------------Matrices-------------------------------------------------
 
-
+"""
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     matriz1_np = np.array(matriz1)
@@ -230,7 +230,7 @@ def peso_imperial(a: float, conver: str):
         "libra_a_kg": lambda: a * 0.453592
     }.get(conver, 0)()
 
-
+"""
 #---------------------------------------------SERVIDOR-------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
@@ -249,5 +249,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-server.run()
+#server.run()
 
