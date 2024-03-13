@@ -2,7 +2,7 @@ let operacionActual = '';
 let numeros = [];
 let numbers;
 let operations;
-let result;
+var result;
 
 function chainValidation(chain){
     const error= new Error("Syntax error");
@@ -38,8 +38,8 @@ function limpiar(){
     console.clear();
 }
 
-function operacion(a, b, op) {
-    fetch(`http://127.0.0.1:8000/${op}/${a}+${b}`)
+function operacion(a, b, op, opsim) {
+    fetch(`http://127.0.0.1:8000/${op}/${a}${opsim}${b}`)
         .then(function (response) {
             if (!response.ok) {
                 throw new Error(`Error de red - Código de estado: ${response.status}`);
@@ -48,14 +48,11 @@ function operacion(a, b, op) {
         })
         .then(function (data) {
             console.log(data);
-            //document.getElementById("resultado").innerText = `Resultado: ${data}`;
-            result = data;
+            document.getElementById('console').innerText = data;
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
         });
-
-
 }
 
 function obtenerOperacion(simbolo) {
@@ -66,29 +63,31 @@ function obtenerOperacion(simbolo) {
             return "resta_basica";
         case "*":
             return "multiplicacion_basica";
-        case "/":
+        case "÷":
             return "division_basica";
         default:
             return "Operación no válida";
     }
 }
-function principal (cadena){
+function principal(cadena) {
     chainValidation(cadena);
     splitChain(cadena)
     let a;
     let b;
     let op;
-
-    while(operations.length !== 0){
+    let opsim;
+    while (operations.length !== 0) {
         a = numbers.shift();
         b = numbers.shift();
-        op = operations.shift();
-        op = obtenerOperacion(op);
+        opsim = operations.shift();
+        op = obtenerOperacion(opsim);
         console.log(a);
         console.log(b);
         console.log(op);
-        operacion(a, b, op);
-        numbers.unshift("coger resultado");
+        operacion(a, b, op, opsim);
+
+        numbers.unshift(35);
     }
+    document.getElementById('console').innerText = "10";
 }
 
