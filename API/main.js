@@ -88,6 +88,6 @@ function principal(cadena) {
 
         numbers.unshift(35);
     }
-    document.getElementById('console').innerText = "10";
+    //document.getElementById('console').innerText = "10";
 }
 
