@@ -77,6 +77,7 @@ def porcentaje(a: int):
     ans = a / 100
     return ans
 
+#---------------------------------------------CALCULADORA CIENTÍFICA-------------------------------------------------
 
 @app.get("/raiz_cuadrada/√{a}")
 def raiz_cuadrada(a: int):
