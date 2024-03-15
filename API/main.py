@@ -64,7 +64,7 @@ def suma_basica(a: int, b: int):
     return ans
 
 
-@app.get("/exponente_basico/{a}**{b}")
+@app.get("/exponente_basico/{a}^{b}")
 def exponente_basico(a: int, b: int):
     global ans
     ans = a ** b
@@ -85,10 +85,10 @@ def raiz_cuadrada(a: int):
     return ans
 
 
-@app.get("/raiz/{b}√{a}")
+@app.get("/raiz/{a}√{b}")
 def raiz_general(a: int, b: int):
     global ans
-    ans = a**(1/b)
+    ans = b**(1/a)
     return ans
 
 

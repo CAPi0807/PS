@@ -3,10 +3,10 @@ let numeros = [];
 let numbers;
 let operations;
 var result;
-
+var ans;
 function chainValidation(chain){
     const error= new Error("Syntax error");
-    const fail  = /[^0-9]{2}/;   //cadena para que no hayan dos símbolos juntos
+    const fail  =  /[^\w]{2}/;   //cadena para que no hayan dos símbolos juntos
     const fail2  = /^[^\d].*/;   //cadena para que no empiece por símbolo
     const fail3  = /.*[^\d]$/;   //cadena para que no termine en un símbolo
 
@@ -14,11 +14,12 @@ function chainValidation(chain){
         console.log("Syntax Error");
         limpiar();
         alert("Syntax error")
-
+        return 1;
 
     }
     else {
         console.log("La cadena esta bien");
+        return 0;
     }
 
 
@@ -32,6 +33,9 @@ function splitChain(chain){
     operations = operations.filter(str => str.length > 0);
 
 
+}
+function borrar(){
+    document.getElementById('console').innerText = document.getElementById('console').innerText.slice(0, -1);
 }
 function limpiar(){
     document.getElementById('console').innerText = "";
@@ -65,13 +69,20 @@ function obtenerOperacion(simbolo) {
             return "multiplicacion_basica";
         case "÷":
             return "division_basica";
+        case "^":
+            return "exponente_basico";
+        case "√":
+            return "raiz";
+
         default:
             return "Operación no válida";
     }
 }
 function principal(cadena) {
-    chainValidation(cadena);
-    splitChain(cadena)
+    if (chainValidation(cadena)===1){
+        return;
+    }
+    splitChain(cadena);
     let a;
     let b;
     let op;
@@ -88,6 +99,7 @@ function principal(cadena) {
 
         numbers.unshift(35);
     }
+
     //document.getElementById('console').innerText = "10";
 }
 
