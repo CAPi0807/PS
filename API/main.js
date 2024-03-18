@@ -97,7 +97,7 @@ function principal(cadena) {
         console.log(op);
         operacion(a, b, op, opsim);
 
-        numbers.unshift(35);
+        //numbers.unshift(35);
     }
 
     //document.getElementById('console').innerText = "10";
