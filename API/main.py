@@ -4,13 +4,6 @@ import numpy as np
 from uvicorn import *
 import json
 
-
-from fastapi.middleware.cors import CORSMiddleware
-
-
-
-
-
 #from myapp.api import api
 
 """json.dump(
@@ -21,11 +14,10 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 ans = 0
 
-
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
 @app.get("/")
 def estoy_funcionando():
-    return "¿Cuál es el motivo de nuestra existencia?"
+    return "Estoy funcionando"
 
 
 @app.get("/Ans")
@@ -57,14 +49,16 @@ def suma_basica(a: int, b: int):
     return ans
 
 
-@app.get("/division_basica/{a}÷{b}")
+@app.get("/division_basica/{a}:{b}")
 def suma_basica(a: int, b: int):
     global ans
+    if b == 0:
+        return "Indeterminación"
     ans = a / b
     return ans
 
 
-@app.get("/exponente_basico/{a}^{b}")
+@app.get("/exponente_basico/{a}**{b}")
 def exponente_basico(a: int, b: int):
     global ans
     ans = a ** b
@@ -78,18 +72,19 @@ def porcentaje(a: int):
     return ans
 
 #---------------------------------------------CALCULADORA CIENTÍFICA-------------------------------------------------
-
 @app.get("/raiz_cuadrada/√{a}")
 def raiz_cuadrada(a: int):
     global ans
+    if a < 0:
+        return "Imposible"
     ans = math.sqrt(a)
     return ans
 
 
-@app.get("/raiz/{a}√{b}")
+@app.get("/raiz/{b}√{a}")
 def raiz_general(a: int, b: int):
     global ans
-    ans = b**(1/a)
+    ans = a**(1/b)
     return ans
 
 
@@ -133,7 +128,7 @@ def e():
 
 #---------------------------------------------Matrices-------------------------------------------------
 
-"""
+
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     matriz1_np = np.array(matriz1)
@@ -231,17 +226,11 @@ def peso_imperial(a: float, conver: str):
         "libra_a_kg": lambda: a * 0.453592
     }.get(conver, 0)()
 
-"""
+
 #---------------------------------------------SERVIDOR-------------------------------------------------
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:63342"],  # Agrega tu dominio
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 # Definir tu ruta raíz (root_path)
-root_path = "/"
+root_path = "/calculadora_multiproposito"
 
 # Crear una instancia de Config con la ruta raíz
 config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
@@ -250,5 +239,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-#server.run()
+server.run()
 
