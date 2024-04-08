@@ -215,7 +215,7 @@ def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     return resultado.tolist()  # Devuelve el resultado como JSON
 
 
-#---------------------------------------------CONVERSIONES-------------------------------------------------
+#---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
 @app.get("/distancia/{conver}/{a}")
 def distancia(a: float, conver: str):
@@ -253,7 +253,7 @@ def volumen(a: float, conver: str):
     }.get(conver, 0)()
 
 
-@app.get("/peso/{conver}/{a}")
+@app.get("/masa/{conver}/{a}")
 def peso(a: float, conver: str):
     return {
         "g_a_mg": lambda: a*1000,
@@ -287,7 +287,7 @@ def distancia_imperial(a: float, conver: str):
     }.get(conver, 0)()
 
 
-@app.get("/peso_imperial/{conver}/{a}")
+@app.get("/masa_imperial/{conver}/{a}")
 def peso_imperial(a: float, conver: str):
     return {
         "g_a_onza": lambda: a*0.035274,
@@ -303,6 +303,20 @@ def peso_imperial(a: float, conver: str):
         "onza_a_kg": lambda: a * 0.0283495,
         "libra_a_kg": lambda: a * 0.453592
     }.get(conver, 0)()
+
+
+@app.get("/temperatura/{conver}/{a}")
+def peso(a: float, conver: str):
+    return {
+        "C_a_K": lambda: a+273.15,
+        "C_a_F": lambda: a*9/5+32,
+        "K_a_C": lambda: a - 273.15,
+        "K_a_F": lambda: (a - 273.15)*9/5+32,
+        "F_a_C": lambda: (a - 32)*5/9,
+        "F_a_K": lambda: (a - 32)*5/9+273
+    }.get(conver, 0)()
+
+#---------------------------------------------CONVERSIONES Numéricas-------------------------------------------------
 
 
 #---------------------------------------------SERVIDOR-------------------------------------------------
