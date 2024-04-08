@@ -68,6 +68,97 @@ nav{
     height: 750px;
     width: 80%;
 }
+.filas1{
+    margin-top: 5%;
+    margin-left: 10%;
+    width: 80%;
+    height: 76px;
+    position: absolute;
+
+}
+.filas2{
+    margin-top: 15%;
+    margin-left: 10%;
+    width: 80%;
+    height: 76px;
+    position: absolute;
+
+}
+.filas3{
+    margin-top: 25%;
+    margin-left: 45%;
+    width: 80%;
+    height: 50px;
+    position: absolute;
+
+}
+.filas4{
+    margin-top: 29%;
+    margin-left: 45%;
+    width: 80%;
+    height: 50px;
+    position: absolute;
+
+}
+.filas5{
+    margin-top: 33%;
+    margin-left: 45%;
+    width: 80%;
+    height: 50px;
+    position: absolute;
+
+}
+.filas6{
+    margin-top: 37%;
+    margin-left: 45%;
+    width: 80%;
+    height: 50px;
+    position: absolute;
+
+}
+
+#contenidodropdown{
+
+    font-size: 20px;
+    border-radius: 28px;
+    background-color: red;
+    width: 250px;
+    height: 100%;
+
+}
+#contenidodropdown2{
+    position:absolute;
+    margin-left: 33%;
+    font-size: 20px;
+    border-radius: 28px;
+    background-color: red;
+    width: 250px;
+    height: 100%;
+
+}
+
+.rectangles1 {
+    font-size: 40px;
+    border-radius: 28px;
+    background-color: red;
+    width: 200px;
+    height: 100%;
+    margin-right: 12%;
+}
+
+.calculadora2{
+    background-color: white;
+    margin-left: 20%;
+    margin-top: 25%;
+    height: 25%;
+    width: 20%;
+    position: absolute;
+    border-radius: 20px 20px 20px 20px;
+}
+
+
+
+
 .calculadora{
     background-color: white;
     margin-left: 10%;
@@ -80,7 +171,7 @@ nav{
 .fila1{
     margin-top: 20%;
     margin-left: 10%;
-    width: 100%;
+    width: 80%;
     height: 76px;
     position: absolute;
 
@@ -88,7 +179,7 @@ nav{
 .fila2{
     margin-top: 26%;
     margin-left: 10%;
-    width: 100%;
+    width: 80%;
     height: 76px;
     position: absolute;
 
@@ -96,7 +187,7 @@ nav{
 .fila3{
     margin-top: 32%;
     margin-left: 10%;
-    width: 100%;
+    width: 80%;
     height: 76px;
     position: absolute;
 
@@ -104,7 +195,7 @@ nav{
 .fila4{
     margin-top: 38%;
     margin-left: 10%;
-    width: 100%;
+    width: 80%;
     height: 76px;
     position: absolute;
 
@@ -132,6 +223,15 @@ nav{
     width: 76px;
     height: 100%;
 }
+.rectangle4{
+    font-size: 20px;
+    border-radius: 28px;
+    background-color: red;
+    width: 50px;
+    height: 100%;
+}
+
+
 #console{
     font-size: 2em;
     margin-left: 10%;
