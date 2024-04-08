@@ -42,6 +42,8 @@ function limpiar(){
     console.clear();
 }
 
+var datoGlobal; // Variable global para almacenar el dato
+
 function operacion(a, b, op, opsim) {
     fetch(`http://127.0.0.1:8000/${op}/${a}${opsim}${b}`)
         .then(function (response) {
@@ -51,13 +53,16 @@ function operacion(a, b, op, opsim) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
-            document.getElementById('console').innerText = data;
+            //console.log(data);
+            //document.getElementById('variable').title = data.toString();
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
         });
 }
+
+
+
 
 function obtenerOperacion(simbolo) {
     switch (simbolo) {
@@ -79,6 +84,7 @@ function obtenerOperacion(simbolo) {
     }
 }
 function principal(cadena) {
+
     if (chainValidation(cadena)===1){
         return;
     }
@@ -97,8 +103,12 @@ function principal(cadena) {
         console.log(op);
         operacion(a, b, op, opsim);
 
-        //numbers.unshift(35);
+        //console.log(document.getElementById('variable').title);
+
+        numbers.unshift();
     }
+    //console.log(document.getElementById('variable').title);
+
 
     //document.getElementById('console').innerText = "10";
 }

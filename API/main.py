@@ -3,6 +3,7 @@ from fastapi import FastAPI
 import numpy as np
 from uvicorn import *
 import json
+from fastapi.middleware.cors import CORSMiddleware
 
 #from myapp.api import api
 
@@ -11,8 +12,19 @@ import json
   open('openapi_schema.json', 'w')
 )"""
 
+
+
 app = FastAPI()
 ans = 0
+
+# Configurar CORS para dar permisos en la web (NO BORRAR)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:63342"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
+)
 
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
 @app.get("/")
@@ -128,14 +140,15 @@ def e():
 
 #---------------------------------------------Matrices-------------------------------------------------
 
-
+#esto da error
+"""
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     matriz1_np = np.array(matriz1)
     matriz2_np = np.array(matriz2)
     resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
     return resultado.tolist()  # Devuelve el resultado como JSON
-
+"""
 
 #---------------------------------------------CONVERSIONES-------------------------------------------------
 
@@ -239,5 +252,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-server.run()
+#server.run()
 

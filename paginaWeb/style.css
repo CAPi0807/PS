@@ -25,15 +25,20 @@ header{
     background-color: #F90505;
 
 }
-.rojo2{
+button.rojo2{
     position: absolute;
-
-    margin-left: 95%;
+    font-size: 18px;
+    margin-left: 5%;
     margin-top: 0.75%;
     margin-right: 1%;
     height: 7%;
     width: 4%;
-    background-color: #D47474;
+    /*background-color: #D47474;*/
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/f/ff/Bandera_de_Espa%C3%B1a_%28sin_escudo%29.svg");
+    background-size: cover;
+    background-position: center; /* Centrar la imagen */
+    cursor: pointer;
+
 }
 
 nav{
