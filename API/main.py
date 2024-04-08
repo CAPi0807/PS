@@ -115,6 +115,7 @@ def logaritmo(a: int, b: int):
     ans = math.log(a, b)
     return ans
 
+#---------------------------------------------Constantes-------------------------------------------------
 
 @app.get("/pi")
 def pi():
@@ -125,6 +126,83 @@ def pi():
 def e():
     return math.e
 
+
+@app.get("/carga_electron")
+def ce():
+    return 1.60217E-19
+
+@app.get("/plank")
+def plank():
+    return 6.626E-34
+
+@app.get("/boltzmann")
+def boltzmann():
+    return 1.38E-23
+
+
+@app.get("/luz")
+def c():
+    return 2.9979E8
+
+@app.get("/g")
+def g():
+    return 9.80665
+
+@app.get("/G")
+def G():
+    return 6.6742E-11
+
+@app.get("/R_gases")
+def R():
+    return 8.314472E-31
+
+@app.get("/Avogadro")
+def Avogadro():
+    return 6.0221415E23
+
+@app.get("/cero_absoluto")
+def Ok():
+    return -273.15
+
+@app.get("/radio_tierra")
+def rTierra():
+    return 6370000
+
+@app.get("/masa_tierra")
+def mTierra():
+    return 5.98E24
+
+@app.get("/sol_tierra")
+def sol_tierra():
+    return 1.5E11
+
+@app.get("/luna_tierra")
+def luna_tierra():
+    return 3.84E8
+
+@app.get("/radio_sol")
+def radio_sol():
+    return 6.96E8
+
+@app.get("/radio_luna")
+def radio_luna():
+    return 1.94E6
+
+@app.get("/orbita_tierra")
+def orbita_tierra():
+    return 1.50E11
+
+@app.get("/masa_electron")
+def me():
+    return 9.1093897E-31
+
+@app.get("/masa_proton")
+def mp():
+    return 1.6726231E-27
+
+@app.get("/masa_neutron")
+def mn():
+    return 1.6749286E-27
 
 #---------------------------------------------Matrices-------------------------------------------------
 
