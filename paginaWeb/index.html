@@ -27,66 +27,76 @@
     </footer>
 
     <script>
+        const keyMappings = {
+            48: "0",
+            49: "1",
+            50: "2",
+            51: "3",
+            52: "4",
+            53: "5",
+            54: "6",
+            55: "7",
+            56: "8",
+            57: "9",
+            96: "0", // Código de tecla para teclado numérico 0
+            97: "1", // Código de tecla para teclado numérico 1
+            98: "2", // Código de tecla para teclado numérico 2
+            99: "3", // Código de tecla para teclado numérico 3
+            100: "4", // Código de tecla para teclado numérico 4
+            101: "5", // Código de tecla para teclado numérico 5
+            102: "6", // Código de tecla para teclado numérico 6
+            103: "7", // Código de tecla para teclado numérico 7
+            104: "8", // Código de tecla para teclado numérico 8
+            105: "9", // Código de tecla para teclado numérico 9
+            107: "+", // Código de tecla para suma (+) en teclado numérico
+            109: "-", // Código de tecla para resta (-) en teclado numérico
+            106: "*", // Código de tecla para multiplicación (*) en teclado numérico
+            111: "/", // Código de tecla para división (/) en teclado numérico
+        };
 
+        // Agregar evento de teclado para el teclado numérico
+        document.addEventListener("keydown", function(event) {
+            // Obtener el código de la tecla presionada
+            var codigoTecla = event.keyCode;
+            if (codigoTecla === 46) {
+                // Limpiar el contenido de la consola
+                limpiar();
+                return;
+            }
+            if (codigoTecla === 8){
+                borrar();
+                return;
+            }
+            if (codigoTecla === 13 ){
+                principal(document.getElementById('console').innerText);
+                return;
+            }
+            // Verificar si la tecla presionada está en nuestro mapeo
+
+            if (keyMappings.hasOwnProperty(codigoTecla)) {
+                var valor;
+                // Obtener el valor correspondiente al código de tecla
+                if (codigoTecla === 111){
+                    valor = "÷";
+                    valor = keyMappings[codigoTecla];
+                }
+                else{
+                    valor = keyMappings[codigoTecla];
+                }
+
+
+                // Llamar a la función para agregar el valor a la consola
+                appendToConsole(valor);
+            }
+        });
         function appendToConsole(value) {
             document.getElementById('console').innerText += value;
+
+
         }
 
         xLuIncludeFile();
 
-        function cambiarIdioma() {
-                         // Cambiar el atributo lang de la etiqueta html
-        //location.reload();
-            var lan = document.getElementById("lan");
-            var inputLang;
-            var outputLang;
-            if(lan.value==="es"){
-                inputLang="es";
-                lan.value = "en";
-                lan.innerText = "en";
-                outputLang="en";
-                lan.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
-            }
-            else if (lan.value==="en"){
-
-                location.reload();
-            }
-            document.documentElement.lang = lan.innerText;
-
-            console.log(lan.value);
-            //var inputText = document.getElementById("button1");
-            var texto=document.getElementById("button1").title;
-            for(var i=2;i<7;i++) {
-                //console.log(document.getElementById("button"+i).title);
-                texto+=", "+document.getElementById("button"+i).title;
-            }
-
-            //inputText = document.getElementById("button1");
-            console.log(texto);
-            var arrayLan;
-            fetch(
-                "https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang
-            ).then((response) => response.json())
-
-                .then((data) => {
-                    var variable = data.responseData.translatedText;
-                    console.log(variable);
-                    /*inputText.title = variable;
-                    inputText.innerText = variable;
-                    console.log(inputText);*/
-                    arrayLan = variable.split(", ");
-                    console.log(arrayLan);
-                    var j=1;
-                    arrayLan.forEach(function(elemento) {
-                        document.getElementById("button"+j).innerText=elemento;
-                        document.getElementById("button"+j).title=elemento;
-                        j++;
-                    });
-
-                });
-
-
-        }
 
     </script>
 </body>
