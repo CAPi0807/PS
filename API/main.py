@@ -3,8 +3,8 @@ from fastapi import FastAPI
 import numpy as np
 from uvicorn import *
 import json
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 #from myapp.api import api
 
 """json.dump(
@@ -14,8 +14,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 ans = 0
-
-
 
 # Configurar el middleware CORS
 app.add_middleware(
@@ -225,8 +223,9 @@ def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     matriz2_np = np.array(matriz2)
     resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
     return resultado.tolist()  # Devuelve el resultado como JSON
-
 """
+
+
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
 @app.get("/distancia/{conver}/{a}")
@@ -345,52 +344,17 @@ def caracter_hexa(valor):
 
 @app.get("/decimal_hexadecimal/{a}")
 def dec_hex(a: int):
-    hex = ""
-    while a > 0:
-        resto = a % 16
-        caracter_def = caracter_hexa(resto)
-        hex = caracter_def+hex
-        a = int(a/16)
-    return hex
+    return hex(a)[2:]
 
-def caracter_dec(valor):
-    equivalencias = {
-        "a": 10,
-        "b": 11,
-        "c": 12,
-        "d": 13,
-        "e": 14,
-        "f": 15
-    }
-    if valor in equivalencias:
-        return equivalencias[valor]
-    return int(valor)
 
 @app.get("/hexadecimal_decimal/{a}")
 def dec_hex(a: str):
-    a = a.lower()
-    a = a[::-1]
-    dec = 0
-    pos = 0
-    for digito in a:
-        valor = caracter_dec(digito)
-        elevado = 16 ** pos
-        equivalencia = elevado * valor
-        dec += equivalencia
-        pos +=1
-    return dec
+    return int(a, 16)
 
 
 @app.get("/decimal_octal/{decimal}")
 def decimal_a_octal(decimal: int):
-    if decimal == 0:
-        return 0
-    octal = ""
-    while decimal > 0:
-        residuo = decimal % 8
-        octal = str(residuo) + octal
-        decimal = decimal // 8
-    return int(octal)
+    return int(oct(decimal)[2:])
 
 
 @app.get("/octal_decimal/{octal}")
@@ -398,17 +362,23 @@ def octal_a_decimal(octal: int):
     for cifra in str(octal):
         if cifra == "8" or cifra == "9":
             return "Octal incorrecto"
-    decimal = 0
-    posicion = 0
-    octal = int(str(octal))
-    while octal != 0:
-        residuo = octal % 10
-        decimal += residuo * (8 ** posicion)
-        octal = octal // 10
-        posicion += 1
-    return decimal
+    return int(str(octal), 8)
 
 
+@app.get("/octal_hexadecimal/{a}")
+def octal_a_hexadecial(a: int):
+    for cifra in str(a):
+        if cifra == "8" or cifra == "9":
+            return "Octal incorrecto"
+    return hex(a)[2:]
+
+@app.get("/hexadecimal_octal/{hexadecimal}")
+def hex_oct(hexadecimal: str):
+    # Convertir hexadecimal a decimal
+    decimal = int(hexadecimal, 16)
+    # Convertir decimal a octal
+    octal = oct(decimal)
+    return int(octal[2:])
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
@@ -421,5 +391,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-#server.run()
+server.run()
 
