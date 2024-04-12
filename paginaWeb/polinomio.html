@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfica de Polinomio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.1.1/d3.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        svg {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <h1>Gráfica de Polinomio</h1>
+    <label for="coefficientsInput">Ingrese los coeficientes del polinomio (separados por comas):</label>
+    <input type="text" id="coefficientsInput" placeholder="Ejemplo: 1, 0, -3">
+
+    <button onclick="graficarPolinomio()">Graficar Polinomio</button>
+
+    <svg id="polynomialChart" width="600" height="300"></svg>
+</div>
+
+<script>
+    function graficarPolinomio() {
+        var svg = d3.select("#polynomialChart");
+        svg.selectAll("*").remove(); // Limpiar SVG antes de graficar
+
+        var coefficientsInput = document.getElementById('coefficientsInput').value;
+        var coefficients = coefficientsInput.split(',').map(parseFloat);
+
+        var margin = { top: 20, right: 20, bottom: 40, left: 40 };
+        var width = +svg.attr("width") - margin.left - margin.right;
+        var height = +svg.attr("height") - margin.top - margin.bottom;
+
+        var x = d3.scaleLinear()
+            .domain([-10, 10])
+            .range([0, width]);
+
+        var y = d3.scaleLinear()
+            .range([height, 0]);
+
+        var xAxis = d3.axisBottom(x);
+        var yAxis = d3.axisLeft(y);
+
+        var line = d3.line()
+            .x(function(d) { return x(d.x); })
+            .y(function(d) { return y(d.y); });
+
+        var g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var data = [];
+        for (var i = -10; i <= 10; i += 0.5) {
+            data.push({ x: i, y: calcularValorPolinomio(coefficients, i) });
+        }
+
+        x.domain(d3.extent(data, function(d) { return d.x; }));
+        y.domain([d3.min(data, function(d) { return d.y; }), d3.max(data, function(d) { return d.y; })]);
+
+        g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        g.append("g")
+            .call(yAxis);
+
+        g.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", 1.5)
+            .attr("d", line);
+
+        // Zoom
+        svg.call(d3.zoom()
+            .extent([[0, 0], [width, height]])
+            .scaleExtent([1, 8])
+            .on("zoom", zoomed));
+
+        function zoomed(event) {
+            g.attr("transform", event.transform);
+            g.select(".x-axis").call(xAxis.scale(event.transform.rescaleX(x)));
+            g.select(".y-axis").call(yAxis.scale(event.transform.rescaleY(y)));
+            g.select(".line").attr("d", line);
+        }
+    }
+
+    function calcularValorPolinomio(coeficientes, x) {
+        var y = 0;
+        for (var i = 0; i < coeficientes.length; i++) {
+            y += coeficientes[i] * Math.pow(x, coeficientes.length - 1 - i);
+        }
+        return y;
+    }
+</script>
+</body>
+</html>
