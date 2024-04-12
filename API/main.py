@@ -366,6 +366,47 @@ def hex_oct(hexadecimal: str):
     # Convertir decimal a octal
     octal = oct(decimal)
     return int(octal[2:])
+
+@app.get("/binario_decimal/{a}")
+def binario_a_decimal(a: int):
+    for cifra in str(a):
+        if cifra > 1:
+            return "Binario incorrecto"
+    return int(str(a), 2)
+
+@app.get("/binario_hexadecimal/{a}")
+def binario_a_hexadecimal(a: int):
+    for cifra in str(a):
+        if cifra > 1:
+            return "Binario incorrecto"
+    decimal = int(str(a), 2)
+    return hex(decimal)[2:]
+
+@app.get("/binario_octal/{a}")
+def binario_a_octal(a: int):
+    for cifra in str(a):
+        if cifra > 1:
+            return "Binario incorrecto"
+    decimal = int(str(a), 2)
+    return int(oct(decimal)[2:])
+
+@app.get("/decimal_binario/{a}")
+def decimal_a_binario(a: int):
+    return int(bin(a)[2:])
+
+@app.get("/hexadecimal_binario/{a}")
+def hexadecimal_a_binario(a: str):
+    a = int(a, 16)
+    return int(bin(a)[2:])
+
+@app.get("/octal_binario/{a}")
+def octal_a_binario(a: int):
+    for cifra in str(a):
+        if cifra == "8" or cifra == "9":
+            return "Octal incorrecto"
+
+    a = int(str(a), 8)
+    return int(bin(a)[2:])
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
