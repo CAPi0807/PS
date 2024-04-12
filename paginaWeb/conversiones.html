@@ -1,0 +1,127 @@
+<html lang="es">
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="This is an HTML5 example">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/PS/paginaWeb/xlu-include-file.js"></script>
+    <script src="/PS/API/main.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    <title>Calculator</title>
+
+</head>
+<body>
+<header xlu-include-file="/PS/paginaWeb/header/header.html">
+
+</header>
+<main>
+    <div class="interior">
+        <div class="filas1">
+            <button class="rectangles1" onclick="cargarOpciones('masa')">Masa</button>
+            <button class="rectangles1" onclick="cargarOpciones('distancia')">Distancia</button>
+            <button class="rectangles1" onclick="cargarOpciones('capacidad')">Capacidad</button>
+
+        </div>
+        <div class="filas2">
+            <select id="contenidoDropdown">
+                <option value="">Selecciona una medida...</option>
+            </select>
+
+            <select id="contenidoDropdown2">
+                <option value="">Selecciona una medida...</option>
+            </select>
+        </div>
+
+        <div class="calculadora2">
+            <div  id="console"></div>
+        </div>
+        <div class="filas3">
+            <button class="rectangle4" onclick="appendToConsole('7')">7</button>
+            <button class="rectangle4" onclick="appendToConsole('8')">8</button>
+            <button class="rectangle4" onclick="appendToConsole('9')">9</button>
+        </div>
+        <div class="filas4">
+            <button class="rectangle4" onclick="appendToConsole('4')">4</button>
+            <button class="rectangle4" onclick="appendToConsole('5')">5</button>
+            <button class="rectangle4" onclick="appendToConsole('6')">6</button>
+            <button class="rectangle4" onclick="appendToConsole('*')">x</button>
+            <button class="rectangle4" onclick="borrar()">Del</button>
+        </div>
+        <div class="filas5">
+            <button class="rectangle4" onclick="appendToConsole('1')">1</button>
+            <button class="rectangle4" onclick="appendToConsole('2')">2</button>
+            <button class="rectangle4" onclick="appendToConsole('3')">3</button>
+            <button class="rectangle4" onclick="appendToConsole('-')">-</button>
+            <button class="rectangle4" onclick="limpiar('C')">C</button>
+        </div>
+        <div class="filas6">
+            <button class="rectangle4" onclick="appendToConsole('0')">0</button>
+            <button class="rectangle4" onclick="appendToConsole('.')">.</button>
+            <button class="rectangle4" onclick="appendToConsole('Ans')">Ans</button>
+            <button class="rectangle4" onclick="appendToConsole('+')">+</button>
+            <button class="rectangle4" onclick="principal(document.getElementById('console').innerText)">=</button>
+        </div>
+
+
+    </div>
+
+</main>
+<footer>
+    <p>Designed by: PS-Group 7</p>
+</footer>
+
+
+<script>
+    // Definir opciones para cada tipo de contenido
+    function appendToConsole(value) {
+        document.getElementById('console').innerText += value;
+    }
+    xLuIncludeFile();
+    var opciones = {
+        masa: ["Kg", "Hg", "Dag", "g", "Dg", "Cg", "Mg"],
+        distancia: ["Km", "Hm", "Dam", "m", "Dm", "Cm", "Mm"],
+        capacidad: ["Kl", "Hl", "Dal", "l", "Dl", "Cl", "Ml"]
+    };
+
+    // Función para cargar opciones en el dropdown
+    function cargarOpciones(tipoContenido) {
+
+        var dropdown = document.getElementById("contenidoDropdown");
+        var dropdown2 = document.getElementById("contenidoDropdown2");
+
+
+        dropdown.innerHTML = ""; // Limpiar contenido actual
+        dropdown2.innerHTML = ""; // Limpiar contenido actual
+
+        // Obtener las opciones para el tipo de contenido especificado
+        var contenido = opciones[tipoContenido];
+
+        // Recorrer el array de contenido y agregar cada opción al dropdown
+        contenido.forEach(function(item) {
+            var option = document.createElement("option");
+            option.text = item;
+            option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+            dropdown2.add(option);
+
+        });
+        contenido.forEach(function(item) {
+            var option = document.createElement("option");
+            option.text = item;
+            option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+            dropdown.add(option);
+
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cargar las opciones de masa por defecto al cargar la página
+
+    });
+</script>
+</body>
+</html>
