@@ -328,19 +328,6 @@ def peso(a: float, conver: str):
     }.get(conver, 0)()
 
 #---------------------------------------------CONVERSIONES Numéricas-------------------------------------------------
-def caracter_hexa(valor):
-    valor = str(valor)
-    equivalencias = {
-        "10": "a",
-        "11": "b",
-        "12": "c",
-        "13": "d",
-        "14": "e",
-        "15": "f"
-    }
-    if valor in equivalencias:
-        return equivalencias[valor]
-    return valor
 
 @app.get("/decimal_hexadecimal/{a}")
 def dec_hex(a: int):
@@ -391,5 +378,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-server.run()
+#server.run()
 
