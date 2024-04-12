@@ -3,7 +3,6 @@ from fastapi import FastAPI
 import numpy as np
 from uvicorn import *
 import json
-from fastapi.middleware.cors import CORSMiddleware
 
 #from myapp.api import api
 
@@ -12,19 +11,8 @@ from fastapi.middleware.cors import CORSMiddleware
   open('openapi_schema.json', 'w')
 )"""
 
-
-
 app = FastAPI()
 ans = 0
-
-# Configurar CORS para dar permisos en la web (NO BORRAR)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:63342"],
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type"],
-)
 
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
 @app.get("/")
@@ -127,6 +115,7 @@ def logaritmo(a: int, b: int):
     ans = math.log(a, b)
     return ans
 
+#---------------------------------------------Constantes-------------------------------------------------
 
 @app.get("/pi")
 def pi():
@@ -138,19 +127,95 @@ def e():
     return math.e
 
 
+@app.get("/carga_electron")
+def ce():
+    return 1.60217E-19
+
+@app.get("/plank")
+def plank():
+    return 6.626E-34
+
+@app.get("/boltzmann")
+def boltzmann():
+    return 1.38E-23
+
+
+@app.get("/luz")
+def c():
+    return 2.9979E8
+
+@app.get("/g")
+def g():
+    return 9.80665
+
+@app.get("/G")
+def G():
+    return 6.6742E-11
+
+@app.get("/R_gases")
+def R():
+    return 8.314472E-31
+
+@app.get("/Avogadro")
+def Avogadro():
+    return 6.0221415E23
+
+@app.get("/cero_absoluto")
+def Ok():
+    return -273.15
+
+@app.get("/radio_tierra")
+def rTierra():
+    return 6370000
+
+@app.get("/masa_tierra")
+def mTierra():
+    return 5.98E24
+
+@app.get("/sol_tierra")
+def sol_tierra():
+    return 1.5E11
+
+@app.get("/luna_tierra")
+def luna_tierra():
+    return 3.84E8
+
+@app.get("/radio_sol")
+def radio_sol():
+    return 6.96E8
+
+@app.get("/radio_luna")
+def radio_luna():
+    return 1.94E6
+
+@app.get("/orbita_tierra")
+def orbita_tierra():
+    return 1.50E11
+
+@app.get("/masa_electron")
+def me():
+    return 9.1093897E-31
+
+@app.get("/masa_proton")
+def mp():
+    return 1.6726231E-27
+
+@app.get("/masa_neutron")
+def mn():
+    return 1.6749286E-27
+
 #---------------------------------------------Matrices-------------------------------------------------
 
-#esto da error
-"""
+
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     matriz1_np = np.array(matriz1)
     matriz2_np = np.array(matriz2)
     resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
     return resultado.tolist()  # Devuelve el resultado como JSON
-"""
 
-#---------------------------------------------CONVERSIONES-------------------------------------------------
+
+#---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
 @app.get("/distancia/{conver}/{a}")
 def distancia(a: float, conver: str):
@@ -188,7 +253,7 @@ def volumen(a: float, conver: str):
     }.get(conver, 0)()
 
 
-@app.get("/peso/{conver}/{a}")
+@app.get("/masa/{conver}/{a}")
 def peso(a: float, conver: str):
     return {
         "g_a_mg": lambda: a*1000,
@@ -222,7 +287,7 @@ def distancia_imperial(a: float, conver: str):
     }.get(conver, 0)()
 
 
-@app.get("/peso_imperial/{conver}/{a}")
+@app.get("/masa_imperial/{conver}/{a}")
 def peso_imperial(a: float, conver: str):
     return {
         "g_a_onza": lambda: a*0.035274,
@@ -240,6 +305,74 @@ def peso_imperial(a: float, conver: str):
     }.get(conver, 0)()
 
 
+@app.get("/temperatura/{conver}/{a}")
+def peso(a: float, conver: str):
+    return {
+        "C_a_K": lambda: a+273.15,
+        "C_a_F": lambda: a*9/5+32,
+        "K_a_C": lambda: a - 273.15,
+        "K_a_F": lambda: (a - 273.15)*9/5+32,
+        "F_a_C": lambda: (a - 32)*5/9,
+        "F_a_K": lambda: (a - 32)*5/9+273
+    }.get(conver, 0)()
+
+#---------------------------------------------CONVERSIONES Numéricas-------------------------------------------------
+def caracter_hexa(valor):
+    valor = str(valor)
+    equivalencias = {
+        "10": "a",
+        "11": "b",
+        "12": "c",
+        "13": "d",
+        "14": "e",
+        "15": "f"
+    }
+    if valor in equivalencias:
+        return equivalencias[valor]
+    return valor
+
+@app.get("/decimal_hexadecimal/{a}")
+def dec_hex(a: int):
+    hex = ""
+    while a > 0:
+        resto = a % 16
+        caracter_def = caracter_hexa(resto)
+        hex = caracter_def+hex
+        a = int(a/16)
+    return hex
+
+def caracter_dec(valor):
+    equivalencias = {
+        "a": 10,
+        "b": 11,
+        "c": 12,
+        "d": 13,
+        "e": 14,
+        "f": 15
+    }
+    if valor in equivalencias:
+        return equivalencias[valor]
+    return int(valor)
+
+@app.get("/hexadecimal_decimal/{a}")
+def dec_hex(a: str):
+    a = a.lower()
+    a = a[::-1]
+    dec = 0
+    pos = 0
+    for digito in a:
+        valor = caracter_dec(digito)
+        elevado = 16 ** pos
+        equivalencia = elevado * valor
+        dec += equivalencia
+        pos +=1
+    return dec
+
+
+@app.get("/decimal_octal/{a}")
+def decimal_a_octal(a):
+    return hex(a)
+
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
@@ -252,5 +385,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-#server.run()
+server.run()
 
