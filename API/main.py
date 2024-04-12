@@ -3,7 +3,8 @@ from fastapi import FastAPI
 import numpy as np
 from uvicorn import *
 import json
-
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 #from myapp.api import api
 
 """json.dump(
@@ -13,6 +14,17 @@ import json
 
 app = FastAPI()
 ans = 0
+
+
+
+# Configurar el middleware CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite solicitudes desde cualquier origen
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos HTTP
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
 @app.get("/")
@@ -206,7 +218,7 @@ def mn():
 
 #---------------------------------------------Matrices-------------------------------------------------
 
-
+"""
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     matriz1_np = np.array(matriz1)
@@ -214,7 +226,7 @@ def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
     return resultado.tolist()  # Devuelve el resultado como JSON
 
-
+"""
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
 @app.get("/distancia/{conver}/{a}")
@@ -409,5 +421,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-server.run()
+#server.run()
 
