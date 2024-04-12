@@ -369,9 +369,33 @@ def dec_hex(a: str):
     return dec
 
 
-@app.get("/decimal_octal/{a}")
-def decimal_a_octal(a):
-    return hex(a)
+@app.get("/decimal_octal/{decimal}")
+def decimal_a_octal(decimal: int):
+    if decimal == 0:
+        return 0
+    octal = ""
+    while decimal > 0:
+        residuo = decimal % 8
+        octal = str(residuo) + octal
+        decimal = decimal // 8
+    return int(octal)
+
+
+@app.get("/octal_decimal/{octal}")
+def octal_a_decimal(octal: int):
+    for cifra in str(octal):
+        if cifra == "8" or cifra == "9":
+            return "Octal incorrecto"
+    decimal = 0
+    posicion = 0
+    octal = int(str(octal))
+    while octal != 0:
+        residuo = octal % 10
+        decimal += residuo * (8 ** posicion)
+        octal = octal // 10
+        posicion += 1
+    return decimal
+
 
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
