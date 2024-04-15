@@ -59,7 +59,7 @@ def suma_basica(a: int, b: int):
     return ans
 
 
-@app.get("/division_basica/{a}:{b}")
+@app.get("/division_basica/{a}÷{b}")
 def suma_basica(a: int, b: int):
     global ans
     if b == 0:
