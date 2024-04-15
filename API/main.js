@@ -119,31 +119,36 @@ function principal(cadena) {
 
     //document.getElementById('console').innerText = "10";
 }
+function cambiarIdioma() {
+    // Cambiar el atributo lang de la etiqueta html
+    //location.reload();
+    var lan = document.getElementById("lan");
+    var inputLang;
+    var outputLang;
+    if(lan.value==="es"){
+        inputLang="es";
+        lan.value = "en";
+        lan.innerText = "en";
+        outputLang="en";
+        lan.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+    }
+    else if (lan.value==="en"){
 
-// Obtener el elemento select
-let inputLang;
-let outputLang;
-// Función para cambiar el idioma
-function cambiarIdioma(idioma) {
-    insertImagen(idioma);
-    //language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
-    let inputLang =     document.documentElement.lang;
+        location.reload();
+    }
+    document.documentElement.lang = lan.innerText;
 
-    let outputLang = document.getElementById('language').value;
-    //language.classList.remove('fondo-es', 'fondo-en')
-
-
-
-    // cmabiar idioma nav
+    console.log(lan.value);
+    //var inputText = document.getElementById("button1");
     var texto=document.getElementById("button1").title;
     for(var i=2;i<7;i++) {
         //console.log(document.getElementById("button"+i).title);
         texto+=", "+document.getElementById("button"+i).title;
     }
 
-
+    //inputText = document.getElementById("button1");
+    console.log(texto);
     var arrayLan;
-    console.log("https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang);
     fetch(
         "https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang
     ).then((response) => response.json())
@@ -156,7 +161,6 @@ function cambiarIdioma(idioma) {
             console.log(inputText);*/
             arrayLan = variable.split(", ");
             console.log(arrayLan);
-
             var j=1;
             arrayLan.forEach(function(elemento) {
                 document.getElementById("button"+j).innerText=elemento;
@@ -166,27 +170,9 @@ function cambiarIdioma(idioma) {
 
         });
 
-    document.documentElement.lang=outputLang;
 
 }
 
-function insertImagen(idioma){
-    switch (idioma) {
-        case "es":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/f/ff/Bandera_de_Espa%C3%B1a_%28sin_escudo%29.svg")`;
-        case "en":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
-        case "it":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg")`;
-        case "de":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg")`;
-        case "fr":
-            return language.style.backgroundImage = `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSG24QVtqDWYqBksVSyK1yULlQWKw_HXQ853vdS-3M5dwS_n4MdgL35AF2WfI&s=10")`;
 
-        default:
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/f/ff/Bandera_de_Espa%C3%B1a_%28sin_escudo%29.svg")`;
-    }
-
-}
 
 

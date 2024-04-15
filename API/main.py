@@ -284,9 +284,21 @@ def distancia(a: float, conver: str):
     }.get(conver, 0)()
 
 
-@app.get("/volumen/{conver}/{a}")
-def volumen(a: float, conver: str):
+@app.get("/conversion/{conver}/{a}")
+def conversion(a: float, conver: str):
     return {
+        "m_a_km": lambda: a/1000,
+        "km_a_m": lambda: a*1000,
+        "m_a_cm": lambda: a * 100,
+        "m_a_mm": lambda: a * 1000,
+        "mm_a_m": lambda: a / 1000,
+        "cm_a_m": lambda: a / 100,
+        "mm_a_km": lambda: a / 1000000,
+        "cm_a_km": lambda: a / 100000,
+        "mm_a_cm": lambda: a / 10,
+        "cm_a_mm": lambda: a * 10,
+        "km_a_mm": lambda: a * 1000000,
+        "km_a_cm": lambda: a * 100000,
         "l_a_ml": lambda: a*1000,
         "l_a_cl": lambda: a*100,
         "l_a_dl": lambda: a * 10,
@@ -298,7 +310,13 @@ def volumen(a: float, conver: str):
         "cl_a_mm": lambda: a * 10,
         "dl_a_l": lambda: a / 10,
         "dl_a_cl": lambda: a * 10,
-        "dl_a_ml": lambda: a * 100
+        "dl_a_ml": lambda: a * 100,
+        "g_a_mg": lambda: a*1000,
+        "g_a_kg": lambda: a/1000,
+        "mg_a_g": lambda: a * 1000,
+        "mg_a_kg": lambda: a / 1000000,
+        "kg_a_g": lambda: a * 1000,
+        "kg_a_mg": lambda: a *1000000
     }.get(conver, 0)()
 
 

@@ -28,18 +28,22 @@
 
         </div>
         <div class="filas2">
+            <div class="calculadora2">
+                <div  id="console"></div>
+            </div>
+            <div class="calculadora3">
+                <div  id="console2"></div>
+            </div>
             <select id="contenidoDropdown">
-                <option value="">Selecciona una Magnitud...</option>
+                <option value=""></option>
             </select>
 
             <select id="contenidoDropdown2">
-                <option value="">Selecciona una Magnitud...</option>
+                <option value=""></option>
             </select>
         </div>
 
-        <div class="calculadora2">
-            <div  id="console"></div>
-        </div>
+
         <div class="filas3">
             <button class="rectangle4" onclick="appendToConsole('7')">7</button>
             <button class="rectangle4" onclick="appendToConsole('8')">8</button>
@@ -64,7 +68,7 @@
             <button class="rectangle4" onclick="appendToConsole('.')">.</button>
             <button class="rectangle4" onclick="appendToConsole('Ans')">Ans</button>
             <button class="rectangle4" onclick="appendToConsole('+')">+</button>
-            <button class="rectangle4" onclick="principal(document.getElementById('console').innerText)">=</button>
+            <button class="rectangle4" onclick="principal2(document.getElementById('console').innerText)">=</button>
         </div>
 
 

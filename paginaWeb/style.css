@@ -119,21 +119,21 @@ nav{
 }
 
 #contenidodropdown{
-
+    margin-left: 20%;
     font-size: 20px;
     border-radius: 28px;
     background-color: red;
-    width: 250px;
+    width: 70px;
     height: 100%;
 
 }
 #contenidodropdown2{
     position:absolute;
-    margin-left: 33%;
+    margin-left: 42%;
     font-size: 20px;
     border-radius: 28px;
     background-color: red;
-    width: 250px;
+    width: 70px;
     height: 100%;
 
 }
@@ -149,12 +149,23 @@ nav{
 
 .calculadora2{
     background-color: white;
-    margin-left: 20%;
-    margin-top: 25%;
-    height: 25%;
+
+
     width: 20%;
-    position: absolute;
+    height: 100%;
+
     border-radius: 20px 20px 20px 20px;
+    position: absolute;
+}
+.calculadora3{
+    background-color: white;
+    margin-left: 48%;
+
+    width: 20%;
+    height: 100%;
+
+    border-radius: 20px 20px 20px 20px;
+    position: absolute;
 }
 
 
@@ -243,6 +254,15 @@ nav{
     text-align: center;
 
 
+}
+#console2 {
+    font-size: 2em;
+    margin-left: 10%;
+    margin-top: 4%;
+    height: 50%;
+    width: 80%;
+    position: absolute;
+    text-align: center;
 }
 
 footer{
