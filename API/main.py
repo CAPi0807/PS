@@ -3,6 +3,8 @@ from fastapi import FastAPI
 import numpy as np
 from uvicorn import *
 import json
+from fastapi.middleware.cors import CORSMiddleware
+import base64
 
 #from myapp.api import api
 
@@ -13,6 +15,15 @@ import json
 
 app = FastAPI()
 ans = 0
+
+# Configurar el middleware CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite solicitudes desde cualquier origen
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos HTTP
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
 @app.get("/")
@@ -26,6 +37,11 @@ def ans():
     if type(ans) != int and type(ans) != float:
         return 0
     return ans
+
+@app.get("/eval/{a}")
+def evaluar(a: str):
+    a = base64.b64decode(a)
+    return eval(a)
 
 
 @app.get("/suma_basica/{a}+{b}")
@@ -114,6 +130,38 @@ def logaritmo(a: int, b: int):
     global ans
     ans = math.log(a, b)
     return ans
+
+@app.get("/MCM/{a}")
+def MCM(a: str):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+
+    def mcd(x, y):
+        while y:
+            x, y = y, x % y
+        return x
+
+    def mcm(a, b):
+        return abs(a * b) // mcd(a, b)
+
+    resultado = numeros[0]  # Inicializar con el primer número de la lista
+    for num in numeros[1:]:
+        resultado = mcm(resultado, num)  # Calcular el mcm de los números en la lista
+
+    return resultado
+
+@app.get("/MCD/{a}")
+def MCD(a):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+    def mcd(x, y):
+        while y:
+            x, y = y, x % y
+        return x
+
+    resultado = numeros[0]  # Inicializar con el primer número de la lista
+    for num in numeros[1:]:
+        resultado = mcd(resultado, num)  # Calcular el mcd de los números en la lista
+
+    return resultado
 
 #---------------------------------------------Constantes-------------------------------------------------
 
@@ -206,13 +254,14 @@ def mn():
 
 #---------------------------------------------Matrices-------------------------------------------------
 
-
+"""
 @app.get("/suma_matricial/")
 def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
     matriz1_np = np.array(matriz1)
     matriz2_np = np.array(matriz2)
     resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
     return resultado.tolist()  # Devuelve el resultado como JSON
+"""
 
 
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
@@ -318,7 +367,84 @@ def peso(a: float, conver: str):
 
 #---------------------------------------------CONVERSIONES Numéricas-------------------------------------------------
 
+@app.get("/decimal_hexadecimal/{a}")
+def dec_hex(a: int):
+    return hex(a)[2:]
 
+
+@app.get("/hexadecimal_decimal/{a}")
+def dec_hex(a: str):
+    return int(a, 16)
+
+
+@app.get("/decimal_octal/{decimal}")
+def decimal_a_octal(decimal: int):
+    return int(oct(decimal)[2:])
+
+
+@app.get("/octal_decimal/{octal}")
+def octal_a_decimal(octal: int):
+    for cifra in str(octal):
+        if cifra == "8" or cifra == "9":
+            return "Octal incorrecto"
+    return int(str(octal), 8)
+
+
+@app.get("/octal_hexadecimal/{a}")
+def octal_a_hexadecial(a: int):
+    for cifra in str(a):
+        if cifra == "8" or cifra == "9":
+            return "Octal incorrecto"
+    return hex(a)[2:]
+
+@app.get("/hexadecimal_octal/{hexadecimal}")
+def hex_oct(hexadecimal: str):
+    # Convertir hexadecimal a decimal
+    decimal = int(hexadecimal, 16)
+    # Convertir decimal a octal
+    octal = oct(decimal)
+    return int(octal[2:])
+
+@app.get("/binario_decimal/{a}")
+def binario_a_decimal(a: int):
+    for cifra in str(a):
+        if cifra > 1:
+            return "Binario incorrecto"
+    return int(str(a), 2)
+
+@app.get("/binario_hexadecimal/{a}")
+def binario_a_hexadecimal(a: int):
+    for cifra in str(a):
+        if cifra > 1:
+            return "Binario incorrecto"
+    decimal = int(str(a), 2)
+    return hex(decimal)[2:]
+
+@app.get("/binario_octal/{a}")
+def binario_a_octal(a: int):
+    for cifra in str(a):
+        if cifra > 1:
+            return "Binario incorrecto"
+    decimal = int(str(a), 2)
+    return int(oct(decimal)[2:])
+
+@app.get("/decimal_binario/{a}")
+def decimal_a_binario(a: int):
+    return int(bin(a)[2:])
+
+@app.get("/hexadecimal_binario/{a}")
+def hexadecimal_a_binario(a: str):
+    a = int(a, 16)
+    return int(bin(a)[2:])
+
+@app.get("/octal_binario/{a}")
+def octal_a_binario(a: int):
+    for cifra in str(a):
+        if cifra == "8" or cifra == "9":
+            return "Octal incorrecto"
+
+    a = int(str(a), 8)
+    return int(bin(a)[2:])
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
