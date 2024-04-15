@@ -4,6 +4,7 @@ import numpy as np
 from uvicorn import *
 import json
 from fastapi.middleware.cors import CORSMiddleware
+import base64
 
 #from myapp.api import api
 
@@ -36,6 +37,11 @@ def ans():
     if type(ans) != int and type(ans) != float:
         return 0
     return ans
+
+@app.get("/eval/{a}")
+def evaluar(a: str):
+    a = base64.b64decode(a)
+    return eval(a)
 
 
 @app.get("/suma_basica/{a}+{b}")
@@ -124,6 +130,38 @@ def logaritmo(a: int, b: int):
     global ans
     ans = math.log(a, b)
     return ans
+
+@app.get("/MCM/{a}")
+def MCM(a: str):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+
+    def mcd(x, y):
+        while y:
+            x, y = y, x % y
+        return x
+
+    def mcm(a, b):
+        return abs(a * b) // mcd(a, b)
+
+    resultado = numeros[0]  # Inicializar con el primer número de la lista
+    for num in numeros[1:]:
+        resultado = mcm(resultado, num)  # Calcular el mcm de los números en la lista
+
+    return resultado
+
+@app.get("/MCD/{a}")
+def MCD(a):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+    def mcd(x, y):
+        while y:
+            x, y = y, x % y
+        return x
+
+    resultado = numeros[0]  # Inicializar con el primer número de la lista
+    for num in numeros[1:]:
+        resultado = mcd(resultado, num)  # Calcular el mcd de los números en la lista
+
+    return resultado
 
 #---------------------------------------------Constantes-------------------------------------------------
 
@@ -419,5 +457,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-#server.run()
+server.run()
 
