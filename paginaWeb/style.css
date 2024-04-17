@@ -4,7 +4,7 @@
 
 body{
     height: 100%;
-
+    background-color: black;
     margin: 0px;
     margin-top: 0px;
     font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
@@ -71,7 +71,7 @@ nav{
 }
 .filas1{
     margin-top: 5%;
-    margin-left: 10%;
+    margin-left: 4%;
     width: 80%;
     height: 76px;
     position: absolute;
@@ -87,16 +87,16 @@ nav{
 }
 .filas3{
     margin-top: 25%;
-    margin-left: 45%;
-    width: 20%;
+    margin-left: 25%;
+    width: 60%;
     height: 50px;
     position: absolute;
 
 }
 .filas4{
     margin-top: 29%;
-    margin-left: 45%;
-    width: 20%;
+    margin-left: 25%;
+    width: 60%;
     height: 50px;
     position: absolute;
 
@@ -139,12 +139,12 @@ nav{
 }
 
 .rectangles1 {
-    font-size: 40px;
+    font-size: 35px;
     border-radius: 28px;
     background-color: red;
     width: 200px;
     height: 100%;
-    margin-right: 12%;
+    margin-right: 8%;
 }
 
 .calculadora2{
@@ -236,6 +236,14 @@ nav{
     height: 100%;
 }
 .rectangle4{
+    font-size: 20px;
+    border-radius: 28px;
+    background-color: red;
+    width: 50px;
+    height: 100%;
+}
+.rectangle5{
+    margin-right: 15%;
     font-size: 20px;
     border-radius: 28px;
     background-color: red;

@@ -316,7 +316,8 @@ def conversion(a: float, conver: str):
         "mg_a_g": lambda: a * 1000,
         "mg_a_kg": lambda: a / 1000000,
         "kg_a_g": lambda: a * 1000,
-        "kg_a_mg": lambda: a *1000000
+        "kg_a_mg": lambda: a *1000000,
+        "dec_a_hex": lambda: hex(a)[2:]
     }.get(conver, 0)()
 
 

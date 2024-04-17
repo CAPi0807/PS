@@ -22,6 +22,7 @@
 <main>
     <div class="interior">
         <div class="filas1">
+            <button style="font-size: 20px" class="rectangles1" onclick="cargarOpciones('sistema')">Sistema numerico</button>
             <button class="rectangles1" onclick="cargarOpciones('masa')">Masa</button>
             <button class="rectangles1" onclick="cargarOpciones('distancia')">Distancia</button>
             <button class="rectangles1" onclick="cargarOpciones('capacidad')">Capacidad</button>
@@ -45,11 +46,17 @@
 
 
         <div class="filas3">
+            <button class="rectangle4" onclick="appendToConsole('A')">A</button>
+            <button class="rectangle4" onclick="appendToConsole('B')">B</button>
+            <button class="rectangle5" onclick="appendToConsole('C')">C</button>
             <button class="rectangle4" onclick="appendToConsole('7')">7</button>
             <button class="rectangle4" onclick="appendToConsole('8')">8</button>
             <button class="rectangle4" onclick="appendToConsole('9')">9</button>
         </div>
         <div class="filas4">
+            <button class="rectangle4" onclick="appendToConsole('D')">D</button>
+            <button class="rectangle4" onclick="appendToConsole('E')">E</button>
+            <button class="rectangle5" onclick="appendToConsole('F')">F</button>
             <button class="rectangle4" onclick="appendToConsole('4')">4</button>
             <button class="rectangle4" onclick="appendToConsole('5')">5</button>
             <button class="rectangle4" onclick="appendToConsole('6')">6</button>
@@ -89,7 +96,8 @@
     var opciones = {
         masa: ["Kg", "Hg", "Dag", "g", "Dg", "Cg", "Mg"],
         distancia: ["Km", "Hm", "Dam", "m", "Dm", "Cm", "Mm"],
-        capacidad: ["Kl", "Hl", "Dal", "l", "Dl", "Cl", "Ml"]
+        capacidad: ["Kl", "Hl", "Dal", "l", "Dl", "Cl", "Ml"],
+        sistema:["hexadecimal", "decimal", "octal"]
     };
 
     // Función para cargar opciones en el dropdown
