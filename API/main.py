@@ -38,10 +38,27 @@ def ans():
         return 0
     return ans
 
+
+"""
+Para suma: +
+Para resta: -
+Para multiplicación: *
+Para división: /
+Para potencias: **
+Para raíces: **(1/x)
+Para seno: math.sin()
+Para coseno: math.cos()
+Para tangentes: math.tan()
+Para logaritmos: math.log(x, base)
+"""
 @app.get("/eval/{a}")
 def evaluar(a: str):
     a = base64.b64decode(a)
-    return eval(a)
+    for i in range(len(a)):
+        if a[i] == 47 and a[i+1] == 48:
+            return "operación imposible"
+    ans = eval(a)
+    return ans
 
 
 @app.get("/suma_basica/{a}+{b}")
@@ -65,7 +82,7 @@ def suma_basica(a: int, b: int):
     return ans
 
 
-@app.get("/division_basica/{a}÷{b}")
+@app.get("/division_basica/{a}:{b}")
 def suma_basica(a: int, b: int):
     global ans
     if b == 0:
@@ -284,21 +301,9 @@ def distancia(a: float, conver: str):
     }.get(conver, 0)()
 
 
-@app.get("/conversion/{conver}/{a}")
-def conversion(a: float, conver: str):
+@app.get("/volumen/{conver}/{a}")
+def volumen(a: float, conver: str):
     return {
-        "m_a_km": lambda: a/1000,
-        "km_a_m": lambda: a*1000,
-        "m_a_cm": lambda: a * 100,
-        "m_a_mm": lambda: a * 1000,
-        "mm_a_m": lambda: a / 1000,
-        "cm_a_m": lambda: a / 100,
-        "mm_a_km": lambda: a / 1000000,
-        "cm_a_km": lambda: a / 100000,
-        "mm_a_cm": lambda: a / 10,
-        "cm_a_mm": lambda: a * 10,
-        "km_a_mm": lambda: a * 1000000,
-        "km_a_cm": lambda: a * 100000,
         "l_a_ml": lambda: a*1000,
         "l_a_cl": lambda: a*100,
         "l_a_dl": lambda: a * 10,
@@ -310,13 +315,7 @@ def conversion(a: float, conver: str):
         "cl_a_mm": lambda: a * 10,
         "dl_a_l": lambda: a / 10,
         "dl_a_cl": lambda: a * 10,
-        "dl_a_ml": lambda: a * 100,
-        "g_a_mg": lambda: a*1000,
-        "g_a_kg": lambda: a/1000,
-        "mg_a_g": lambda: a * 1000,
-        "mg_a_kg": lambda: a / 1000000,
-        "kg_a_g": lambda: a * 1000,
-        "kg_a_mg": lambda: a *1000000
+        "dl_a_ml": lambda: a * 100
     }.get(conver, 0)()
 
 
@@ -475,5 +474,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-server.run()
+#server.run()
 
