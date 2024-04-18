@@ -6,7 +6,9 @@ import json
 from fastapi.middleware.cors import CORSMiddleware
 import base64
 
-#from myapp.api import api
+
+# from myapp.api import api
+
 
 """json.dump(
   get_schema_from_app(api),
@@ -25,7 +27,10 @@ app.add_middleware(
     allow_headers=["*"],  # Permite todos los encabezados
 )
 
+
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
+
+
 @app.get("/")
 def estoy_funcionando():
     return "Estoy funcionando"
@@ -44,24 +49,29 @@ Para suma: +
 Para resta: -
 Para multiplicación: *
 Para división: /
-Para potencias: **
-Para raíces: math.sqrt()
+Para potencias: ** o pow(x, potencia)
+Para raíces: math.sqrt() o pow(x, 1/potencia)
 Para seno: math.sin()
 Para coseno: math.cos()
 Para tangentes: math.tan()
 Para logaritmos: math.log(x, base)
 """
+
 @app.get("/eval/{a}")
 def evaluar(a: str):
+    global ans
+    print(pow(-27, (1/3)))
     a = base64.b64decode(a)
     print(a)
     for i in range(len(a)):
         print(a[i])
         if (a[i] == 47 and a[i+1] == 48)\
-                or (a[i] == 45 and a[i-2] == 116):  # divisiones entre 0 y raíces negativas
+                or (a[i] == 45 and a[i-2] == 116)\
+                or (a[i] == 119 and a[i+2] == 45 and a[-2] % 2 == 0):  # divisiones entre 0 y raíces negativas
             return "operación imposible"
     ans = eval(a)
     return ans
+
 
 """
 @app.get("/suma_basica/{a}+{b}")
