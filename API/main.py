@@ -45,7 +45,7 @@ Para resta: -
 Para multiplicación: *
 Para división: /
 Para potencias: **
-Para raíces: **(1/x)
+Para raíces: math.sqrt()
 Para seno: math.sin()
 Para coseno: math.cos()
 Para tangentes: math.tan()
@@ -54,13 +54,16 @@ Para logaritmos: math.log(x, base)
 @app.get("/eval/{a}")
 def evaluar(a: str):
     a = base64.b64decode(a)
+    print(a)
     for i in range(len(a)):
-        if a[i] == 47 and a[i+1] == 48:
+        print(a[i])
+        if (a[i] == 47 and a[i+1] == 48)\
+                or (a[i] == 45 and a[i-2] == 116):  # divisiones entre 0 y raíces negativas
             return "operación imposible"
     ans = eval(a)
     return ans
 
-
+"""
 @app.get("/suma_basica/{a}+{b}")
 def suma_basica(a: int, b: int):
     global ans
@@ -147,6 +150,8 @@ def logaritmo(a: int, b: int):
     global ans
     ans = math.log(a, b)
     return ans
+    
+"""
 
 @app.get("/MCM/{a}")
 def MCM(a: str):
@@ -474,5 +479,5 @@ config = Config(app=app, host="127.0.0.1", port=8000, root_path=root_path)
 server = Server(config)
 
 # Iniciar el servidor
-#server.run()
+server.run()
 
