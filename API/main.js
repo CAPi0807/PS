@@ -119,6 +119,44 @@ function principal(cadena) {
 
     //document.getElementById('console').innerText = "10";
 }
+function principal2(cadena) {
+    splitChain(cadena); // Separar la cadena en números y operaciones
+
+    // Verificar que haya al menos un número y una operación
+    if (numbers.length < 1 ) {
+        console.error("Cadena inválida");
+        return;
+    }
+
+    // Obtener el valor y la magnitud origen del primer número
+    let valor = parseFloat(numbers.shift());
+    let magnitudOrigen = document.getElementById("contenidoDropdown").value;
+
+    // Verificar si hay una segunda magnitud seleccionada
+    let magnitudDestino;
+    if (document.getElementById("contenidoDropdown2").value) {
+        magnitudDestino = document.getElementById("contenidoDropdown2").value;
+    } else {
+        console.error("No se ha seleccionado una magnitud de destino");
+        return;
+    }
+    var pal=magnitudOrigen+"_a_"+magnitudDestino;
+    // Realizar la conversión llamando a la API
+    fetch(`http://127.0.0.1:8000/conversion/${pal}/${valor}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error de red - Código de estado: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            document.getElementById('console2').innerText = data; // Mostrar el resultado en el campo de texto
+        })
+        .catch(error => {
+            console.error('Error al llamar a la API:', error);
+        });
+}
 function cambiarIdioma() {
     // Cambiar el atributo lang de la etiqueta html
     //location.reload();
