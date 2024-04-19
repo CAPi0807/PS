@@ -148,6 +148,8 @@ function principal2(cadena) {
                 throw new Error(`Error de red - Código de estado: ${response.status}`);
             }
             return response.json();
+
+
         })
         .then(data => {
             console.log(data);
