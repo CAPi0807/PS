@@ -266,6 +266,15 @@ nav{
     width: 50px;
     height: 100%;
 }
+.rectangle6{
+    margin-right: 15%;
+    font-size: 50px;
+    border-radius: 28px;
+    background-color: black;
+    color: white;
+    width: 200px;
+    height: 100%;
+}
 
 
 #console{
