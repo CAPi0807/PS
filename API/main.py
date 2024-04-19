@@ -6,7 +6,9 @@ import json
 from fastapi.middleware.cors import CORSMiddleware
 import base64
 
-#from myapp.api import api
+
+# from myapp.api import api
+
 
 """json.dump(
   get_schema_from_app(api),
@@ -25,7 +27,10 @@ app.add_middleware(
     allow_headers=["*"],  # Permite todos los encabezados
 )
 
+
 #---------------------------------------------CALCULADORA BÁSICA-------------------------------------------------
+
+
 @app.get("/")
 def estoy_funcionando():
     return "Estoy funcionando"
@@ -38,12 +43,37 @@ def ans():
         return 0
     return ans
 
+
+"""
+Para suma: +
+Para resta: -
+Para multiplicación: *
+Para división: /
+Para potencias: ** o pow(x, potencia)
+Para raíces: math.sqrt() o pow(x, 1/potencia)
+Para seno: math.sin()
+Para coseno: math.cos()
+Para tangentes: math.tan()
+Para logaritmos: math.log(x, base)
+"""
+
 @app.get("/eval/{a}")
 def evaluar(a: str):
+    global ans
+    print(pow(-27, (1/3)))
     a = base64.b64decode(a)
-    return eval(a)
+    print(a)
+    for i in range(len(a)):
+        print(a[i])
+        if (a[i] == 47 and a[i+1] == 48)\
+                or (a[i] == 45 and a[i-2] == 116)\
+                or (a[i] == 119 and a[i+2] == 45 and a[-2] % 2 == 0):  # divisiones entre 0 y raíces negativas
+            return "operación imposible"
+    ans = eval(a)
+    return ans
 
 
+"""
 @app.get("/suma_basica/{a}+{b}")
 def suma_basica(a: int, b: int):
     global ans
@@ -65,7 +95,7 @@ def suma_basica(a: int, b: int):
     return ans
 
 
-@app.get("/division_basica/{a}÷{b}")
+@app.get("/division_basica/{a}:{b}")
 def suma_basica(a: int, b: int):
     global ans
     if b == 0:
@@ -130,6 +160,8 @@ def logaritmo(a: int, b: int):
     global ans
     ans = math.log(a, b)
     return ans
+
+"""
 
 @app.get("/MCM/{a}")
 def MCM(a: str):
@@ -284,21 +316,9 @@ def distancia(a: float, conver: str):
     }.get(conver, 0)()
 
 
-@app.get("/conversion/{conver}/{a}")
-def conversion(a: float, conver: str):
+@app.get("/volumen/{conver}/{a}")
+def volumen(a: float, conver: str):
     return {
-        "m_a_km": lambda: a/1000,
-        "km_a_m": lambda: a*1000,
-        "m_a_cm": lambda: a * 100,
-        "m_a_mm": lambda: a * 1000,
-        "mm_a_m": lambda: a / 1000,
-        "cm_a_m": lambda: a / 100,
-        "mm_a_km": lambda: a / 1000000,
-        "cm_a_km": lambda: a / 100000,
-        "mm_a_cm": lambda: a / 10,
-        "cm_a_mm": lambda: a * 10,
-        "km_a_mm": lambda: a * 1000000,
-        "km_a_cm": lambda: a * 100000,
         "l_a_ml": lambda: a*1000,
         "l_a_cl": lambda: a*100,
         "l_a_dl": lambda: a * 10,
@@ -310,13 +330,7 @@ def conversion(a: float, conver: str):
         "cl_a_mm": lambda: a * 10,
         "dl_a_l": lambda: a / 10,
         "dl_a_cl": lambda: a * 10,
-        "dl_a_ml": lambda: a * 100,
-        "g_a_mg": lambda: a*1000,
-        "g_a_kg": lambda: a/1000,
-        "mg_a_g": lambda: a * 1000,
-        "mg_a_kg": lambda: a / 1000000,
-        "kg_a_g": lambda: a * 1000,
-        "kg_a_mg": lambda: a *1000000
+        "dl_a_ml": lambda: a * 100
     }.get(conver, 0)()
 
 

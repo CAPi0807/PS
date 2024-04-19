@@ -88,6 +88,8 @@
 
 
 <script>
+    //cargaNav();
+
     // Definir opciones para cada tipo de contenido
     function appendToConsole(value) {
         document.getElementById('console').innerText += value;
@@ -132,6 +134,32 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         // Cargar las opciones de masa por defecto al cargar la página
+
+    });
+    var idioma= [ "en", "de", "it", "fr"];
+    var language = document.getElementById("language");
+    idioma.forEach(function(item) {
+        var option = document.createElement("option");
+        option.text = item;
+        option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+        //option.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+
+
+        //language.style.backgroundImage = ;
+
+        language.add(option);
+
+    });
+    const selectIdioma = document.getElementById('language');
+
+    // Agregar un evento de clic al select
+    selectIdioma.addEventListener('change', function() {
+        // Obtener el valor seleccionado
+        const nuevoIdioma = selectIdioma.value;
+
+        // Llamar a una función para cambiar el idioma
+        console.log(nuevoIdioma);
+        cambiarIdioma(nuevoIdioma);
 
     });
 </script>
