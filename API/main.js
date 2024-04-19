@@ -199,7 +199,7 @@ function cambiarIdioma() {
             console.log(inputText);*/
             arrayLan = variable.split(", ");
             console.log(arrayLan);
-            var j=1;
+            var j=2;
             arrayLan.forEach(function(elemento) {
                 document.getElementById("button"+j).innerText=elemento;
                 document.getElementById("button"+j).title=elemento;
