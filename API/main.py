@@ -59,12 +59,12 @@ Para logaritmos: math.log(x, base)
 
 @app.get("/eval/{a}")
 def evaluar(a: str):
+
     global ans
     print(pow(-27, (1/3)))
     a = base64.b64decode(a)
     print(a)
     for i in range(len(a)):
-        print(a[i])
         if (a[i] == 47 and a[i+1] == 48)\
                 or (a[i] == 45 and a[i-2] == 116)\
                 or (a[i] == 119 and a[i+2] == 45 and a[-2] % 2 == 0):  # divisiones entre 0 y raíces negativas
@@ -160,7 +160,7 @@ def logaritmo(a: int, b: int):
     global ans
     ans = math.log(a, b)
     return ans
-
+    
 """
 
 @app.get("/MCM/{a}")
@@ -298,7 +298,157 @@ def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
 
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
-@app.get("/distancia/{conver}/{a}")
+@app.get("/conversion/{conver}/{a}")
+def conversion(a: float, conver: str):
+    return {
+        # De milímetros (mm) a todas las demás unidades
+        "mm_a_km": lambda : a * 0.000001,
+        "mm_a_hm": lambda : a * 0.00001,
+        "mm_a_dam": lambda : a * 0.0001,
+        "mm_a_m": lambda : a * 0.001,
+        "mm_a_dm": lambda : a * 0.01,
+        "mm_a_cm": lambda : a * 0.1,
+        "mm_a_mm": lambda : a,
+
+        # De centímetros (cm) a todas las demás unidades
+        "cm_a_km": lambda : a * 0.00001,
+        "cm_a_hm": lambda : a * 0.0001,
+        "cm_a_dam": lambda : a * 0.001,
+        "cm_a_m": lambda : a * 0.01,
+        "cm_a_dm": lambda : a * 0.1,
+        "cm_a_cm": lambda : a,
+        "cm_a_mm": lambda : a * 10,
+
+        # De metros (m) a todas las demás unidades
+        "m_a_km": lambda : a * 0.001,
+        "m_a_hm": lambda : a * 0.01,
+        "m_a_dam": lambda : a * 0.1,
+        "m_a_m": lambda : a,
+        "m_a_dm": lambda : a * 10,
+        "m_a_cm": lambda : a * 100,
+        "m_a_mm": lambda : a * 1000,
+
+        # De decámetros (dam) a todas las demás unidades
+        "dam_a_km": lambda : a * 0.1,
+        "dam_a_hm": lambda : a,
+        "dam_a_dam": lambda : a,
+        "dam_a_m": lambda : a * 10,
+        "dam_a_dm": lambda : a * 100,
+        "dam_a_cm": lambda : a * 1000,
+        "dam_a_mm": lambda : a * 10000,
+
+        # De hectómetros (hm) a todas las demás unidades
+        "hm_a_km": lambda : a,
+        "hm_a_hm": lambda : a,
+        "hm_a_dam": lambda : a * 10,
+        "hm_a_m": lambda : a * 100,
+        "hm_a_dm": lambda : a * 1000,
+        "hm_a_cm": lambda : a * 10000,
+        "hm_a_mm": lambda : a * 100000,
+
+        # De kilómetros (km) a todas las demás unidades
+        "km_a_km": lambda : a,
+        "km_a_hm": lambda : a * 10,
+        "km_a_dam": lambda : a * 100,
+        "km_a_m": lambda : a * 1000,
+        "km_a_dm": lambda : a * 10000,
+        "km_a_cm": lambda : a * 100000,
+        "km_a_mm": lambda : a * 1000000,
+        "ml_a_kl": lambda: a * 0.000000001,
+
+        "ml_a_hl": lambda: a * 0.00000001,
+        "ml_a_da_l": lambda: a * 0.0000001,
+        "ml_a_l": lambda: a * 0.000001,
+        "ml_a_dl": lambda: a * 0.00001,
+        "ml_a_cl": lambda: a * 0.0001,
+        "ml_a_ml": lambda: a,
+        "cl_a_kl": lambda: a * 0.00000001,
+        "cl_a_hl": lambda: a * 0.0000001,
+        "cl_a_da_l": lambda: a * 0.000001,
+        "cl_a_l": lambda: a * 0.00001,
+        "cl_a_dl": lambda: a * 0.0001,
+        "cl_a_cl": lambda: a,
+        "cl_a_ml": lambda: a * 0.1,
+        "l_a_kl": lambda: a * 0.000001,
+        "l_a_hl": lambda: a * 0.00001,
+        "l_a_da_l": lambda: a * 0.0001,
+        "l_a_l": lambda: a * 0.001,
+        "l_a_dl": lambda: a * 0.01,
+        "l_a_cl": lambda: a * 0.1,
+        "l_a_ml": lambda: a * 1000,
+        "dl_a_kl": lambda: a * 0.0000001,
+        "dl_a_hl": lambda: a * 0.000001,
+        "dl_a_da_l": lambda: a * 0.00001,
+        "dl_a_l": lambda: a * 0.0001,
+        "dl_a_dl": lambda: a * 0.001,
+        "dl_a_cl": lambda: a * 0.01,
+        "dl_a_ml": lambda: a * 100,
+        "hl_a_kl": lambda: a * 0.00001,
+        "hl_a_hl": lambda: a * 0.0001,
+        "hl_a_da_l": lambda: a * 0.001,
+        "hl_a_l": lambda: a * 0.01,
+        "hl_a_dl": lambda: a * 0.1,
+        "hl_a_cl": lambda: a,
+        "hl_a_ml": lambda: a * 10000,
+        "kl_a_kl": lambda: a,
+        "kl_a_hl": lambda: a * 10,
+        "kl_a_da_l": lambda: a * 100,
+        "kl_a_l": lambda: a * 1000,
+        "kl_a_dl": lambda: a * 10000,
+        "kl_a_cl": lambda: a * 100000,
+        "kl_a_ml": lambda: a * 1000000,
+
+        "mg_a_kg": lambda: a * 0.000001,
+        "mg_a_hg": lambda: a * 0.00001,
+        "mg_a_dag": lambda: a * 0.0001,
+        "mg_a_g": lambda: a * 0.001,
+        "mg_a_dg": lambda: a * 0.01,
+        "mg_a_cg": lambda: a * 0.1,
+        "mg_a_mg": lambda: a,
+        "cg_a_kg": lambda: a * 0.00001,
+        "cg_a_hg": lambda: a * 0.0001,
+        "cg_a_dag": lambda: a * 0.001,
+        "cg_a_g": lambda: a * 0.01,
+        "cg_a_dg": lambda: a * 0.1,
+        "cg_a_cg": lambda: a,
+        "cg_a_mg": lambda: a * 100,
+        "g_a_kg": lambda: a * 0.001,
+        "g_a_hg": lambda: a * 0.01,
+        "g_a_dag": lambda: a * 0.1,
+        "g_a_g": lambda: a,
+        "g_a_dg": lambda: a * 10,
+        "g_a_cg": lambda: a * 100,
+        "g_a_mg": lambda: a * 1000,
+        "dg_a_kg": lambda: a * 0.01,
+        "dg_a_hg": lambda: a * 0.1,
+        "dg_a_dag": lambda: a,
+        "dg_a_g": lambda: a * 10,
+        "dg_a_dg": lambda: a,
+        "dg_a_cg": lambda: a * 10,
+        "dg_a_mg": lambda: a * 100,
+        "dag_a_kg": lambda: a * 0.1,
+        "dag_a_hg": lambda: a,
+        "dag_a_dag": lambda: a,
+        "dag_a_g": lambda: a * 100,
+        "dag_a_dg": lambda: a * 10,
+        "dag_a_cg": lambda: a * 100,
+        "dag_a_mg": lambda: a * 1000,
+        "hg_a_kg": lambda: a * 0.1,
+        "hg_a_hg": lambda: a,
+        "hg_a_dag": lambda: a * 10,
+        "hg_a_g": lambda: a * 100,
+        "hg_a_dg": lambda: a * 100,
+        "hg_a_cg": lambda: a * 1000,
+        "hg_a_mg": lambda: a * 10000,
+        "kg_a_kg": lambda: a,
+        "kg_a_hg": lambda: a * 10,
+        "kg_a_dag": lambda: a * 100,
+        "kg_a_g": lambda: a * 1000,
+        "kg_a_dg": lambda: a * 10000,
+        "kg_a_cg": lambda: a * 100000,
+        "kg_a_mg": lambda: a * 1000000
+        }.get(conver, 0)()
+"""@app.get("/distancia/{conver}/{a}")
 def distancia(a: float, conver: str):
     return {
         "m_a_km": lambda: a/1000,
@@ -345,7 +495,7 @@ def peso(a: float, conver: str):
         "kg_a_mg": lambda: a *1000000
     }.get(conver, 0)()
 
-
+"""
 @app.get("/distancia_imperial/{conver}/{a}")
 def distancia_imperial(a: float, conver: str):
     return {
