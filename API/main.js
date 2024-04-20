@@ -43,7 +43,7 @@ function operacion(variable) {
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
-            limpiar();
+            //limpiar();
             alert("SyntaxError");
 
         });
@@ -51,21 +51,48 @@ function operacion(variable) {
 
 
 function principal(cadena) {
+    var salir = 0;
+
     let data = cadena.replace(/sin(\d+)/g, "math.sin($1)");
     data = data.replace(/cos(\d+)/g, "math.cos($1)");
     data = data.replace(/tan(\d+)/g, "math.tan($1)");
     data = data.replace(/\^/g, "**");
     data = data.replace(/\÷/g, "/");
     //data = data.replace(/√(\d+)/g, "pow($1, 1/2)");
-    data = data.replace(/(\d+)√(\d+)/g, "pow($2, 1/$1)");
-    //data = data.replace(/Ans/g, "9");
+    data = data.replace(/(-?\d+)√(-?\d+)/g, function(match, number, root) {
+        // Convierte las cadenas capturadas a números
+        var num = parseInt(number);
+        var rootNum = parseInt(root);
+        // Verifica si el número es negativo
+        if (num % 2 !== 0) {
+            // Si es negativo, devuelve el texto original
+            return rootNum +"**(1/"+num+")";
+        } else {
+            if (Math.abs(rootNum)-rootNum===0){
+                return rootNum +"**(1/"+num+")";
+            }
+            else{
+                limpiar();
+                alert("SyntaxError: Cannot make an even root of a negative number");
+                salir = 1;
+            }
 
+        }
+    });
+    if (salir===1){
+        return;
+    }
+    //"$2**(1/$1)");
+
+
+    //data = data.replace(/Ans/g, "9");
+    console.log(data);
     try {
         var base64 = btoa(data);
         console.log(base64);
     } catch (error) {
         console.error("Error al codificar en Base64:", error);
-        limpiar();
+        //limpiar();
         alert("SyntaxError");
         return 0;
     }

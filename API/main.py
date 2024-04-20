@@ -59,8 +59,11 @@ Para logaritmos: math.log(x, base)
 
 @app.get("/eval/{a}")
 def evaluar(a: str):
-    global ans
 
+    global ans
+    print(pow(-27, (1/3)))
+    a = base64.b64decode(a)
+    print(a)
     for i in range(len(a)):
         if (a[i] == 47 and a[i+1] == 48)\
                 or (a[i] == 45 and a[i-2] == 116)\
