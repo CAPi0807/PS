@@ -5,6 +5,7 @@ from uvicorn import *
 import json
 from fastapi.middleware.cors import CORSMiddleware
 import base64
+from typing import Union
 
 
 # from myapp.api import api
@@ -446,8 +447,12 @@ def conversion(a: float, conver: str):
         "kg_a_g": lambda: a * 1000,
         "kg_a_dg": lambda: a * 10000,
         "kg_a_cg": lambda: a * 100000,
-        "kg_a_mg": lambda: a * 1000000
+        "kg_a_mg": lambda: a * 1000000,
+
+
         }.get(conver, 0)()
+
+
 """@app.get("/distancia/{conver}/{a}")
 def distancia(a: float, conver: str):
     return {

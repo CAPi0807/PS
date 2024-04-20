@@ -43,7 +43,7 @@
                 <button class="rectangle3" onclick="borrar()">Del</button>
             </div>
             <div class="fila3">
-                <button class="rectangle6" onclick="appendToConsole('')"></button>
+                <button class="rectangle6" onclick="appendToConsole(',')">,</button>
                 <button class="rectangle2" onclick="appendToConsole('1')">1</button>
                 <button class="rectangle1" onclick="appendToConsole('2')">2</button>
                 <button class="rectangle1" onclick="appendToConsole('3')">3</button>
@@ -56,7 +56,7 @@
                 <button class="rectangle1" onclick="appendToConsole('.')">.</button>
                 <button class="rectangle1" onclick="appendToConsole('Ans')">Ans</button>
                 <button class="rectangle1" onclick="appendToConsole('+')">+</button>
-                <button class="rectangle3" onclick="principal(document.getElementById('console').innerText)">=</button>
+                <button class="rectangle3" onclick="principal3(document.getElementById('console').innerText)">=</button>
             </div>
 
             <div id="variable" title=""></div>
@@ -118,6 +118,39 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         // Cargar las opciones de masa por defecto al cargar la página
+
+    });
+    var idioma= [ "en", "de", "it", "fr"];
+    var language = document.getElementById("language");
+    idioma.forEach(function(item) {
+        var option = document.createElement("option");
+        option.text = item;
+        option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+        //option.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+
+
+        //language.style.backgroundImage = ;
+
+        language.add(option);
+
+    });
+    window.onload = function() {
+        document.documentElement.lang=localStorage.getItem("languagePagina");
+        cambiarIdioma(localStorage.getItem("languagePagina")); // Cambiar al idioma almacenado en localStorage o predeterminado "es"
+    };
+    //const savedLanguage = localStorage.getItem("languagePagina");
+    //document.documentElement.lang=savedLanguage;
+    const selectIdioma = document.getElementById('language');
+
+    // Agregar un evento de clic al select
+    selectIdioma.addEventListener('change', function() {
+        // Obtener el valor seleccionado
+        const nuevoIdioma = selectIdioma.value;
+
+        // Llamar a una función para cambiar el idioma
+        console.log(nuevoIdioma);
+        //setLanguage(nuevoIdioma);
+        cambiarIdioma(nuevoIdioma);
 
     });
 </script>

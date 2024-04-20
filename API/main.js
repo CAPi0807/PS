@@ -4,26 +4,20 @@ let numbers;
 let operations;
 var result;
 var ans;
+let anterior ="es";
+let ruta;
 
-function splitChain(chain){
-    const pattern = /[^0-9]/; // Coincide con cualquier caracter que no sea un número
-    const pattern2 = /[0-9]/; // Coincide con los caracteres que sean números
-
-
-    numbers = chain.split(pattern);
-    numbers = numbers.filter(str => str.length > 0);
-
-    operations = chain.split(pattern2);
-    operations = operations.filter(str => str.length > 0);
-
-    console.log(numbers);
-    console.log(operations);
-}
 function borrar(){
     document.getElementById('console').innerText = document.getElementById('console').innerText.slice(0, -1);
+    if(window.location.pathname=== "/PS/paginaWeb/conversiones.html"){
+        document.getElementById('console2').innerText = document.getElementById('console2').innerText="";
+    }
 }
 function limpiar(){
     document.getElementById('console').innerText = "";
+    if(window.location.pathname=== "/PS/paginaWeb/conversiones.html"){
+        document.getElementById('console2').innerText = "";
+    }
     console.clear();
 }
 
@@ -103,11 +97,10 @@ function principal(cadena) {
     operacion(base64);
 }
 function principal2(cadena) {
-
-
     // Verificar que haya al menos un número y una operación
     if (cadena.length < 1 ) {
         console.error("Cadena inválida");
+        alert("Have to write some number");
         return;
     }
 
@@ -122,6 +115,7 @@ function principal2(cadena) {
         //console.log(magnitudOrigen);
     } else {
         console.error("No se ha seleccionado una magnitud de destino");
+        alert("Have to select any magnitude");
         return;
     }
     var pal=magnitudOrigen+"_a_"+magnitudDestino;
@@ -168,19 +162,37 @@ let outputLang;
 // Función para cambiar el idioma
 function cambiarIdioma(idioma) {
     insertImagen(idioma);
+    localStorage.setItem("languagePagina", idioma); // Guardar el idioma seleccionado en localStorage
+    document.documentElement.lang=localStorage.getItem("languagePagina", idioma);
     //language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
-    let inputLang =     document.documentElement.lang;
+    let inputLang =     anterior;
 
-    let outputLang = document.getElementById('language').value;
+    let outputLang = idioma;
     //language.classList.remove('fondo-es', 'fondo-en')
 
-
+    if (inputLang===outputLang){
+        return;
+    }
 
     // cmabiar idioma nav
     var texto=document.getElementById("button1").title;
-    for(var i=2;i<7;i++) {
+    for(var i=2;i<8;i++) {
         //console.log(document.getElementById("button"+i).title);
         texto+=", "+document.getElementById("button"+i).title;
+    }
+    ruta = window.location.pathname;
+    //console.log("Ruta:", ruta);
+    if (ruta==="/PS/paginaWeb/conversiones.html"){
+        for(var j=1;j<5;j++) {
+            //console.log(document.getElementById("rectangle"+j).innerText);
+            texto+=", "+document.getElementById("rectangle"+j).innerText;
+        }
+    }
+    else if (ruta==="/PS/paginaWeb/constantes.html"){
+        for(var k=1;k<32;k++) {
+            //console.log(document.getElementById("rectangle"+j).innerText);
+            texto+=", "+document.getElementById(k).innerText;
+        }
     }
 
 
@@ -193,43 +205,75 @@ function cambiarIdioma(idioma) {
         .then((data) => {
             var variable = data.responseData.translatedText;
             console.log(variable);
-            /*inputText.title = variable;
-            inputText.innerText = variable;
-            console.log(inputText);*/
+
             arrayLan = variable.split(", ");
             console.log(arrayLan);
 
             var j=1;
             arrayLan.forEach(function(elemento) {
-                document.getElementById("button"+j).innerText=elemento;
-                document.getElementById("button"+j).title=elemento;
+                if(j<8){
+                    document.getElementById("button"+j).innerText=elemento;
+                    document.getElementById("button"+j).title=elemento;
+                }
+                else{
+                    if (ruta==="/PS/paginaWeb/conversiones.html"){
+                        document.getElementById("rectangle"+j-7).innerText=elemento;
+                    }
+                    else if (ruta==="/PS/paginaWeb/conversiones.html"){
+                        document.getElementById(j-7).innerText=elemento;
+                    }
+                }
                 j++;
             });
 
         });
 
-    document.documentElement.lang=outputLang;
+
+    anterior=outputLang;
 
 }
+
+
+
 
 function insertImagen(idioma){
     switch (idioma) {
         case "es":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/f/ff/Bandera_de_Espa%C3%B1a_%28sin_escudo%29.svg")`;
+            language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/f/ff/Bandera_de_Espa%C3%B1a_%28sin_escudo%29.svg")`;
+            language.text = language.value = "es";
+            break;
         case "en":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+            language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+            language.text = language.value = "en";
+            break;
         case "it":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg")`;
+            language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg")`;
+            language.text = language.value = "it";
+            break;
         case "de":
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg")`;
+            language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg")`;
+            language.text = language.value = "de";
+            break;
         case "fr":
-            return language.style.backgroundImage = `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSG24QVtqDWYqBksVSyK1yULlQWKw_HXQ853vdS-3M5dwS_n4MdgL35AF2WfI&s=10")`;
-
+            language.style.backgroundImage = `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSG24QVtqDWYqBksVSyK1yULlQWKw_HXQ853vdS-3M5dwS_n4MdgL35AF2WfI&s=10")`;
+            language.text = language.value = "fr";
+            break;
         default:
-            return language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/f/ff/Bandera_de_Espa%C3%B1a_%28sin_escudo%29.svg")`;
+            language.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/f/ff/Bandera_de_Espa%C3%B1a_%28sin_escudo%29.svg")`;
+            language.text = language.value = "es";
+            break;
     }
 
+    // Asignar el nuevo valor al parámetro 'valor' del elemento 'language'
+    //language.valor = nuevoValor;
+
+    // Devolver el nuevo valor
+    return language.style.backgroundImage;
 }
+
+
+
+
 
 
 

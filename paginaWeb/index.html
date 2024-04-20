@@ -28,6 +28,7 @@
 
     <script>
 
+
         const keyMappings = {
                 48: "0",
                 49: "1",
@@ -103,6 +104,7 @@
                 var option = document.createElement("option");
                 option.text = item;
                 option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+
                 //option.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
 
 
@@ -111,7 +113,12 @@
                 language.add(option);
 
             });
+            window.onload = function() {
+                document.documentElement.lang=(localStorage.getItem("languagePagina")|| "es");
+                cambiarIdioma(localStorage.getItem("languagePagina")); // Cambiar al idioma almacenado en localStorage o predeterminado "es"
+            };
             const selectIdioma = document.getElementById('language');
+            //const savedLanguage = localStorage.getItem("languagePagina");
 
             // Agregar un evento de clic al select
             selectIdioma.addEventListener('change', function() {
@@ -120,6 +127,8 @@
 
                 // Llamar a una función para cambiar el idioma
                 console.log(nuevoIdioma);
+                //document.documentElement.lang=nuevoIdioma;
+                //setLanguage(nuevoIdioma);
                 cambiarIdioma(nuevoIdioma);
 
             });

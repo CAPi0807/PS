@@ -22,10 +22,10 @@
 <main>
     <div class="interior">
         <div class="filas1">
-            <button style="font-size: 20px" class="rectangles1" onclick="cargarOpciones('sistema')">Sistema numerico</button>
-            <button class="rectangles1" onclick="cargarOpciones('masa')">Masa</button>
-            <button class="rectangles1" onclick="cargarOpciones('distancia')">Distancia</button>
-            <button class="rectangles1" onclick="cargarOpciones('capacidad')">Capacidad</button>
+            <button style="font-size: 20px" class="rectangles1" id="rectangle1" onclick="cargarOpciones('sistema')">Sistema numerico</button>
+            <button class="rectangles1" id="rectangle2" onclick="cargarOpciones('masa')">Masa</button>
+            <button class="rectangles1" id="rectangle3" onclick="cargarOpciones('distancia')">Distancia</button>
+            <button class="rectangles1" id="rectangle4" onclick="cargarOpciones('capacidad')">Capacidad</button>
 
         </div>
         <div class="filas2">
@@ -90,6 +90,7 @@
 <script>
     //cargaNav();
 
+
     // Definir opciones para cada tipo de contenido
     function appendToConsole(value) {
         document.getElementById('console').innerText += value;
@@ -136,6 +137,10 @@
         // Cargar las opciones de masa por defecto al cargar la página
 
     });
+    window.onload = function() {
+        document.documentElement.lang=localStorage.getItem("languagePagina");
+        cambiarIdioma(localStorage.getItem("languagePagina")); // Cambiar al idioma almacenado en localStorage o predeterminado "es"
+    };
     var idioma= [ "en", "de", "it", "fr"];
     var language = document.getElementById("language");
     idioma.forEach(function(item) {
@@ -150,6 +155,8 @@
         language.add(option);
 
     });
+    //const savedLanguage = localStorage.getItem("languagePagina");
+    //document.documentElement.lang=savedLanguage;
     const selectIdioma = document.getElementById('language');
 
     // Agregar un evento de clic al select
@@ -159,6 +166,7 @@
 
         // Llamar a una función para cambiar el idioma
         console.log(nuevoIdioma);
+        //setLanguage(nuevoIdioma);
         cambiarIdioma(nuevoIdioma);
 
     });
