@@ -92,12 +92,15 @@ function principal2(cadena) {
     let magnitudDestino;
     if (document.getElementById("contenidoDropdown2").value) {
         magnitudDestino = document.getElementById("contenidoDropdown2").value;
+        //console.log(magnitudOrigen);
     } else {
         console.error("No se ha seleccionado una magnitud de destino");
         return;
     }
     var pal=magnitudOrigen+"_a_"+magnitudDestino;
     // Realizar la conversión llamando a la API
+    //console.log(`http://127.0.0.1:8000/conversion/${pal}/${valor}`);
+
     fetch(`http://127.0.0.1:8000/conversion/${pal}/${valor}`)
         .then(response => {
             if (!response.ok) {
