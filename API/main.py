@@ -60,11 +60,8 @@ Para logaritmos: math.log(x, base)
 @app.get("/eval/{a}")
 def evaluar(a: str):
     global ans
-    print(pow(-27, (1/3)))
-    a = base64.b64decode(a)
-    print(a)
+
     for i in range(len(a)):
-        print(a[i])
         if (a[i] == 47 and a[i+1] == 48)\
                 or (a[i] == 45 and a[i-2] == 116)\
                 or (a[i] == 119 and a[i+2] == 45 and a[-2] % 2 == 0):  # divisiones entre 0 y raíces negativas
@@ -160,7 +157,7 @@ def logaritmo(a: int, b: int):
     global ans
     ans = math.log(a, b)
     return ans
-
+    
 """
 
 @app.get("/MCM/{a}")
