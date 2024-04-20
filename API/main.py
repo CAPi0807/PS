@@ -590,7 +590,7 @@ def hex_oct(hexadecimal: str):
 @app.get("/binario_decimal/{a}")
 def binario_a_decimal(a: int):
     for cifra in str(a):
-        if cifra > 1:
+        if cifra > "1":
             return "Binario incorrecto"
     return int(str(a), 2)
 

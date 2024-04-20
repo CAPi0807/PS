@@ -103,16 +103,16 @@ function principal(cadena) {
     operacion(base64);
 }
 function principal2(cadena) {
-    splitChain(cadena); // Separar la cadena en números y operaciones
+
 
     // Verificar que haya al menos un número y una operación
-    if (numbers.length < 1 ) {
+    if (cadena.length < 1 ) {
         console.error("Cadena inválida");
         return;
     }
 
     // Obtener el valor y la magnitud origen del primer número
-    let valor = parseFloat(numbers.shift());
+    let valor = cadena;
     let magnitudOrigen = document.getElementById("contenidoDropdown").value;
 
     // Verificar si hay una segunda magnitud seleccionada
@@ -125,23 +125,43 @@ function principal2(cadena) {
         return;
     }
     var pal=magnitudOrigen+"_a_"+magnitudDestino;
+    var pal2=magnitudOrigen+"_"+magnitudDestino;
     // Realizar la conversión llamando a la API
     //console.log(`http://127.0.0.1:8000/conversion/${pal}/${valor}`);
+    if(magnitudOrigen=="hexadecimal"|magnitudOrigen=="octal"|magnitudOrigen=="decimal"|magnitudOrigen=="binario"){
+        valor=valor.toString();
+        fetch(`http://127.0.0.1:8000/${pal2}/${valor}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error de red - Código de estado: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                document.getElementById('console2').innerText = data; // Mostrar el resultado en el campo de texto
+            })
+            .catch(error => {
+                console.error('Error al llamar a la API:', error);
+            });
+    }
 
-    fetch(`http://127.0.0.1:8000/conversion/${pal}/${valor}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error de red - Código de estado: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            document.getElementById('console2').innerText = data; // Mostrar el resultado en el campo de texto
-        })
-        .catch(error => {
-            console.error('Error al llamar a la API:', error);
-        });
+    else {
+        fetch(`http://127.0.0.1:8000/conversion/${pal}/${valor}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error de red - Código de estado: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                document.getElementById('console2').innerText = data; // Mostrar el resultado en el campo de texto
+            })
+            .catch(error => {
+                console.error('Error al llamar a la API:', error);
+            });
+    }
 }
 let inputLang;
 let outputLang;
