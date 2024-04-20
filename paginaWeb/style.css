@@ -154,7 +154,9 @@ nav{
     height: 100%;
     margin-right: 8%;
 }
-
+#button7{
+    float: right;
+}
 .calculadora2{
     background-color: black;
     color: white;
@@ -274,6 +276,29 @@ nav{
     color: white;
     width: 200px;
     height: 100%;
+}
+.black-box {
+    background-color: black; /* Color de fondo negro */
+    border-radius: 10px; /* Radio de las esquinas */
+    margin: 50px 10% 50px 10%;
+    height: auto;
+    width: 80%; /* Altura del div */
+    padding: 20px; /* Espacio alrededor del contenido */
+    color: white; /* Color del texto */
+    text-align: center; /* Alineación del texto al centro */
+    line-height: 200px; /* Altura de línea igual a la altura del div para centrar verticalmente */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+
+    text-align: left;
+    color: white; /* Cambiar el color del texto a blanco */
 }
 
 
