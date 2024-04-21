@@ -266,14 +266,48 @@ function cambiarIdioma(idioma) {
         }
     }
     else if (ruta==="/PS/paginaWeb/constantes.html"){
-        for(var k=1;k<32;k++) {
+        for(var k=1;k<16;k++) {
             //console.log(document.getElementById("rectangle"+j).innerText);
             texto+=", "+document.getElementById(k).innerText;
         }
+        let texto2=document.getElementById("16").innerText;
+        for(var l=17;l<32;l++) {
+            //console.log(document.getElementById("rectangle"+j).innerText);
+            texto2+=", "+document.getElementById(l).innerText;
+
+        }
+        var arrayLan2;
+        //console.log("https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang);
+        fetch(
+            "https://api.mymemory.translated.net/get?q=" + texto2 + "&langpair=" + inputLang + "|" + outputLang
+        ).then((response) => response.json())
+
+            .then((data) => {
+                var variable2 = data.responseData.translatedText;
+                //console.log(variable);
+
+                arrayLan2 = variable2.split(", ");
+                console.log(arrayLan2);
+
+                var k=16;
+                arrayLan2.forEach(function(elemento2) {
+
+                    document.getElementById(k).innerText=elemento2;
+
+
+                    k++;
+                });
+
+            });
+
+
+        //anterior=outputLang;
+
     }
 
 
     var arrayLan;
+    console.log(texto);
     //console.log("https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang);
     fetch(
         "https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang
@@ -284,7 +318,7 @@ function cambiarIdioma(idioma) {
             //console.log(variable);
 
             arrayLan = variable.split(", ");
-            //console.log(arrayLan);
+            console.log(arrayLan);
 
             var j=1;
             arrayLan.forEach(function(elemento) {
@@ -297,8 +331,9 @@ function cambiarIdioma(idioma) {
                         //console.log("rectangle"+(j-7));
                         document.getElementById("rectangle"+(j-7)).innerText=elemento;
                     }
-                    else if (ruta==="/PS/paginaWeb/conversiones.html"){
-                        document.getElementById(j-7).innerText=elemento;
+                    else if (ruta==="/PS/paginaWeb/constantes.html"){
+
+                        document.getElementById(""+(j-7)).innerText=elemento;
                     }
                 }
                 j++;
