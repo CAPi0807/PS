@@ -57,12 +57,14 @@ function principal(cadena) {
     data = data.replace(/tan(\d+)/g, "math.tan($1)");
     data = data.replace(/\^/g, "**");
     data = data.replace(/\÷/g, "/");
-    if (data.match(/\d+(?=\s*π)/)){
+    if (data.match(/\d+\π/) || data.match(/\d+\e/)){
         limpiar();
-        alert("SyntaxError")  //hay que poner numero * π
+        alert("SyntaxError")  //hay que poner numero * π ó numero * e
         return;
     }
     data = data.replace(/\π/g, Math.PI);
+    data = data.replace(/\e/g, Math.E);
+
 
     //data = data.replace(/√(\d+)/g, "pow($1, 1/2)");
     data = data.replace(/(-?\d+)√(-?\d+)/g, function(match, number, root) {
@@ -131,8 +133,21 @@ function principal2(cadena) {
         alert("Have to select any magnitude");
         return;
     }
-    if (magnitudOrigen === magnitudDestino){
-        document.getElementById('console2').innerText = document.getElementById('console').innerText;
+    if (magnitudOrigen === magnitudDestino ){
+        if (magnitudOrigen==="hexadecimal"){
+            document.getElementById('console2').innerText = document.getElementById('console').innerText;
+        }
+        else{
+            if(document.getElementById('console').innerText.match(/^\d+$/)){
+                document.getElementById('console2').innerText = document.getElementById('console').innerText;
+            }
+            else{
+                limpiar();
+                alert("SyntaxError");
+            }
+
+
+        }
         return;
     }
     var pal=magnitudOrigen+"_a_"+magnitudDestino;
@@ -279,7 +294,8 @@ function cambiarIdioma(idioma) {
                 }
                 else{
                     if (ruta==="/PS/paginaWeb/conversiones.html"){
-                        document.getElementById("rectangle"+j-7).innerText=elemento;
+                        //console.log("rectangle"+(j-7));
+                        document.getElementById("rectangle"+(j-7)).innerText=elemento;
                     }
                     else if (ruta==="/PS/paginaWeb/conversiones.html"){
                         document.getElementById(j-7).innerText=elemento;
