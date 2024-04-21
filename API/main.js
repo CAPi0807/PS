@@ -32,12 +32,17 @@ function operacion(variable) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            //console.log(data);
+            if (data==="operación imposible"){
+                limpiar();
+                alert("SyntaxError");
+                return;
+            }
             document.getElementById('console').innerText = data;
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
-            //limpiar();
+            limpiar();
             alert("SyntaxError");
 
         });
@@ -52,6 +57,13 @@ function principal(cadena) {
     data = data.replace(/tan(\d+)/g, "math.tan($1)");
     data = data.replace(/\^/g, "**");
     data = data.replace(/\÷/g, "/");
+    if (data.match(/\d+(?=\s*π)/)){
+        limpiar();
+        alert("SyntaxError")  //hay que poner numero * π
+        return;
+    }
+    data = data.replace(/\π/g, Math.PI);
+
     //data = data.replace(/√(\d+)/g, "pow($1, 1/2)");
     data = data.replace(/(-?\d+)√(-?\d+)/g, function(match, number, root) {
         // Convierte las cadenas capturadas a números
@@ -80,13 +92,13 @@ function principal(cadena) {
 
 
     //data = data.replace(/Ans/g, "9");
-    console.log(data);
+    //console.log(data);
     try {
         var base64 = btoa(data);
-        console.log(base64);
+        //console.log(base64);
     } catch (error) {
         console.error("Error al codificar en Base64:", error);
-        //limpiar();
+        limpiar();
         alert("SyntaxError");
         return 0;
     }
@@ -99,7 +111,8 @@ function principal(cadena) {
 function principal2(cadena) {
     // Verificar que haya al menos un número y una operación
     if (cadena.length < 1 ) {
-        console.error("Cadena inválida");
+        //console.error("Cadena inválida");
+        limpiar();
         alert("Have to write some number");
         return;
     }
@@ -118,6 +131,10 @@ function principal2(cadena) {
         alert("Have to select any magnitude");
         return;
     }
+    if (magnitudOrigen === magnitudDestino){
+        document.getElementById('console2').innerText = document.getElementById('console').innerText;
+        return;
+    }
     var pal=magnitudOrigen+"_a_"+magnitudDestino;
     var pal2=magnitudOrigen+"_"+magnitudDestino;
     // Realizar la conversión llamando a la API
@@ -132,11 +149,14 @@ function principal2(cadena) {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+                //console.log(data);
                 document.getElementById('console2').innerText = data; // Mostrar el resultado en el campo de texto
             })
             .catch(error => {
                 console.error('Error al llamar a la API:', error);
+
+                limpiar();
+                alert("SyntaxError");
             });
     }
 
@@ -149,16 +169,58 @@ function principal2(cadena) {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+                //console.log(data);
                 document.getElementById('console2').innerText = data; // Mostrar el resultado en el campo de texto
             })
             .catch(error => {
                 console.error('Error al llamar a la API:', error);
+                limpiar();
+                alert("SyntaxError");
             });
     }
 }
 let inputLang;
 let outputLang;
+
+
+function principal3(cadena){
+    var change = cadena.replace(/,/g , "-");
+    var funcion;
+    var resto;
+
+    if (change.startsWith("MCD:")) {
+        funcion ="MCD"
+        resto= change.substring(4);
+
+    }
+    else if(change.startsWith("MCM:")) {
+        funcion ="MCM"
+        resto= change.substring(4);
+    }
+    else{
+        limpiar();
+        alert("SyntaxError");
+    }
+    console.log(`http://127.0.0.1:8000/${funcion}/${resto}`);
+
+    fetch(`http://127.0.0.1:8000/${funcion}/${resto}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error de red - Código de estado: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            //console.log(data);
+            document.getElementById('console').innerText = funcion+":"+data; // Mostrar el resultado en el campo de texto
+        })
+        .catch(error => {
+            console.error('Error al llamar a la API:', error);
+            limpiar();
+            alert("SyntaxError");
+        });
+
+}
 // Función para cambiar el idioma
 function cambiarIdioma(idioma) {
     insertImagen(idioma);
@@ -197,17 +259,17 @@ function cambiarIdioma(idioma) {
 
 
     var arrayLan;
-    console.log("https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang);
+    //console.log("https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang);
     fetch(
         "https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + inputLang + "|" + outputLang
     ).then((response) => response.json())
 
         .then((data) => {
             var variable = data.responseData.translatedText;
-            console.log(variable);
+            //console.log(variable);
 
             arrayLan = variable.split(", ");
-            console.log(arrayLan);
+            //console.log(arrayLan);
 
             var j=1;
             arrayLan.forEach(function(elemento) {

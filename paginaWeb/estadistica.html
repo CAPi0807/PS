@@ -26,20 +26,20 @@
                 <div  id="console"></div>
             </div>
             <div class="fila1">
-                <button class="rectangle6" onclick="appendToConsole('mcm: ')">MCM</button>
+                <button class="rectangle6" onclick="appendToConsole('MCM: ')">MCM</button>
 
                 <button class="rectangle2" onclick="appendToConsole('7')">7</button>
                 <button class="rectangle1" onclick="appendToConsole('8')">8</button>
                 <button class="rectangle1" onclick="appendToConsole('9')">9</button>
-                <button class="rectangle1" onclick="appendToConsole('÷')">÷</button>
-                <button class="rectangle3" onclick="appendToConsole('x/x')">x/x</button>
+                <!--<button class="rectangle1" onclick="appendToConsole('÷')">÷</button>-->
+                <!--<button class="rectangle3" onclick="appendToConsole('x/x')">x/x</button>-->
             </div>
             <div class="fila2">
                 <button class="rectangle6" onclick="appendToConsole('MCD: ')">MCD</button>
                 <button class="rectangle2" onclick="appendToConsole('4')">4</button>
                 <button class="rectangle1" onclick="appendToConsole('5')">5</button>
                 <button class="rectangle1" onclick="appendToConsole('6')">6</button>
-                <button class="rectangle1" onclick="appendToConsole('*')">x</button>
+                <!--<button class="rectangle1" onclick="appendToConsole('*')">x</button>-->
                 <button class="rectangle3" onclick="borrar()">Del</button>
             </div>
             <div class="fila3">
@@ -47,15 +47,15 @@
                 <button class="rectangle2" onclick="appendToConsole('1')">1</button>
                 <button class="rectangle1" onclick="appendToConsole('2')">2</button>
                 <button class="rectangle1" onclick="appendToConsole('3')">3</button>
-                <button class="rectangle1" onclick="appendToConsole('-')">-</button>
+                <!--<button class="rectangle1" onclick="appendToConsole('-')">-</button>-->
                 <button class="rectangle3" onclick="limpiar('C')">C</button>
             </div>
             <div class="fila4">
                 <button class="rectangle6" onclick="appendToConsole('')"></button>
                 <button class="rectangle2" onclick="appendToConsole('0')">0</button>
-                <button class="rectangle1" onclick="appendToConsole('.')">.</button>
-                <button class="rectangle1" onclick="appendToConsole('Ans')">Ans</button>
-                <button class="rectangle1" onclick="appendToConsole('+')">+</button>
+                <!--<button class="rectangle1" onclick="appendToConsole('.')">.</button>-->
+                <button class="rectangle1" id="ans" style="margin-left:7%" onclick="appendToConsole('Ans')">Ans</button>
+                <!--<button class="rectangle1" onclick="appendToConsole('+')">+</button>-->
                 <button class="rectangle3" onclick="principal3(document.getElementById('console').innerText)">=</button>
             </div>
 
