@@ -1,0 +1,175 @@
+<html lang="es">
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="This is an HTML5 example">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/PS/paginaWeb/xlu-include-file.js"></script>
+    <script src="/PS/API/main.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    <title>Calculator</title>
+
+</head>
+<body>
+<header xlu-include-file="/PS/paginaWeb/header/header.html">
+
+</header>
+<main>
+    <div class="interior">
+        <div class="filas1">
+            <button style="font-size: 20px" class="rectangles1" id="rectangle1" onclick="cargarOpciones('sistema')">Sistema numerico</button>
+            <button class="rectangles1" id="rectangle2" onclick="cargarOpciones('masa')">Masa</button>
+            <button class="rectangles1" id="rectangle3" onclick="cargarOpciones('distancia')">Distancia</button>
+            <button class="rectangles1" id="rectangle4" onclick="cargarOpciones('capacidad')">Capacidad</button>
+
+        </div>
+        <div class="filas2">
+            <div class="calculadora2">
+                <div  id="console"></div>
+            </div>
+            <div class="calculadora3">
+                <div  id="console2"></div>
+            </div>
+            <select id="contenidoDropdown">
+                <option value=""></option>
+            </select>
+
+            <select id="contenidoDropdown2">
+                <option value=""></option>
+            </select>
+        </div>
+
+
+        <div class="filas3">
+            <button class="rectangle4" onclick="appendToConsole('A')">A</button>
+            <button class="rectangle4" onclick="appendToConsole('B')">B</button>
+            <button class="rectangle5" onclick="appendToConsole('C')">C</button>
+            <button class="rectangle4" onclick="appendToConsole('7')">7</button>
+            <button class="rectangle4" onclick="appendToConsole('8')">8</button>
+            <button class="rectangle4" onclick="appendToConsole('9')">9</button>
+        </div>
+        <div class="filas4">
+            <button class="rectangle4" onclick="appendToConsole('D')">D</button>
+            <button class="rectangle4" onclick="appendToConsole('E')">E</button>
+            <button class="rectangle5" onclick="appendToConsole('F')">F</button>
+            <button class="rectangle4" onclick="appendToConsole('4')">4</button>
+            <button class="rectangle4" onclick="appendToConsole('5')">5</button>
+            <button class="rectangle4" onclick="appendToConsole('6')">6</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('*')">x</button>-->
+            <button class="rectangle4" onclick="borrar()">Del</button>
+        </div>
+        <div class="filas5">
+            <button class="rectangle4" onclick="appendToConsole('1')">1</button>
+            <button class="rectangle4" onclick="appendToConsole('2')">2</button>
+            <button class="rectangle4" onclick="appendToConsole('3')">3</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('-')">-</button>-->
+            <button class="rectangle4" onclick="limpiar('C')">C</button>
+        </div>
+        <div class="filas6">
+            <button class="rectangle4" onclick="appendToConsole('0')">0</button>
+            <button class="rectangle4" onclick="appendToConsole('.')">.</button>
+            <button class="rectangle4" onclick="appendToConsole('Ans')">Ans</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('+')">+</button>-->
+            <button class="rectangle4" onclick="principal2(document.getElementById('console').innerText)">=</button>
+        </div>
+
+
+    </div>
+
+</main>
+<footer>
+    <p>Designed by: PS-Group 7</p>
+</footer>
+
+
+<script>
+    //cargaNav();
+
+
+    // Definir opciones para cada tipo de contenido
+    function appendToConsole(value) {
+        document.getElementById('console').innerText += value;
+    }
+    xLuIncludeFile();
+    var opciones = {
+        masa: ["Kg", "Hg", "Dag", "g", "Dg", "Cg", "Mg"],
+        distancia: ["Km", "Hm", "Dam", "m", "Dm", "Cm", "Mm"],
+        capacidad: ["Kl", "Hl", "Dal", "l", "Dl", "Cl", "Ml"],
+        sistema:["hexadecimal", "decimal", "octal", "binario"]
+    };
+
+    // Función para cargar opciones en el dropdown
+    function cargarOpciones(tipoContenido) {
+
+        var dropdown = document.getElementById("contenidoDropdown");
+        var dropdown2 = document.getElementById("contenidoDropdown2");
+
+
+        dropdown.innerHTML = ""; // Limpiar contenido actual
+        dropdown2.innerHTML = ""; // Limpiar contenido actual
+
+        // Obtener las opciones para el tipo de contenido especificado
+        var contenido = opciones[tipoContenido];
+
+        // Recorrer el array de contenido y agregar cada opción al dropdown
+        contenido.forEach(function(item) {
+            var option = document.createElement("option");
+            option.text = item;
+            option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+            dropdown2.add(option);
+
+        });
+        contenido.forEach(function(item) {
+            var option = document.createElement("option");
+            option.text = item;
+            option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+            dropdown.add(option);
+
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cargar las opciones de masa por defecto al cargar la página
+
+    });
+    window.onload = function() {
+        document.documentElement.lang=localStorage.getItem("languagePagina");
+        cambiarIdioma(localStorage.getItem("languagePagina")); // Cambiar al idioma almacenado en localStorage o predeterminado "es"
+    };
+    var idioma= [ "en", "de", "it", "fr"];
+    var language = document.getElementById("language");
+    idioma.forEach(function(item) {
+        var option = document.createElement("option");
+        option.text = item;
+        option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+        //option.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+
+
+        //language.style.backgroundImage = ;
+
+        language.add(option);
+
+    });
+    //const savedLanguage = localStorage.getItem("languagePagina");
+    //document.documentElement.lang=savedLanguage;
+    const selectIdioma = document.getElementById('language');
+
+    // Agregar un evento de clic al select
+    selectIdioma.addEventListener('change', function() {
+        // Obtener el valor seleccionado
+        const nuevoIdioma = selectIdioma.value;
+
+        // Llamar a una función para cambiar el idioma
+        console.log(nuevoIdioma);
+        //setLanguage(nuevoIdioma);
+        cambiarIdioma(nuevoIdioma);
+
+    });
+</script>
+</body>
+</html>

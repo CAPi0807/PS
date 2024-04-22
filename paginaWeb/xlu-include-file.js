@@ -15,6 +15,7 @@ function xLuIncludeFile() {
                     a.removeAttribute("xlu-include-file");
                     a.innerHTML = xhttp.responseText;
                     z[i].parentNode.replaceChild(a, z[i]);
+
                     xLuIncludeFile();
                 }
             }

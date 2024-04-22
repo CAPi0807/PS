@@ -1,0 +1,234 @@
+<html lang="es">
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="This is an HTML5 example">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/PS/paginaWeb/xlu-include-file.js"></script>
+    <script src="/PS/API/main.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    <title>Calculator</title>
+
+</head>
+<body>
+<header xlu-include-file="/PS/paginaWeb/header/header.html">
+
+</header>
+<main>
+
+    <div class="black-box">
+        <table>
+            <tr>
+                <th id ="1">Constante</th>
+                <th id ="2">Símbolo</th>
+                <th id ="3">Valor</th>
+            </tr>
+            <tr>
+                <td id ="4">Aceleración de la gravedad</td>
+                <td>g</td>
+                <td>9.8 m/s<sup>2</sup></td>
+            </tr>
+            <tr>
+                <td id ="5">Masa atómica</td>
+                <td>amu, mu or u</td>
+                <td>1.66 x 10<sup>-27</sup> kg</td>
+            </tr>
+            <tr>
+                <td id = "6">Número de Avogadro</td>
+                <td>N</td>
+                <td>6.022 x 10<sup>23</sup> mol<sup>-1</sup></td>
+            </tr>
+            <tr>
+                <td id ="7">Radio de Bohr</td>
+                <td>a<sub>0</sub></td>
+                <td>0.529 x 10<sup>-10</sup> m</td>
+            </tr>
+            <tr>
+                <td id ="8">Constante de Boltzmann</td>
+                <td>k</td>
+                <td>1.38 x 10<sup>-23</sup> J/K</td>
+            </tr>
+            <tr>
+                <td id="9">Carga del electrón por masa</td>
+                <td>-e/me</td>
+                <td>-1.7588 x 10<sup>11</sup> C/kg</td>
+            </tr>
+            <tr>
+                <td id="10">Radio clásico del electrón</td>
+                <td>r<sub>e</sub></td>
+                <td>2.818 x 10<sup>-15</sup> m</td>
+            </tr>
+            <tr>
+                <td id="11">Energía de masa del electrón (J)</td>
+                <td>mec<sup>2</sup></td>
+                <td>8.187 x 10<sup>-14</sup> J</td>
+            </tr>
+            <tr>
+                <td id="12">Energía de masa del electrón (MeV)</td>
+                <td>mec<sup>2</sup></td>
+                <td>0.511 MeV</td>
+            </tr>
+            <tr>
+                <td id="13">Masa en reposo del electrón</td>
+                <td>me</td>
+                <td>9.109 x 10<sup>-31</sup> kg</td>
+            </tr>
+            <tr>
+                <td id="14">Constante de Faraday</td>
+                <td>F</td>
+                <td>9.649 x 10<sup>4</sup> C/mol</td>
+            </tr>
+            <tr>
+                <td id="15">Constante de estructura fina</td>
+                <td>α</td>
+                <td>7.297 x 10<sup>-3</sup></td>
+            </tr>
+            <tr>
+                <td id="16">Constante de gas</td>
+                <td>R</td>
+                <td>8.314 J/mol K</td>
+            </tr>
+            <tr>
+                <td id="17">Constante gravitacional</td>
+                <td>G</td>
+                <td>6.67 x 10<sup>-11</sup> Nm<sup>2</sup>/kg<sup>2</sup></td>
+            </tr>
+            <tr>
+                <td id="18">Energía de masa del neutrón (J)</td>
+                <td>mnc<sup>2</sup></td>
+                <td>1.505 x 10<sup>-10</sup> J</td>
+            </tr>
+            <tr>
+                <td id="19">Energía de masa del neutrón (MeV)</td>
+                <td>mnc<sup>2</sup></td>
+                <td>939.565 MeV</td>
+            </tr>
+            <tr>
+                <td id="20">Masa en reposo del neutrón</td>
+                <td>mn</td>
+                <td>1.675 x 10<sup>-27</sup> kg</td>
+            </tr>
+            <tr>
+                <td id="21">Razón de masa neutrón-electrón</td>
+                <td>mn/me</td>
+                <td>1838.68</td>
+            </tr>
+            <tr>
+                <td id="22">Razón de masa neutrón-protón</td>
+                <td>mn/mp</td>
+                <td>1.0014</td>
+            </tr>
+            <tr>
+                <td id="23">Permeabilidad del vacío</td>
+                <td>μ<sub>0</sub></td>
+                <td>4π x 10<sup>-7</sup> N/A<sup>2</sup></td>
+            </tr>
+            <tr>
+                <td id="24">Permitividad del vacío</td>
+                <td>ε<sub>0</sub></td>
+                <td>8.854 x 10<sup>-12</sup> F/m</td>
+            </tr>
+            <tr>
+                <td id="25">Constante de Planck</td>
+                <td>h</td>
+                <td>6.626 x 10<sup>-34</sup> J s</td>
+            </tr>
+            <tr>
+                <td id="26">Energía de masa del protón (J)</td>
+                <td>mpc<sup>2</sup></td>
+                <td>1.503 x 10<sup>-10</sup> J</td>
+            </tr>
+            <tr>
+                <td id="27">Energía de masa del protón (MeV)</td>
+                <td>mpc<sup>2</sup></td>
+                <td>938.272 MeV</td>
+            </tr>
+            <tr>
+                <td id="28">Masa en reposo del protón</td>
+                <td>mp</td>
+                <td>1.6726 x 10<sup>-27</sup> kg</td>
+            </tr>
+            <tr>
+                <td id="29">Razón de masa protón-electrón</td>
+                <td>mp/me</td>
+                <td>1836.15</td>
+            </tr>
+            <tr>
+                <td id="30">Constante de Rydberg</td>
+                <td>r<sub>∞</sub></td>
+                <td>1.0974 x 10<sup>7</sup> m<sup>-1</sup></td>
+            </tr>
+            <tr>
+                <td id="31">Velocidad de la luz en el vacío</td>
+                <td>C</td>
+                <td>2.9979 x 10<sup>8</sup> m/s</td>
+            </tr>
+        </table>
+
+
+
+    </div>
+
+
+</main>
+<footer>
+    <p>Designed by: PS-Group 7</p>
+</footer>
+
+
+<script>
+    // Definir opciones para cada tipo de contenido
+    function appendToConsole(value) {
+        document.getElementById('console').innerText += value;
+    }
+    xLuIncludeFile();
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cargar las opciones de masa por defecto al cargar la página
+
+    });
+
+    var idioma= [ "en", "de", "it", "fr"];
+    var language = document.getElementById("language");
+    idioma.forEach(function(item) {
+        var option = document.createElement("option");
+        option.text = item;
+        option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+
+        //option.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+
+
+        //language.style.backgroundImage = ;
+
+        language.add(option);
+
+    });
+    window.onload = function() {
+        document.documentElement.lang=(localStorage.getItem("languagePagina")|| "es");
+        cambiarIdioma(localStorage.getItem("languagePagina")); // Cambiar al idioma almacenado en localStorage o predeterminado "es"
+    };
+    const selectIdioma = document.getElementById('language');
+    //const savedLanguage = localStorage.getItem("languagePagina");
+
+    // Agregar un evento de clic al select
+    selectIdioma.addEventListener('change', function() {
+        // Obtener el valor seleccionado
+        const nuevoIdioma = selectIdioma.value;
+
+        // Llamar a una función para cambiar el idioma
+        console.log(nuevoIdioma);
+        //document.documentElement.lang=nuevoIdioma;
+        //setLanguage(nuevoIdioma);
+        cambiarIdioma(nuevoIdioma);
+
+    });
+
+</script>
+</body>
+</html>
