@@ -163,7 +163,37 @@ def sumar_matrices(matriz1: str, matriz2: str):
     return matriz_mul.tolist()
 
 
+@app.get("/matriz_traspuesta/{matriz1}")
+def sumar_matrices(matriz1: str):
 
+    matriz1_np = convertir_a_matriz(matriz1)
+
+    matriz_t = np.transpose(matriz1_np)
+    print(matriz_t)
+
+    return matriz_t.tolist()
+
+
+@app.get("/matriz_inversa/{matriz1}")
+def sumar_matrices(matriz1: str):
+    matriz1_np = convertir_a_matriz(matriz1)
+    try:
+        inversa = np.linalg.inv(matriz1_np)
+        lista_de_listas = inversa.tolist()
+        return lista_de_listas
+    except np.linalg.LinAlgError:
+        print("La matriz no es invertible.")
+        return None
+
+
+@app.get("/matriz_determinante/{matriz1}")
+def sumar_matrices(matriz1: str):
+
+    matriz1_np = convertir_a_matriz(matriz1)
+
+    matriz_d = np.linalg.det(matriz1_np)
+
+    return matriz_d.tolist()
 
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
