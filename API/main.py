@@ -114,15 +114,55 @@ def MCD(a):
 
 
 #---------------------------------------------Matrices-------------------------------------------------
+def convertir_a_matriz(cadena):
+    conjuntos = cadena.split(";")
+    lista_de_listas = []
+    for conjunto in conjuntos:
+        numeros = conjunto.split("-")
+        lista_de_numeros = [int(num) for num in numeros]
+        lista_de_listas.append(lista_de_numeros)
+    matriz = np.array(lista_de_listas)
+    return matriz
 
 
-"""@app.get("/suma_matricial/{matriz1}+{matriz2}")
-def sumar_matrices(matriz1: list[list[int]], matriz2: list[list[int]]):
-    matriz1_np = np.array(matriz1)
-    matriz2_np = np.array(matriz2)
-    resultado = matriz1_np + matriz2_np  # Suma de las dos matrices
-    return resultado.tolist()  # Devuelve el resultado como JSON
 """
+Formato de entrada de matrices:
+x-x-x;x-x-x;x-x-x
+los números se separan por -.
+Las filas se separan por ;.
+"""
+@app.get("/suma_matricial/{matriz1}+{matriz2}")
+def sumar_matrices(matriz1: str, matriz2: str):
+
+    matriz1_np = convertir_a_matriz(matriz1)
+    matriz2_np = convertir_a_matriz(matriz2)
+
+    matriz_suma = matriz1_np + matriz2_np
+
+    return matriz_suma.tolist()
+
+@app.get("/resta_matricial/{matriz1}-{matriz2}")
+def sumar_matrices(matriz1: str, matriz2: str):
+
+    matriz1_np = convertir_a_matriz(matriz1)
+    matriz2_np = convertir_a_matriz(matriz2)
+
+    matriz_resta = matriz1_np - matriz2_np
+
+    return matriz_resta.tolist()
+
+
+@app.get("/multiplicacion_matricial/{matriz1}*{matriz2}")
+def sumar_matrices(matriz1: str, matriz2: str):
+
+    matriz1_np = convertir_a_matriz(matriz1)
+    matriz2_np = convertir_a_matriz(matriz2)
+
+    matriz_mul = np.dot(matriz1_np, matriz2_np)
+
+    return matriz_mul.tolist()
+
+
 
 
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
