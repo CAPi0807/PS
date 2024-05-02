@@ -195,6 +195,42 @@ def sumar_matrices(matriz1: str):
 
     return matriz_d.tolist()
 
+@app.get("/rango_matriz/{matriz}")
+def rango_matriz(matriz: str):
+    matriz_np = convertir_a_matriz(matriz)
+    rango = np.linalg.matrix_rank(matriz_np)
+    print(rango)
+    return int(rango)
+
+
+#---------------------------------------------POLINOMIOS-------------------------------------------------
+"""
+Formato de entrada de polinomios:
+<signo><valor>,<signo><valor>, ...
+"""
+def pol_a_lista(pol):
+    numeros = pol.split(',')  # Separar la cadena en función de las comas
+    numeros_enteros = []
+
+    for numero in numeros:
+        signo = numero[0]  # Obtener el signo del número
+        valor = int(numero[1:]) if signo in ['+', '-'] else int(numero)  # Obtener el valor numérico
+
+        if signo == '-':  # Si el signo es negativo, convertir el valor a negativo
+            valor *= -1
+
+        numeros_enteros.append(valor)  # Agregar el valor a la lista de números enteros
+
+    return numeros_enteros
+
+@app.get("/operar_polinomios/{pol1}&{pol2}")
+def operar_polinomios(pol1: str, pol2: str):
+    pol1_a = pol_a_lista(pol1)
+    pol1_b = pol_a_lista(pol2)
+    print(pol1_a)
+    print(pol1_b)
+    return
+
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
 @app.get("/distancia/{conver}/{a}")
