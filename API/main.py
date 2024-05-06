@@ -5,6 +5,7 @@ from uvicorn import *
 import json
 from fastapi.middleware.cors import CORSMiddleware
 import base64
+import statistics
 
 
 # from myapp.api import api
@@ -79,6 +80,7 @@ def evaluar(a: str):
     return ans
 
 
+#Formato de entrada: i-i-i-i...
 @app.get("/MCM/{a}")
 def MCM(a: str):
     numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
@@ -111,6 +113,20 @@ def MCD(a):
 
 
     return resultado
+
+
+@app.get("/media/{a}")
+def media(a: str):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+    return statistics.mean(numeros)
+
+
+@app.get("/moda/{a}")
+def moda(a: str):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+    return statistics.mode(numeros)
+
+
 
 
 #---------------------------------------------Matrices-------------------------------------------------
