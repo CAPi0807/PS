@@ -114,7 +114,7 @@ function principal2(cadena) {
     // Verificar que haya al menos un número y una operación
     if (cadena.length < 1 ) {
         //console.error("Cadena inválida");
-        limpiar();
+        //limpiar();
         alert("Have to write some number");
         return;
     }
