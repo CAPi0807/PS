@@ -212,6 +212,15 @@ function principal3(cadena){
         funcion ="MCM"
         resto= change.substring(4);
     }
+    else if(change.startsWith("Media:")) {
+        //funcion ="MCM"
+        //resto= change.substring(6);
+    }
+    else if(change.startsWith("Moda:")) {
+        //funcion ="MCM"
+        //resto= change.substring(5);
+    }
+
     else{
         limpiar();
         alert("SyntaxError");
