@@ -134,7 +134,7 @@ def convertir_a_matriz(cadena):
     conjuntos = cadena.split(";")
     lista_de_listas = []
     for conjunto in conjuntos:
-        numeros = conjunto.split("-")
+        numeros = conjunto.split(",")
         lista_de_numeros = [int(num) for num in numeros]
         lista_de_listas.append(lista_de_numeros)
     matriz = np.array(lista_de_listas)
@@ -143,8 +143,8 @@ def convertir_a_matriz(cadena):
 
 """
 Formato de entrada de matrices:
-x-x-x;x-x-x;x-x-x
-los números se separan por -.
+x,x,x;x,x,x;x,x,x
+los números se separan por ,.
 Las filas se separan por ;.
 """
 @app.get("/suma_matricial/{matriz1}+{matriz2}")
@@ -157,7 +157,7 @@ def sumar_matrices(matriz1: str, matriz2: str):
 
     return matriz_suma.tolist()
 
-@app.get("/resta_matricial/{matriz1}-{matriz2}")
+@app.get("/resta_matricial/{matriz1}&{matriz2}")
 def sumar_matrices(matriz1: str, matriz2: str):
 
     matriz1_np = convertir_a_matriz(matriz1)
@@ -244,14 +244,23 @@ def pol_a_lista(pol):
 
     return numeros_enteros
 
-"""@app.get("/sumar_polinomios/{pol1}&{pol2}")
+@app.get("/sumar_polinomios/{pol1}&{pol2}")
 def sumar_polinomios(pol1: str, pol2: str):
     pol1_a = pol_a_lista(pol1)
     pol1_b = pol_a_lista(pol2)
     sum = []
     for i in range(len(pol1_a)):
         sum.append(pol1_b[i] + pol1_a[i])
-    return sum"""
+    return sum
+
+@app.get("/restar_polinomios/{pol1}&{pol2}")
+def sumar_polinomios(pol1: str, pol2: str):
+    pol1_a = pol_a_lista(pol1)
+    pol1_b = pol_a_lista(pol2)
+    resta = []
+    for i in range(len(pol1_a)):
+        resta.append(pol1_b[i] + pol1_a[i])
+    return resta
 
 #Usar solo números enteros y decimales, no raíces o paréntesis
 @app.get("/resolver_polinomios/{pol}")
@@ -367,7 +376,7 @@ def peso(a: float, conver: str):
         "F_a_K": lambda: (a - 32)*5/9+273
     }.get(conver, 0)()
 
-#---------------------------------------------CONVERSIONES Numéricas-------------------------------------------------
+#---------------------------------------------CONVERSIONES NUMÉRICAS-------------------------------------------------
 
 @app.get("/decimal_hexadecimal/{a}")
 def dec_hex(a: int):
