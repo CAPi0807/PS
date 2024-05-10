@@ -27,7 +27,7 @@ function limpiar(){
 
 
 function getAns(calc){
-    if (calc==="basico"){
+    if (calc==="basica"){
         document.getElementById('console').innerText += datoGlobalBas;
 
     }else if(calc==="estadistica"){
@@ -52,6 +52,7 @@ function operacion(variable) {
                 return;
             }
             document.getElementById('console').innerText = data;
+
             datoGlobalBas=document.getElementById('console').innerText;
         })
         .catch(error => {
