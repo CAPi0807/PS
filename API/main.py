@@ -587,15 +587,58 @@ def salarios(pagoHora: float, horasDia: int, diasSemana: int, vacaciones: int):
     return salarios
 
 
-@app.get("/interes/{inversion}-{contribucion}-{interes}-{duracion}-{impuestos}")
-def interes_simple(inversion: float, contribucion: int, interes: float, duracion: int, impuestos: float):
-    beneficio = inversion+contribucion
+@app.get("/interes_compuesto/{capital}-{interes}-{contribucion}-{compound}-{duracion}-{impuestos}")
+def interes_simple(capital: float, contribucion: int, interes: float, duracion: int, impuestos: float, compound: int):
     for i in range(duracion):
-        iteracion_actual = (beneficio*interes/100)-((beneficio*interes/100)*(impuestos/100))
-        print(iteracion_actual)
-        beneficio += iteracion_actual
+        capital += contribucion
+        capital += ((capital) * (1 + interes / compound) ** (compound))-(((capital) * (1 + interes / compound) ** (compound)) * (impuestos / 100))
 
-    return beneficio
+    return capital
+
+
+@app.get("/conversor_compound/{ratio}-{compuestoE}-{compuestoS}")
+def conv_compound(ratio: float, compuestoE: int, compuestoS: int):
+    return 100 - ((ratio * compuestoE) / compuestoS)
+
+
+@app.get("/IVA/{base}-{ratioI}-{ratioIRPF}")
+def IMPUESTOS(base: float, ratioI: float, ratioIRPF: float):
+    return base + (base * (ratioI/100)) - (base*(ratioIRPF/100))
+
+
+@app.get("/IRPF/{base}-{ratioIRPF}")
+def IRPF(base: float, ratioIRPF: float):
+    return base - (base*(ratioIRPF/100))
+
+
+@app.get("/Aduana/{base}-{empresa}")
+def Aduana(base: float, empresa: int):
+    if empresa:
+        if base<150:
+            return base+(base*21/100)
+        else:
+            return base + base * (21 / 100) + base * (2.5 / 100)
+    else:
+        if base<45:
+            return base
+        else:
+            return base + base * (21 / 100) + base * (2.5 / 100)
+
+
+@app.get("/AduanaCanaria/{base}-{empresa}")
+def AduanaCanaria(base: float, empresa: int):
+    if empresa:
+        if base<22:
+            return base
+        elif base > 150:
+            return base + base * (7 / 100) + base * (2.5 / 100)
+        else:
+            return base + base * (7 / 100)
+    else:
+        if base<45:
+            return base
+        else:
+            return base + base * (7 / 100) + base * (2.5 / 100)
 
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
