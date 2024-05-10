@@ -1,7 +1,4 @@
 
-
-
-
 body{
     height: 100%;
     background-color: gray;
@@ -19,7 +16,7 @@ header{
     background-color: #A09EFF;
 }
 .rojo{
-    height: 100%;
+    height: 60px;
     width: 10%;
     float: left;
 
@@ -395,15 +392,16 @@ footer{
 /* Estilo para los contenedores de las matrices */
 .matrix-container1,
 .matrix-container2,
-.numeros{
+.matrix-result{
     display: inline-block;
     vertical-align: top;
     margin-right: 20px;
+
 }
 
 /* Estilo para los campos de entrada de las matrices */
 .matrix-table input[type="number"] {
-    border-bottom: 1px solid;
+    border-collapse: collapse;
     background-color: black;
     color: white;
     border: none;
@@ -412,17 +410,41 @@ footer{
     text-align: center;
     margin: 5px;
     border-radius: 50%;
-
-
+    align-items: center;
 }
 
 /* Estilo para la matriz resultante */
 .matrix-result .matrix-table {
-    margin-top: 20px;
-}
-.matrix-table{
+    margin-top: 60px;
+    align-items: center;
+    border-collapse: collapse;
+    background-color: black;
+    color: white;
+
+
+    text-align: center;
+
+    border-radius: 50%;
 
 }
-th, td {
-    border-bottom: 1px solid #ddd;
+
+.matrices {
+    padding: 10px;
+    background-color: #A09EFF;
+    margin-left: 5%;
+    margin-right: 5%;
+    height: 750px;
+}
+.matrix-table td {
+
+
+    text-align: center; /* Centrar el texto horizontalmente */
+    vertical-align: middle; /* Centrar el contenido verticalmente */
+}
+#calc1,
+#calc2
+{
+
+    margin-top: 5%;
+    margin-right: 10%;
 }

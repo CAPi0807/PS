@@ -5,6 +5,7 @@ from uvicorn import *
 import json
 from fastapi.middleware.cors import CORSMiddleware
 import base64
+import statistics
 
 
 # from myapp.api import api
@@ -79,6 +80,7 @@ def evaluar(a: str):
     return ans
 
 
+#Formato de entrada: i-i-i-i...
 @app.get("/MCM/{a}")
 def MCM(a: str):
     numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
@@ -113,13 +115,27 @@ def MCD(a):
     return resultado
 
 
+@app.get("/media/{a}")
+def media(a: str):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+    return statistics.mean(numeros)
+
+
+@app.get("/moda/{a}")
+def moda(a: str):
+    numeros = list(map(int, a.split('-')))  # Separar la cadena y convertir los números a enteros
+    return statistics.mode(numeros)
+
+
+
+
 #---------------------------------------------Matrices-------------------------------------------------
 def convertir_a_matriz(cadena):
     conjuntos = cadena.split(";")
     lista_de_listas = []
     for conjunto in conjuntos:
-        numeros = conjunto.split("-")
-        lista_de_numeros = [int(num) for num in numeros]
+        numeros = conjunto.split(",")
+        lista_de_numeros = [float(num) for num in numeros]
         lista_de_listas.append(lista_de_numeros)
     matriz = np.array(lista_de_listas)
     return matriz
@@ -127,8 +143,8 @@ def convertir_a_matriz(cadena):
 
 """
 Formato de entrada de matrices:
-x-x-x;x-x-x;x-x-x
-los números se separan por -.
+x,x,x;x,x,x;x,x,x
+los números se separan por ,.
 Las filas se separan por ;.
 """
 @app.get("/suma_matricial/{matriz1}+{matriz2}")
@@ -141,7 +157,7 @@ def sumar_matrices(matriz1: str, matriz2: str):
 
     return matriz_suma.tolist()
 
-@app.get("/resta_matricial/{matriz1}-{matriz2}")
+@app.get("/resta_matricial/{matriz1}&{matriz2}")
 def sumar_matrices(matriz1: str, matriz2: str):
 
     matriz1_np = convertir_a_matriz(matriz1)
@@ -205,8 +221,13 @@ def rango_matriz(matriz: str):
 
 #---------------------------------------------POLINOMIOS-------------------------------------------------
 """
-Formato de entrada de polinomios:
+-Formato de entrada de polinomios:
 <signo><valor>,<signo><valor>, ...
+
+-Pasar polinomios de mayor a menor grado.
+
+-Si hay potencias de x vacías (2x^2 + 3), la ristra de valores pasada tendrá un 0 en esa posición
+
 """
 def pol_a_lista(pol):
     numeros = pol.split(',')  # Separar la cadena en función de las comas
@@ -214,7 +235,7 @@ def pol_a_lista(pol):
 
     for numero in numeros:
         signo = numero[0]  # Obtener el signo del número
-        valor = int(numero[1:]) if signo in ['+', '-'] else int(numero)  # Obtener el valor numérico
+        valor = float(numero[1:]) if signo in ['+', '-'] else float(numero)  # Obtener el valor numérico
 
         if signo == '-':  # Si el signo es negativo, convertir el valor a negativo
             valor *= -1
@@ -223,14 +244,37 @@ def pol_a_lista(pol):
 
     return numeros_enteros
 
-@app.get("/operar_polinomios/{pol1}&{pol2}")
-def operar_polinomios(pol1: str, pol2: str):
+@app.get("/sumar_polinomios/{pol1}&{pol2}")
+def sumar_polinomios(pol1: str, pol2: str):
     pol1_a = pol_a_lista(pol1)
     pol1_b = pol_a_lista(pol2)
-    print(pol1_a)
-    print(pol1_b)
-    return
+    sum = []
+    for i in range(len(pol1_a)):
+        sum.append(pol1_b[i] + pol1_a[i])
+    return sum
 
+@app.get("/restar_polinomios/{pol1}&{pol2}")
+def sumar_polinomios(pol1: str, pol2: str):
+    pol1_a = pol_a_lista(pol1)
+    pol1_b = pol_a_lista(pol2)
+    resta = []
+    for i in range(len(pol1_a)):
+        resta.append(pol1_b[i] + pol1_a[i])
+    return resta
+
+#Usar solo números enteros y decimales, no raíces o paréntesis
+@app.get("/resolver_polinomios/{pol}")
+def resolver_polinomios(pol: str):
+    pol_np = pol_a_lista(pol)
+    raices = np.roots(pol_np)
+    raices = raices.tolist()
+    for i in range(len(raices)):
+        if raices[i] - int(raices[i]) > 0.00001:
+            raices[i] = float("{:3f}".format(raices[i]))
+        else:
+            raices[i] = int(raices[i])
+
+    return raices
 #---------------------------------------------CONVERSIONES Magnitudes-------------------------------------------------
 
 @app.get("/conversion/{conver}/{a}")
@@ -438,7 +482,7 @@ def peso(a: float, conver: str):
         "F_a_K": lambda: (a - 32)*5/9+273
     }.get(conver, 0)()
 
-#---------------------------------------------CONVERSIONES Numéricas-------------------------------------------------
+#---------------------------------------------CONVERSIONES NUMÉRICAS-------------------------------------------------
 
 @app.get("/decimal_hexadecimal/{a}")
 def dec_hex(a: int):
@@ -518,6 +562,41 @@ def octal_a_binario(a: int):
 
     a = int(str(a), 8)
     return int(bin(a)[2:])
+
+
+#---------------------------------------------ECONOMÍA-------------------------------------------------
+
+@app.get("/deuda/{deuda}*{interes}:{tiempo}")
+def deuda(deuda: float, interes: float, tiempo: int):
+    return deuda*interes/tiempo
+
+
+@app.get("/salario/{pagoHora}*{horasDia}*{diasSemana}-{vacaciones}")
+def salarios(pagoHora: float, horasDia: int, diasSemana: int, vacaciones: int):
+    salarios = []
+    diario = pagoHora*horasDia
+    salarios.append(diario)
+    semanal = pagoHora*horasDia*diasSemana
+    salarios.append(semanal)
+    anual = pagoHora*horasDia*(52*diasSemana-vacaciones)
+    mensual = anual / 12
+    salarios.append(mensual)
+    cuatri = anual / 3
+    salarios.append(cuatri)
+    salarios.append(anual)
+    return salarios
+
+
+@app.get("/interes/{inversion}-{contribucion}-{interes}-{duracion}-{impuestos}")
+def interes_simple(inversion: float, contribucion: int, interes: float, duracion: int, impuestos: float):
+    beneficio = inversion+contribucion
+    for i in range(duracion):
+        iteracion_actual = (beneficio*interes/100)-((beneficio*interes/100)*(impuestos/100))
+        print(iteracion_actual)
+        beneficio += iteracion_actual
+
+    return beneficio
+
 #---------------------------------------------SERVIDOR-------------------------------------------------
 
 # Definir tu ruta raíz (root_path)
@@ -531,4 +610,3 @@ server = Server(config)
 
 # Iniciar el servidor
 #server.run()
-

@@ -245,6 +245,141 @@ function principal3(cadena){
         });
 
 }
+
+function principal4() {
+    //getMatrixValues();
+    //var matriz1="1,2,3;4,5,6";
+    //var matriz2="6,5,4;3,2,1";
+    var matriz1 = getMatrixValues("matrixInputs");
+    var matriz2 = getMatrixValues("matrixInputs2");
+
+    console.log(matriz1);
+    console.log(matriz2);
+    var operation = document.getElementById("operation").value;
+    var operando_cal="";
+    if(operation === "suma_matricial"){
+        operando_cal="+";
+    }
+    else if(operation === "resta_matricial"){
+        operando_cal="&";
+    }
+    else if(operation === "multiplicacion_matricial"){
+        operando_cal="*";
+    }
+
+    console.log(`http://127.0.0.1:8000/${operation}/${matriz1}${operando_cal}${matriz2}`);
+
+    fetch(
+        `http://127.0.0.1:8000/${operation}/${matriz1}${operando_cal}${matriz2}`
+    ).then((response) => response.json())
+
+        .then((data) => {
+            //console.log(variable);
+
+            console.log(data);
+            displayMatrix(data,"resultMatrix");
+
+        })
+        .catch(error => {
+        console.error('Error al llamar a la API:', error);
+        alert("SyntaxError: Las dimensiones no son correctas");
+        //var elemento= document.getElementById("resultMatrix");
+        //elemento.style.display = "none";
+            location.reload();
+    });
+}
+
+function principal5(numero) {
+    var matriz="";
+    if (numero === 1){
+        matriz=getMatrixValues("matrixInputs");
+    }
+    else if(numero === 2){
+        matriz=getMatrixValues("matrixInputs2");
+    }
+
+    console.log("operation"+numero);
+    var operation = document.getElementById("operation" + numero).value;
+
+
+    console.log(`http://127.0.0.1:8000/${operation}/${matriz}`);
+
+    fetch(
+        `http://127.0.0.1:8000/${operation}/${matriz}`
+    ).then((response) => response.json())
+
+        .then((data) => {
+            //console.log(variable);
+
+            console.log(data);
+            if (operation==="matriz_determinante" || operation==="rango_matriz"){
+
+                var resultDiv = document.getElementById("resultMatrix");
+                resultDiv.innerHTML = "";
+
+                var cell = document.createElement("div");
+                cell.textContent = data;
+                resultDiv.appendChild(cell);
+            }
+            else{
+                displayMatrix(data,"resultMatrix");
+
+            }
+
+
+            //displayMatrix(data,"resultMatrix");
+
+        })
+        .catch(error => {
+            console.error('Error al llamar a la API:', error);
+            alert("SyntaxError: Las dimensiones no son correctas");
+            //var elemento= document.getElementById("resultMatrix");
+            //elementad();
+        });
+}
+
+
+
+function getMatrixValues(tableId) {
+    var matrixValues = "";
+    var table = document.getElementById(tableId);
+    for (var i = 0; i < table.rows.length; i++) {
+        //var row = [];
+        for (var j = 0; j < table.rows[i].cells.length; j++) {
+            matrixValues += table.rows[i].cells[j].querySelector("input").value;
+            if(j < table.rows[i].cells.length-1){
+                matrixValues += ",";
+            }
+            //row.push(parseFloat(table.rows[i].cells[j].querySelector("input").value));
+        }
+            matrixValues += ";";
+
+        //matrixValues.push(row);
+    }
+    matrixValues = matrixValues.slice(0, -1);
+    return matrixValues;
+}
+
+function displayMatrix(matrix, targetId) {
+    var resultDiv = document.getElementById(targetId);
+    resultDiv.innerHTML = "";
+
+    var table = document.createElement("table");
+    table.classList.add("matrix-table");
+
+    for (var i = 0; i < matrix.length; i++) {
+        var row = document.createElement("tr");
+        for (var j = 0; j < matrix[i].length; j++) {
+            var cell = document.createElement("td");
+            cell.textContent = matrix[i][j];
+            row.appendChild(cell);
+        }
+        table.appendChild(row);
+    }
+
+    resultDiv.appendChild(table);
+}
+
 // Función para cambiar el idioma
 function cambiarIdioma(idioma) {
     insertImagen(idioma);
