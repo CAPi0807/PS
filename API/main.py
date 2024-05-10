@@ -135,7 +135,7 @@ def convertir_a_matriz(cadena):
     lista_de_listas = []
     for conjunto in conjuntos:
         numeros = conjunto.split(",")
-        lista_de_numeros = [int(num) for num in numeros]
+        lista_de_numeros = [float(num) for num in numeros]
         lista_de_listas.append(lista_de_numeros)
     matriz = np.array(lista_de_listas)
     return matriz
