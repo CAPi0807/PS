@@ -6,6 +6,8 @@ var result;
 var ans;
 let anterior ="es";
 let ruta;
+var datoGlobalBas=""; // Variable global para almacenar el dato
+var datoGlobalEs="";
 
 function borrar(){
     document.getElementById('console').innerText = document.getElementById('console').innerText.slice(0, -1);
@@ -14,15 +16,26 @@ function borrar(){
     }
 }
 function limpiar(){
+
     document.getElementById('console').innerText = "";
     if(window.location.pathname=== "/PS/paginaWeb/conversiones.html"){
+
         document.getElementById('console2').innerText = "";
     }
     console.clear();
 }
 
-var datoGlobal; // Variable global para almacenar el dato
 
+function getAns(calc){
+    if (calc==="basico"){
+        document.getElementById('console').innerText += datoGlobalBas;
+
+    }else if(calc==="estadistica"){
+        document.getElementById('console').innerText += datoGlobalEs;
+
+    }
+    //document.getElementById('console').innerText += datoGlobalBas;
+}
 function operacion(variable) {
     fetch(`http://127.0.0.1:8000/eval/${variable}`)
         .then(function (response) {
@@ -39,6 +52,7 @@ function operacion(variable) {
                 return;
             }
             document.getElementById('console').innerText = data;
+            datoGlobalBas=document.getElementById('console').innerText;
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
@@ -109,6 +123,8 @@ function principal(cadena) {
 
 
     operacion(base64);
+
+
 }
 function principal2(cadena) {
     // Verificar que haya al menos un número y una operación
@@ -166,6 +182,9 @@ function principal2(cadena) {
             .then(data => {
                 //console.log(data);
                 document.getElementById('console2').innerText = data; // Mostrar el resultado en el campo de texto
+
+
+
             })
             .catch(error => {
                 console.error('Error al llamar a la API:', error);
@@ -213,19 +232,19 @@ function principal3(cadena){
         resto= change.substring(4);
     }
     else if(change.startsWith("Media:")) {
-        //funcion ="MCM"
-        //resto= change.substring(6);
+        funcion ="media"
+        resto= change.substring(6);
     }
     else if(change.startsWith("Moda:")) {
-        //funcion ="MCM"
-        //resto= change.substring(5);
+        funcion ="moda"
+        resto= change.substring(5);
     }
 
     else{
         limpiar();
         alert("SyntaxError");
     }
-    console.log(`http://127.0.0.1:8000/${funcion}/${resto}`);
+    //console.log(`http://127.0.0.1:8000/${funcion}/${resto}`);
 
     fetch(`http://127.0.0.1:8000/${funcion}/${resto}`)
         .then(response => {
@@ -237,6 +256,10 @@ function principal3(cadena){
         .then(data => {
             //console.log(data);
             document.getElementById('console').innerText = funcion+":"+data; // Mostrar el resultado en el campo de texto
+            console.log(data);
+            //console.log(document.getElementById('console').innerText.match(/[^:]*:(\d+(\.\d+)?)/));
+            //datoGlobalEs= document.getElementById('console').innerText.match(/[^:]*:(\d+(\.\d+)?)/);
+            datoGlobalEs=data;
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
@@ -267,7 +290,7 @@ function principal4() {
         operando_cal="*";
     }
 
-    console.log(`http://127.0.0.1:8000/${operation}/${matriz1}${operando_cal}${matriz2}`);
+    //console.log(`http://127.0.0.1:8000/${operation}/${matriz1}${operando_cal}${matriz2}`);
 
     fetch(
         `http://127.0.0.1:8000/${operation}/${matriz1}${operando_cal}${matriz2}`
@@ -298,11 +321,11 @@ function principal5(numero) {
         matriz=getMatrixValues("matrixInputs2");
     }
 
-    console.log("operation"+numero);
+    //console.log("operation"+numero);
     var operation = document.getElementById("operation" + numero).value;
 
 
-    console.log(`http://127.0.0.1:8000/${operation}/${matriz}`);
+    //console.log(`http://127.0.0.1:8000/${operation}/${matriz}`);
 
     fetch(
         `http://127.0.0.1:8000/${operation}/${matriz}`
@@ -332,9 +355,11 @@ function principal5(numero) {
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
-            alert("SyntaxError: Las dimensiones no son correctas");
+            alert("SyntaxError");
             //var elemento= document.getElementById("resultMatrix");
             //elementad();
+            location.reload();
+
         });
 }
 
