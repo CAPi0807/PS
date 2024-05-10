@@ -101,6 +101,34 @@ nav{
     position: absolute;
 
 }
+.numeros{
+    width: 40%;
+}
+.filass3{
+
+
+    height: 50px;
+    position:relative;
+
+}
+.filass4{
+
+    height: 50px;
+    position:relative;
+
+}
+.filass5{
+    margin-left: 33%;
+    height: 50px;
+    position:relative;
+
+}
+.filass6{
+    margin-left: 33%;
+    height: 50px;
+    position:relative;
+
+}
 .filas3{
     margin-top: 25%;
     margin-left: 25%;
@@ -155,7 +183,9 @@ nav{
     height: 100%;
 
 }
-
+.matrixInputs{
+    width: 50%;
+}
 .rectangles1 {
     font-size: 35px;
     border-radius: 28px;
@@ -362,5 +392,37 @@ footer{
 
 
 
+/* Estilo para los contenedores de las matrices */
+.matrix-container1,
+.matrix-container2,
+.numeros{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+}
+
+/* Estilo para los campos de entrada de las matrices */
+.matrix-table input[type="number"] {
+    border-bottom: 1px solid;
+    background-color: black;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    margin: 5px;
+    border-radius: 50%;
 
 
+}
+
+/* Estilo para la matriz resultante */
+.matrix-result .matrix-table {
+    margin-top: 20px;
+}
+.matrix-table{
+
+}
+th, td {
+    border-bottom: 1px solid #ddd;
+}

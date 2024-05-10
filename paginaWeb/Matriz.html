@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="This is an HTML5 example">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/PS/paginaWeb/xlu-include-file.js"></script>
+    <script src="/PS/API/main.js"></script>
+
+    <style>
+        /* Estilo para alinear las matrices y los inputs en la misma fila */
+        .matrix-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .matrix-table {
+            border-collapse: collapse;
+        }
+
+        .matrix-table td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+
+    <link href="style.css" rel="stylesheet">
+    <title>Calculator</title>
+
+</head>
+<body>
+<header xlu-include-file="/PS/paginaWeb/header/header.html"></header>
+<main>
+    <br>
+    <br>
+    <br>
+    <h1>Calculadora de Matrices</h1>
+    <div class="matrix-container1">
+        <!-- Primera matriz -->
+        <div>
+            <h2>1ª Matriz</h2>
+
+            <input type="number" id="matrixRows" placeholder="Número de filas" oninput="createMatrixInputs('matrixInputs', 'matrixRows', 'matrixColumns')">
+
+            <input type="number" id="matrixColumns" placeholder="Número de columnas" oninput="createMatrixInputs('matrixInputs', 'matrixRows', 'matrixColumns')">
+            <table id="matrixInputs" class="matrix-table"></table>
+        </div>
+    </div>
+    <div class="matrix-container2">
+        <!-- Primera matriz -->
+        <div>
+            <h2>2ª Matriz</h2>
+
+            <input type="number" id="matrixRows2" placeholder="Número de filas" oninput="createMatrixInputs('matrixInputs2', 'matrixRows2', 'matrixColumns2')">
+
+            <input type="number" id="matrixColumns2" placeholder="Número de columnas" oninput="createMatrixInputs('matrixInputs2', 'matrixRows2', 'matrixColumns2')">
+            <table id="matrixInputs2" class="matrix-table"></table>
+        </div>
+    </div>
+    <div class="numeros">
+        <div class="filass3">
+            <button class="rectangle4" onclick="appendToConsole('+')">+</button>
+            <button class="rectangle5" onclick="appendToConsole('*')">*</button>
+            <button class="rectangle4" onclick="appendToConsole('7')">7</button>
+            <button class="rectangle4" onclick="appendToConsole('8')">8</button>
+            <button class="rectangle4" onclick="appendToConsole('9')">9</button>
+        </div>
+        <div class="filass4">
+            <button class="rectangle4" onclick="appendToConsole('-')">-</button>
+            <button class="rectangle5" onclick="appendToConsole('/')">/</button>
+
+            <button class="rectangle4" onclick="appendToConsole('4')">4</button>
+            <button class="rectangle4" onclick="appendToConsole('5')">5</button>
+            <button class="rectangle4" onclick="appendToConsole('6')">6</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('*')">x</button>-->
+            <button class="rectangle4" onclick="borrar()">Del</button>
+        </div>
+        <div class="filass5">
+            <button class="rectangle4" onclick="appendToConsole('1')">1</button>
+            <button class="rectangle4" onclick="appendToConsole('2')">2</button>
+            <button class="rectangle4" onclick="appendToConsole('3')">3</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('-')">-</button>-->
+            <button class="rectangle4" onclick="limpiar('C')">C</button>
+        </div>
+        <div class="filass6">
+            <button class="rectangle4" onclick="appendToConsole('0')">0</button>
+            <button class="rectangle4" onclick="appendToConsole('.')">.</button>
+            <button class="rectangle4" onclick="appendToConsole('Ans')">Ans</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('+')">+</button>-->
+        </div>
+
+    </div>
+    <div class="calc"><div>
+        <label for="operation">Operación:</label>
+        <select id="operation">
+            <option value="sum">Suma</option>
+            <option value="subtract">Resta</option>
+            <option value="multiply">Multiplicación</option>
+            <!-- Puedes agregar más opciones según las operaciones que desees implementar -->
+        </select>
+    </div>
+        <button onclick="calculate()">Calcular</button>
+    </div>
+    <div class="matrix-result">
+        <!-- Primera matriz -->
+
+
+        <!-- Matriz resultante -->
+        <h2>Matriz Resultante</h2>
+        <div id="resultMatrix"></div>
+    </div>
+
+
+        <!-- Selector de operación -->
+
+
+        <!-- Segunda matriz -->
+
+
+    <!-- Botón para calcular -->
+
+
+</main>
+<footer>
+    <p>Designed by: PS-Group 7</p>
+</footer>
+
+<script>
+    function createMatrixInputs(targetId, rowsInputId, columnsInputId) {
+        var rows = parseInt(document.getElementById(rowsInputId).value);
+        var columns = parseInt(document.getElementById(columnsInputId).value);
+
+        // Validar que se ingresen números válidos para filas y columnas
+        if (isNaN(rows) || isNaN(columns) || rows <= 0 || columns <= 0) {
+            return;
+        }
+
+        var matrixInputs = document.getElementById(targetId);
+        matrixInputs.innerHTML = "";
+
+        for (var i = 0; i < rows; i++) {
+            var row = document.createElement("tr"); // Fila de la matriz
+            for (var j = 0; j < columns; j++) {
+                var cell = document.createElement("td");
+                var input = document.createElement("input");
+                input.type = "number";
+                input.placeholder = `(${i + 1},${j + 1})`;
+                cell.appendChild(input);
+                row.appendChild(cell);
+            }
+            matrixInputs.appendChild(row); // Agregar la fila a la tabla de la matriz
+        }
+    }
+
+    function calculate() {
+        var operation = document.getElementById("operation").value;
+        var matrix1 = getMatrixValues("matrixInputs");
+        var matrix2 = getMatrixValues("matrixInputs2");
+
+        // Verificar que las matrices tengan la misma dimensión
+        if (matrix1.length !== matrix2.length || matrix1[0].length !== matrix2[0].length) {
+            alert("Las matrices deben tener la misma dimensión para realizar la operación.");
+            return;
+        }
+
+        var resultMatrix = [];
+        for (var i = 0; i < matrix1.length; i++) {
+            var row = [];
+            for (var j = 0; j < matrix1[0].length; j++) {
+                if (operation === "sum") {
+                    row.push(matrix1[i][j] + matrix2[i][j]);
+                } else if (operation === "subtract") {
+                    row.push(matrix1[i][j] - matrix2[i][j]);
+                } else if (operation === "multiply") {
+                    row.push(matrix1[i][j] * matrix2[i][j]);
+                }
+                // Puedes agregar más casos para otras operaciones aquí
+            }
+            resultMatrix.push(row);
+        }
+
+        // Mostrar la matriz resultante
+        displayMatrix(resultMatrix, "resultMatrix");
+    }
+
+    function getMatrixValues(tableId) {
+        var matrixValues = [];
+        var table = document.getElementById(tableId);
+        for (var i = 0; i < table.rows.length; i++) {
+            var row = [];
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                row.push(parseFloat(table.rows[i].cells[j].querySelector("input").value));
+            }
+            matrixValues.push(row);
+        }
+        return matrixValues;
+    }
+
+    function displayMatrix(matrix, targetId) {
+        var resultDiv = document.getElementById(targetId);
+        resultDiv.innerHTML = "";
+
+        var table = document.createElement("table");
+        table.classList.add("matrix-table");
+
+        for (var i = 0; i < matrix.length; i++) {
+            var row = document.createElement("tr");
+            for (var j = 0; j < matrix[i].length; j++) {
+                var cell = document.createElement("td");
+                cell.textContent = matrix[i][j];
+                row.appendChild(cell);
+            }
+            table.appendChild(row);
+        }
+
+        resultDiv.appendChild(table);
+    }
+
+    xLuIncludeFile();
+</script>
+</body>
+</html>
