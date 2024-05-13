@@ -109,25 +109,42 @@
         var columns = parseInt(document.getElementById(columnsInputId).value);
 
         // Validar que se ingresen números válidos para filas y columnas
-        if (isNaN(rows) || isNaN(columns) || rows <= 0 || columns <= 0) {
+        if (isNaN(rows) && isNaN(columns)) {
+            alert("Caracter no válido");
+
+            //location.reload();
+            //console.log("juan");
+            return;
+        }
+        else if (rows <= 0 || rows > 5){
+            document.getElementById(rowsInputId).value = "";
+            alert("Caracter no válido");
+            return;
+        }
+        else if(columns <= 0 || columns > 5){
+            document.getElementById(columnsInputId).value = "";
+            alert("Caracter no válido");
             return;
         }
 
-        var matrixInputs = document.getElementById(targetId);
-        matrixInputs.innerHTML = "";
+        else{
+            var matrixInputs = document.getElementById(targetId);
+            matrixInputs.innerHTML = "";
 
-        for (var i = 0; i < rows; i++) {
-            var row = document.createElement("tr"); // Fila de la matriz
-            for (var j = 0; j < columns; j++) {
-                var cell = document.createElement("td");
-                var input = document.createElement("input");
-                input.type = "number";
-                input.placeholder = `(${i + 1},${j + 1})`;
-                cell.appendChild(input);
-                row.appendChild(cell);
+            for (var i = 0; i < rows; i++) {
+                var row = document.createElement("tr"); // Fila de la matriz
+                for (var j = 0; j < columns; j++) {
+                    var cell = document.createElement("td");
+                    var input = document.createElement("input");
+                    input.type = "number";
+                    input.placeholder = `(${i + 1},${j + 1})`;
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+                matrixInputs.appendChild(row); // Agregar la fila a la tabla de la matriz
             }
-            matrixInputs.appendChild(row); // Agregar la fila a la tabla de la matriz
         }
+
     }
 
 
