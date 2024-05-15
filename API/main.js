@@ -8,6 +8,9 @@ let anterior ="es";
 let ruta;
 var datoGlobalBas=""; // Variable global para almacenar el dato
 var datoGlobalEs="";
+let histOper="";
+let histResult=""
+
 
 function borrar(){
     document.getElementById('console').innerText = document.getElementById('console').innerText.slice(0, -1);
@@ -36,6 +39,116 @@ function getAns(calc){
     }
     //document.getElementById('console').innerText += datoGlobalBas;
 }
+function vaciarHistorial(){
+    fetch(`http://127.0.0.1:8000/vaciarHistorial`)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Error de red - Código de estado: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(function (data) {
+
+
+
+
+
+
+
+            //historial.textContent += `\n${claves}\t\t${valor}`;
+
+        })
+        .catch(error => {
+            console.error('Error al llamar a la API:', error);
+
+
+        });
+    historial=document.getElementById('displayHistory');
+    historial.textContent ="\nOperación\t\tresultado";
+}
+
+
+function displayHist(){
+
+    if (document.getElementById('displayHistory')){
+        main.removeChild(document.getElementById('displayHistory')) ;
+        return;
+    }
+    // Crear un nuevo elemento <p>
+    const historial = document.createElement('div');
+
+    // Asignar contenido al nuevo elemento
+    historial.id="displayHistory";
+    historial.style.position="absolute";
+
+    //historial.style.display="block";
+    //historial.style.position= "fixed"; /* Fijar la posición */
+
+    historial.style.marginTop="-800px";
+    historial.style.marginLeft="82%";
+
+    historial.style.zIndex= "3";
+    historial.style.height="400px";
+    historial.style.width="265px";
+    historial.style.backgroundColor="black";
+    historial.style.borderRadius="20px";
+
+    historial.textContent = "\nOperación\t\tresultado";
+    historial.style.textAlign="center";
+    historial.style.whiteSpace="pre";
+    historial.style.color="white";
+    historial.style.overflow="scroll"; /* Oculta el desbordamiento */
+    //historial.style.scrollbar-width= "none";
+
+
+
+
+
+// Añadir el nuevo elemento al final del cuerpo del documento
+
+    fetch(`http://127.0.0.1:8000/historial`)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Error de red - Código de estado: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(function (data) {
+
+            console.log(data);
+
+            var claves = Object.keys(data);
+
+// Iteramos sobre cada clave para obtener su valor y guardarlo en una variable
+            claves.forEach(function(clave) {
+                var valor = data[clave];
+                console.log("Clave:", clave, "Valor:", valor);
+                historial.textContent += `\n${clave}\t\t${valor}`;
+
+            });
+
+
+            //historial.textContent += `\n${claves}\t\t${valor}`;
+
+        })
+        .catch(error => {
+            console.error('Error al llamar a la API:', error);
+
+
+        });
+    main.appendChild(historial);
+
+}
+function actualizaHist(operacion, resultado){
+    if (document.getElementById('displayHistory')){
+        var histo = document.getElementById('displayHistory');
+        a=atob(operacion);
+        histo.innerText+="\n"+a+"\t\t"+resultado;
+    }
+
+}
+
+
 function operacion(variable) {
     fetch(`http://127.0.0.1:8000/eval/${variable}`)
         .then(function (response) {
@@ -54,10 +167,18 @@ function operacion(variable) {
             document.getElementById('console').innerText = data;
 
             datoGlobalBas=document.getElementById('console').innerText;
+
+            histOper=variable;
+            histResult=data;
+            actualizaHist(variable, data);
+
+
+
+
         })
         .catch(error => {
             console.error('Error al llamar a la API:', error);
-            limpiar();
+            //limpiar();
             alert("SyntaxError");
 
         });
@@ -124,6 +245,8 @@ function principal(cadena) {
 
 
     operacion(base64);
+
+
 
 
 }
@@ -305,12 +428,12 @@ function principal4() {
 
         })
         .catch(error => {
-        console.error('Error al llamar a la API:', error);
-        alert("SyntaxError: Las dimensiones no son correctas");
-        //var elemento= document.getElementById("resultMatrix");
-        //elemento.style.display = "none";
+            console.error('Error al llamar a la API:', error);
+            alert("SyntaxError: Las dimensiones no son correctas");
+            //var elemento= document.getElementById("resultMatrix");
+            //elemento.style.display = "none";
             location.reload();
-    });
+        });
 }
 
 function principal5(numero) {
@@ -378,7 +501,7 @@ function getMatrixValues(tableId) {
             }
             //row.push(parseFloat(table.rows[i].cells[j].querySelector("input").value));
         }
-            matrixValues += ";";
+        matrixValues += ";";
 
         //matrixValues.push(row);
     }
@@ -405,6 +528,573 @@ function displayMatrix(matrix, targetId) {
 
     resultDiv.appendChild(table);
 }
+var global_eco="pagos";
+
+function economia_funcion(tipo){
+    if(global_eco===tipo){
+        return
+    }
+    global_eco=tipo;
+
+    var info =document.getElementById("info_eco");
+    var input = document.getElementById("input_eco");
+    var result = document.getElementById("result_eco");
+
+    info.innerHTML = ''; // Clear existing content
+    input.innerHTML = ''; // Clear existing content
+    result.innerHTML = ''; // Clear existing content
+
+
+    // Empieza hueco de informacion
+
+    var informacion = document.createElement("p");
+    var titulo= document.createElement("p");
+
+    titulo.style.color = 'white'; // Establecer el color del texto
+    titulo.style.fontSize= "20px";
+    titulo.textContent="Información:";
+
+    informacion.style.color = 'white'; // Establecer el color del texto
+    informacion.style.fontSize= "16px";
+    informacion.style.display = 'block';
+
+    var encabezado= document.createElement("p");
+
+    encabezado.style.color = 'white'; // Establecer el color del texto
+    encabezado.style.fontSize= "20px";
+    encabezado.textContent="Modelos Activos:";
+    encabezado.style.textAlign = 'center';
+
+    // Añado botones
+
+    var iva = document.createElement("button");
+    iva.textContent = 'IVA';
+    iva.id = 'iva_button';
+    iva.className='imp';
+    iva.addEventListener('click', function() {
+        economia_funcion("impuestos_iva");
+    });
+    var igic = document.createElement("button");
+    igic.textContent = 'IGIC';
+    igic.id = 'igic_button';
+    igic.className='imp';
+
+    igic.addEventListener('click', function() {
+        economia_funcion("impuestos_igic");
+    });
+    var irpf = document.createElement("button");
+    irpf.textContent = 'IRPF';
+    irpf.id = 'irpf_button';
+    irpf.className='imp';
+
+    irpf.addEventListener('click', function() {
+        economia_funcion("impuestos_irpf");
+    });
+    var adu_gen = document.createElement("button");
+    adu_gen.textContent = 'Aduana';
+    adu_gen.id = 'aduana_gen_button';
+    adu_gen.className='imp';
+
+    adu_gen.addEventListener('click', function() {
+        economia_funcion("impuestos_aduana_gen");
+    });
+    var adu_can = document.createElement("button");
+    adu_can.textContent = 'Aduana Can';
+    adu_can.id = 'aduana_gen_button';
+    adu_can.className='imp';
+
+    adu_can.addEventListener('click', function() {
+        economia_funcion("impuestos_aduana_can");
+    });
+
+    // Termino de añadir botones
+
+
+
+
+    // Termina hueco de informacion
+
+    if(tipo ==="pagos"){
+
+        /*input empieza*/
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const prestamoDiv = createInputDiv('Préstamo','', '*$*', '20px');
+        const duracionDiv = createInputDiv('Duración','', '*Nº Meses*', '20px');
+        const interesDiv = createInputDiv('Interés','', '*%*', '20px');
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.textContent = 'Calcular';
+
+
+        // Añadir los elementos al formulario
+        form.appendChild(prestamoDiv);
+        form.appendChild(duracionDiv);
+        form.appendChild(interesDiv);
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+        /*input acaba*/
+
+        /*informacion empieza*/
+        informacion.textContent="El crédito o contrato de crédito es una operación financiera en la que una persona " +
+            "(el acreedor) realiza un préstamo por una cantidad determinada de dinero a otra persona (el deudor) y en la " +
+            "que este último, se compromete a devolver la cantidad solicitada en el tiempo o plazo definido, además de pagar " +
+            "intereses devengados, seguros y costos asociados si los hubiere, de acuerdo a las condiciones establecidas en el " +
+            "contrato de dicho préstamo."
+
+        info.appendChild(titulo);
+        info.appendChild(informacion);
+
+        /*informacion acaba*/
+
+    }
+    else if (tipo ==="interes_sencillo"){
+
+        /*input empieza*/
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const invIn = createInputDiv('Inversión Inicial','', '*$*', "20px");
+        const ContAn = createInputDiv('Contribución anual', '','*$*', '20px');
+        const ratInt = createInputDiv('Ratio de intereses','', '*%*', '20px');
+        const comp = createInputDiv('Compuesto','dropdown_comp', '*%*', '20px');
+
+        const durInv = createInputDiv('Duración de Inversión','', '*Meses*', '20px');
+        const ratImp = createInputDiv('Ratio de impuestos','', '*%*', '20px');
+
+        //const DiasFiesta = createInputDiv('Días/Fiesta', '*Nº*', '20px');
+
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.style.marginTop = '15%';
+        button.textContent = 'Calcular';
+
+
+        // Añadir los elementos al formulario
+        form.appendChild(invIn);
+        form.appendChild(ContAn);
+        form.appendChild(ratInt);
+        form.appendChild(comp);
+        form.appendChild(durInv);
+        form.appendChild(ratImp);
+
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+        /*input acaba*/
+
+
+        informacion.textContent="El interes sencillo es aquel que se va sumando al capital inicial y sobre el que se van " +
+            "generando nuevos intereses. El dinero, en este caso, tiene un efecto multiplicador porque los intereses " +
+            "producen nuevos intereses. Sin embargo, en el caso del interés o capitalización simple, los rendimientos " +
+            "siempre se generan sobre el capital original."
+
+        info.appendChild(titulo);
+        info.appendChild(informacion);
+    }
+    else if (tipo ==="interes_compuesto"){
+
+        /*input empieza*/
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const ratInt = createInputDiv('Ratio de intereses','', '*%*', '20px');
+        const comp = createInputDiv('Compuesto','dropdown_comp', '*%*', '20px');
+        const comp_sal = createInputDiv('Compuesto(salida)','dropdown_comp', '*%*', '20px');
+
+
+
+        //const DiasFiesta = createInputDiv('Días/Fiesta', '*Nº*', '20px');
+
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.style.marginTop = '15%';
+        button.textContent = 'Calcular';
+
+
+        // Añadir los elementos al formulario
+        form.appendChild(ratInt);
+        form.appendChild(comp);
+        form.appendChild(comp_sal);
+
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+
+
+
+
+
+        informacion.textContent="El interes compuesto es aquel que se va sumando al capital inicial y sobre el que se van " +
+            "generando nuevos intereses. El dinero, en este caso, tiene un efecto multiplicador porque los intereses " +
+            "producen nuevos intereses. Sin embargo, en el caso del interés o capitalización simple, los rendimientos " +
+            "siempre se generan sobre el capital original."
+
+        info.appendChild(titulo);
+        info.appendChild(informacion);
+    }
+
+    else if (tipo ==="salarios"){
+
+        /*input empieza*/
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const salarioDiv = createInputDiv('Salario/hora','', '*$*', "20px");
+        const horasDias = createInputDiv('Horas/Días', '','*Nº*', '20px');
+        const DiasSemanas = createInputDiv('Días/Semanas','', '*Nº*', '20px');
+        //const DiasFiesta = createInputDiv('Días/Fiesta', '*Nº*', '20px');
+        const DiasVacaciones = createInputDiv('Días/Vacaciones','', '*Nº*', '20px');
+
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.style.marginTop = '20%';
+        button.textContent = 'Calcular';
+
+
+        // Añadir los elementos al formulario
+        form.appendChild(salarioDiv);
+        form.appendChild(horasDias);
+        form.appendChild(DiasSemanas);
+        //form.appendChild(DiasFiesta);
+        form.appendChild(DiasVacaciones);
+
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+        /*input acaba*/
+
+        informacion.textContent="Legalmente, se considera salario la totalidad de las percepciones económicas de los " +
+            "trabajadores —en dinero o en especie— por la prestación profesional de los servicios laborales por cuenta" +
+            " ajena, ya retribuyan el trabajo efectivo, cualquiera que sea la forma de remuneración, o los periodos de" +
+            " descanso computables como de trabajo.​ Por lo tanto, se excluye al trabajador por cuenta propia" +
+            " (el autónomo). Asimismo, el sueldo no solo retribuye el «trabajo efectivo», sino también los periodos" +
+            " de descanso computables como de trabajo."
+
+        info.appendChild(titulo);
+        info.appendChild(informacion);
+    }
+
+    else if (tipo ==="impuestos_iva"){
+
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const baseImp = createInputDiv('Base Imponible', '','*$*', '20px');
+        const iva_input = createInputDiv('IVA', 'dropdown_iva','*%*', '20px');
+        const ret_irpf = createInputDiv('Retencion IRPF','dropdown_irpf', '*%*', '20px');
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.textContent = 'Calcular';
+
+        // Añadir los elementos al formulario
+        form.appendChild(baseImp);
+        form.appendChild(iva_input);
+        form.appendChild(ret_irpf);
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+
+        info.appendChild(encabezado);
+        info.appendChild(iva);
+        info.appendChild(igic);
+        info.appendChild(irpf);
+        info.appendChild(adu_gen);
+        info.appendChild(adu_can);
+
+
+    }
+    else if (tipo ==="impuestos_igic"){
+
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const baseImp = createInputDiv('Base Imponible', '' ,'*$*', '20px');
+        const igic_input = createInputDiv('IGIC', 'dropdown_igic','*%*', '20px');
+        const ret_irpf = createInputDiv('Retencion IRPF', 'dropdown_irpf','*%*', '20px');
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.textContent = 'Calcular';
+
+        // Añadir los elementos al formulario
+        form.appendChild(baseImp);
+        form.appendChild(igic_input);
+        form.appendChild(ret_irpf);
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+
+        info.appendChild(encabezado);
+        info.appendChild(iva);
+        info.appendChild(igic);
+        info.appendChild(irpf);
+        info.appendChild(adu_gen);
+        info.appendChild(adu_can);
+    }
+    else if (tipo ==="impuestos_irpf"){
+
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const baseImp = createInputDiv('Base Imponible', '','*$*', '20px');
+        const ret_irpf = createInputDiv('Retencion IRPF','dropdown_irpf', '*%*', '20px');
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.textContent = 'Calcular';
+
+        // Añadir los elementos al formulario
+        form.appendChild(baseImp);
+        form.appendChild(ret_irpf);
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+        info.appendChild(encabezado);
+        info.appendChild(iva);
+        info.appendChild(igic);
+        info.appendChild(irpf);
+        info.appendChild(adu_gen);
+        info.appendChild(adu_can);
+    }
+    else if (tipo ==="impuestos_aduana_gen"){
+
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const importe = createInputDiv('Importe', '' ,'*$*', '20px');
+        const remitente = createInputDiv('Remitente', 'dropdown_ad_gen','*%*', '20px');
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.textContent = 'Calcular';
+
+        // Añadir los elementos al formulario
+        form.appendChild(importe);
+        form.appendChild(remitente);
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+
+        info.appendChild(encabezado);
+        info.appendChild(iva);
+        info.appendChild(igic);
+        info.appendChild(irpf);
+        info.appendChild(adu_gen);
+        info.appendChild(adu_can);
+    }
+    else if (tipo ==="impuestos_aduana_can"){
+
+        const form = document.createElement('form');
+        form.className = 'maineconomia-pagos-input-form';
+
+        // Función para crear un div de entrada
+
+
+        // Crear los tres campos de entrada
+        const importe = createInputDiv('Importe', '' ,'*$*', '20px');
+        const remitente = createInputDiv('Remitente', 'dropdown_ad_can','*%*', '20px');
+
+        // Crear el botón
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'maineconomia-pagos-button17 button';
+        button.textContent = 'Calcular';
+
+        // Añadir los elementos al formulario
+        form.appendChild(importe);
+        form.appendChild(remitente);
+        form.appendChild(button);
+
+        // Añadir el formulario al div con id="input_eco"
+        document.getElementById('input_eco').appendChild(form);
+
+        info.appendChild(encabezado);
+        info.appendChild(iva);
+        info.appendChild(igic);
+        info.appendChild(irpf);
+        info.appendChild(adu_gen);
+        info.appendChild(adu_can);
+    }
+
+
+}
+
+options_iva=[ "0%", "4%", "5%", "7%", "8%", "10%", "16%", "18%", "21%"];
+options_igic=["0%", "3%", "7%", "9.5%", "15%", "20%"];
+options_irpf=["0%", "1%", "2%", "7%", "15%", "19%"];
+options_gen=[];
+options_can=[];
+options_comp=["Anual","Semianual","Cuatrimestral", "Trimestral", "Mensual"];
+
+function createInputDiv(labelText, type, placeholderText, marginRight) {
+    const div = document.createElement('div');
+    div.className = 'maineconomia-pagos-input';
+    div.style.marginTop = '10px';
+    div.style.height = '40px';
+
+    const label = document.createElement('label');
+    label.className = 'maineconomia-pagos-label';
+    label.style.color = 'white';
+    label.style.marginLeft = '20px';
+    label.textContent = labelText;
+
+    //const input = document.createElement('input');
+
+
+    let input;
+    if (type === 'dropdown_iva') {
+        input = document.createElement('select');
+        options_iva.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            input.appendChild(optionElement);
+        });
+
+
+    }
+
+    else if (type === 'dropdown_igic') {
+        input = document.createElement('select');
+        options_igic.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            input.appendChild(optionElement);
+        });
+    }
+    else if (type === 'dropdown_irpf') {
+        input = document.createElement('select');
+        options_irpf.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            input.appendChild(optionElement);
+        });
+    }
+    else if (type === 'dropdown_ad_gen') {
+        input = document.createElement('select');
+        options_gen.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            input.appendChild(optionElement);
+        });
+    }
+    else if (type === 'dropdown_ad_can') {
+        input = document.createElement('select');
+        options_can.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            input.appendChild(optionElement);
+        });
+    }
+    else if (type === 'dropdown_comp') {
+        input = document.createElement('select');
+        options_comp.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = option;
+
+
+            input.appendChild(optionElement);
+        });
+    }
+
+    else {
+        input = document.createElement('input');
+        input.type = type;
+        input.placeholder = '*$*';
+    }
+    input.marginTop = "0px";
+    input.style.marginRight = marginRight;
+    input.style.width='40%';
+    input.style.borderRadius = '40px';
+    input.style.height = '90%';
+    input.style.textAlign = 'center';
+    input.style.fontSize = '14px';
+    input.type = 'number';
+    input.style.float='right';
+    input.placeholder = placeholderText;
+    input.className = 'maineconomia-pagos-textinput';
+
+    div.appendChild(label);
+    div.appendChild(input);
+
+    return div;
+}
+
+
+
+
+
 
 // Función para cambiar el idioma
 function cambiarIdioma(idioma) {
@@ -553,11 +1243,3 @@ function insertImagen(idioma){
     // Devolver el nuevo valor
     return language.style.backgroundImage;
 }
-
-
-
-
-
-
-
-

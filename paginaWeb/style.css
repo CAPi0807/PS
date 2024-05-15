@@ -192,6 +192,14 @@ nav{
     height: 100%;
     margin-right: 8%;
 }
+.rectanglesEnconomy {
+    font-size: 20px;
+    border-radius: 28px;
+    background-color: black;
+    color: white;
+    height: 50%;
+    margin-right: 3%;
+}
 #button7{
     float: right;
 }
@@ -441,10 +449,282 @@ footer{
     text-align: center; /* Centrar el texto horizontalmente */
     vertical-align: middle; /* Centrar el contenido verticalmente */
 }
-#calc1,
-#calc2
-{
 
+.maineconomia-pagos-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: center;
+    flex-direction: column;
+}
+.maineconomia-pagos-enconimia-main {
+    width: 100%;
+    height: 1024px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    align-items: flex-start;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    background-color: rgba(160, 158, 255, 1);
+}
+.maineconomia-pagos-opciones-generales {
+    gap: var(--dl-space-space-fourunits);
+    flex: 0 0 auto;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.maineconomia-pagos {
+    /*color: #ffffff;
+    background-color: #000000;
+    height: 60%;
+    border-radius: 50px;
+    width: 15%;
+    margin-left: 2.5%;
+    text-decoration: none;
+
+    text-align: center;*/
+    display: inline-block; /* Cambiar a inline-block para que width y height funcionen */
+    text-align: center; /* Centrar horizontalmente el texto */
+    vertical-align: middle;
+    justify-content: center;
+    padding: 0 2.5% 0 2.5%;
+    font-size: 16px;
+    margin-left: 2.5%;
+
+    background-color: black;
+    color: white;
+    border: 2px solid #FBFAFA;
+    border-radius: 50px;
+    text-decoration: none; /*decoración texto*/
+    width: 15%;
+    height: 60%;
+}
+
+
+.maineconomia-pagos-botones-calculadora {
+    top: 542px;
+    flex: 0 0 auto;
+    right: 98px;
+    width: 744px;
+    height: 354px;
+    display: flex;
+    position: absolute;
+    align-self: flex-end;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.maineconomia-pagos-fila1 {
+    gap: var(--dl-space-space-twounits);
+    flex: 0 0 auto;
+    width: 100%;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.maineconomia-pagos-fila2 {
+    gap: var(--dl-space-space-twounits);
+    flex: 0 0 auto;
+    width: 100%;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.maineconomia-pagos-fila3 {
+    gap: var(--dl-space-space-twounits);
+    flex: 0 0 auto;
+    width: 100%;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.maineconomia-pagos-fila4 {
+    gap: var(--dl-space-space-twounits);
+    flex: 0 0 auto;
+    width: 100%;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.maineconomia-pagos-display-info {
+    top: 651px;
+    left: 74px;
+    width: 406px;
+    height: 262px;
+    position: absolute;
+    align-items: center;
+    border-radius: 21px;
+    justify-content: flex-start;
+    background-color: #000000;
+}
+.maineconomia-pagos-info1 {
+    gap: var(--dl-space-space-threeunits);
+    flex: 0 0 auto;
+    width: 200px;
+    height: 233px;
+    display: flex;
+    align-self: center;
+    padding-left: var(--dl-space-space-unit);
+    padding-right: var(--dl-space-space-unit);
+    flex-direction: column;
+}
+.maineconomia-pagos-info2 {
+    gap: var(--dl-space-space-threeunits);
+    flex: 0 0 auto;
+    width: 200px;
+    height: 233px;
+    display: flex;
+    align-self: center;
+    padding-left: var(--dl-space-space-unit);
+    padding-right: var(--dl-space-space-unit);
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.maineconomia-pagos-display-result {
+    top: 229px;
+    left: 554px;
+    width: 645px;
+    height: 262px;
+    display: flex;
+    position: absolute;
+    border-radius: 21px;
+    background-color: #000000;
+}
+.maineconomia-pagos-display-input {
+    top: 232px;
+    left: 74px;
+    width: 406px;
+    height: 405px;
+    /*display: flex;*/
+    overflow: hidden;
+    position: absolute;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 21px;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 1);
+}
+/*.maineconomia-pagos-input-form {
+  gap: var(--dl-space-space-halfunit);
+  width: 100%;
+  height: 358px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.maineconomia-pagos-input1 {
+  gap: 0;
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.maineconomia-pagos-label {
+  top: 9px;
+  left: 0px;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  align-self: center;
+  margin-left: var(--dl-space-space-oneandhalfunits);
+}
+.maineconomia-pagos-textinput {
+  align-self: flex-end;
+  margin-right: var(--dl-space-space-oneandhalfunits);
+}
+.maineconomia-pagos-input2 {
+  gap: 0;
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.maineconomia-pagos-label1 {
+  top: 9px;
+  left: 0px;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  align-self: center;
+  margin-left: var(--dl-space-space-oneandhalfunits);
+}
+.maineconomia-pagos-textinput1 {
+  align-self: flex-end;
+  margin-right: var(--dl-space-space-oneandhalfunits);
+}
+.maineconomia-pagos-input3 {
+  gap: 0;
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.maineconomia-pagos-label2 {
+  top: 9px;
+  left: 0px;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  align-self: center;
+}
+.maineconomia-pagos-textinput2 {
+  align-self: flex-end;
+}*/
+
+input::placeholder{
+    color:black;
+    font-size: 16px;
+}
+.maineconomia-pagos-button17 {
+    left: 40%;
+    bottom: 0px;
+    padding: 0px;
+    position: relative;
+    margin-top: 35%;
+    height: 30px;
+    width: 20%;
+    align-self: center;
+    background-color: white;
+    color: black;
+}
+
+.imp{
+    padding: 0 2.5% 0 2.5%;
+    font-size: 16px;
+    margin-left: 2.5%;
+    width: 40%;
     margin-top: 5%;
-    margin-right: 10%;
+    background-color: white;
+    color: black;
+    border: 2px solid #FBFAFA;
+    border-radius: 20px 20px 20px 20px;
+    text-decoration: none; /*decoración texto*/
+
+}
+::-webkit-scrollbar {
+    display: none;
+}
+#historial{
+    scrollbar-width: none;
+
 }

@@ -1,0 +1,168 @@
+<html lang="es">
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="This is an HTML5 example">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/PS/paginaWeb/xlu-include-file.js"></script>
+    <script src="/PS/API/main.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    <title>Calculator</title>
+
+</head>
+<body>
+<header xlu-include-file="/PS/paginaWeb/header/header.html">
+
+</header>
+<main>
+    <div>
+        <div class="maineconomia-pagos-container">
+            <div class="maineconomia-pagos-enconimia-main">
+                <div class="maineconomia-pagos-opciones-generales">
+                    <button class ="maineconomia-pagos " onclick='economia_funcion("pagos")'>Pagos</button>
+                    <button class ="maineconomia-pagos " onclick='economia_funcion("interes_sencillo")'>Interes Sencillo</button>
+                    <button class ="maineconomia-pagos " onclick='economia_funcion("interes_compuesto")'>Interes Compuesto</button>
+                    <button class ="maineconomia-pagos " onclick='economia_funcion("salarios")'>Salario</button>
+                    <button class ="maineconomia-pagos " onclick='economia_funcion("impuestos_iva")'>Impuestos</button>
+
+                    <!--<button type="button" class="maineconomia-pagos button" href="/PS/paginaWeb/economiaInteresSencillo.html">
+            <span>
+              <span>Pagos</span>
+              <br />
+            </span>
+                    </button>
+                    <button type="button" class="maineconomia-pagos button" href="/PS/paginaWeb/economiaInteresSencillo.html">
+            <span>
+              <span>Interes Sencillo</span>
+              <br />
+            </span>
+                    </button>
+                    <button type="button" class="maineconomia-pagos button" href="/PS/paginaWeb/economiaInteresSencillo.html">
+            <span>
+              <span>Interes Compuesto</span>
+              <br />
+            </span>
+                    </button>
+                    <button type="button" class="maineconomia-pagos button" href="/PS/paginaWeb/economiaInteresSencillo.html">
+            <span>
+              <span>Salario</span>
+              <br />
+            </span>
+                    </button>
+                    <button type="button" class="maineconomia-pagos button" href="/PS/paginaWeb/economiaInteresSencillo.html">
+            <span>
+              <span>Impuestos</span>
+              <br />
+            </span>
+                    </button>-->
+                </div>
+
+                <!-- MODOS -->
+                <div class="maineconomia-pagos-display-info" id = "info_eco">
+                    <p style="font-size: 20px; color: white">Información:</p>
+                    <p style="font-size: 16px; color: white">El crédito o contrato de crédito es una operación financiera en la que una persona " +
+                        "(el acreedor) realiza un préstamo por una cantidad determinada de dinero a otra persona (el deudor) y en la " +
+                        "que este último, se compromete a devolver la cantidad solicitada en el tiempo o plazo definido, además de pagar " +
+                        "intereses devengados, seguros y costos asociados si los hubiere, de acuerdo a las condiciones establecidas en el " +
+                        "contrato de dicho préstamo.</p>
+                </div>
+                <div class="maineconomia-pagos-display-result" id = "result_eco">
+
+
+                </div>
+                <!-- INPTUS -->
+                <div class="maineconomia-pagos-display-input" id = "input_eco">
+                    <form class="maineconomia-pagos-input-form">
+                        <div class="maineconomia-pagos-input1" style="margin-top: 10px; height:40px;">
+                            <label class="maineconomia-pagos-label" style="color: white; margin-left: 20px;">Préstamo</label>
+                            <input  style="margin-left: 110px; border-radius:40px; height: 90%; text-align: center; font-size: 14px"
+                                    type="number"
+                                    placeholder="*$*"
+                                    class="maineconomia-pagos-textinput input"
+
+                            />
+                        </div>
+                        <div class="maineconomia-pagos-input2" style="margin-top: 20px; height:40px;">
+                            <label class="maineconomia-pagos-label2" style="color: white; margin-left: 20px;">Duración</label>
+                            <input  style="margin-left: 110px; border-radius:40px; height: 90%; text-align: center; font-size: 14px"
+                                    type="number"
+                                    placeholder="*Nº Meses*"
+                                    class="maineconomia-pagos-textinput input2"
+
+                            />
+                        </div>
+                        <div class="maineconomia-pagos-input3" style="margin-top: 20px; height:40px;">
+                            <label class="maineconomia-pagos-label3" style="color: white; margin-left: 20px;">Interés</label>
+                            <input  style="margin-left: 125px; border-radius:40px; height: 90%; text-align: center; font-size: 14px"
+                                    type="number"
+                                    placeholder="*%*"
+                                    class="maineconomia-pagos-textinput input3"
+
+                            />
+                        </div>
+
+
+                        <button type="button" class="maineconomia-pagos-button17 button">
+                            Calcular
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <p>Designed by: PS-Group 7</p>
+</footer>
+
+
+<script>
+    xLuIncludeFile();
+    //cargaNav();
+
+
+    // Definir opciones para cada tipo de contenido
+    function appendToConsole(value) {
+        document.getElementById('console').innerText += value;
+    }
+    window.onload = function() {
+        document.documentElement.lang=localStorage.getItem("languagePagina");
+        cambiarIdioma(localStorage.getItem("languagePagina")); // Cambiar al idioma almacenado en localStorage o predeterminado "es"
+    };
+    var idioma= [ "en", "de", "it", "fr"];
+    var language = document.getElementById("language");
+    idioma.forEach(function(item) {
+        var option = document.createElement("option");
+        option.text = item;
+        option.value = item.toLowerCase(); // Establecer el valor en minúsculas
+        //option.style.backgroundImage = `url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg")`;
+
+
+        //language.style.backgroundImage = ;
+
+        language.add(option);
+
+    });
+    //const savedLanguage = localStorage.getItem("languagePagina");
+    //document.documentElement.lang=savedLanguage;
+    const selectIdioma = document.getElementById('language');
+
+    // Agregar un evento de clic al select
+    selectIdioma.addEventListener('change', function() {
+        // Obtener el valor seleccionado
+        const nuevoIdioma = selectIdioma.value;
+
+        // Llamar a una función para cambiar el idioma
+        console.log(nuevoIdioma);
+        //setLanguage(nuevoIdioma);
+        cambiarIdioma(nuevoIdioma);
+
+    });
+</script>
+</body>
+</html>

@@ -49,10 +49,13 @@ def Ans():
 @app.get("/historial")
 def historial():
     if len(hist) == 0:
-        return "Aún no ha hecho ninguna operación"
+        return 0
     return hist
 
-
+@app.get("/vaciarHistorial")
+def vaciarHistorial():
+    hist.clear()
+    return 0
 """
 Para suma: +
 Para resta: -
