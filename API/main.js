@@ -295,7 +295,7 @@ function principal2(cadena) {
     var pal2=magnitudOrigen+"_"+magnitudDestino;
     // Realizar la conversión llamando a la API
     //console.log(`http://127.0.0.1:8000/conversion/${pal}/${valor}`);
-    if(magnitudOrigen=="hexadecimal"|magnitudOrigen=="octal"|magnitudOrigen=="decimal"|magnitudOrigen=="binario"){
+    if(magnitudOrigen==="hexadecimal"|magnitudOrigen==="octal"|magnitudOrigen==="decimal"|magnitudOrigen==="binario"){
         valor=valor.toString();
         fetch(`http://127.0.0.1:8000/${pal2}/${valor}`)
             .then(response => {
@@ -437,7 +437,7 @@ function principal4() {
         });
 }
 
-function principal5(numero) {
+function principal6(numero) {
     var matriz="";
     if (numero === 1){
         matriz=getMatrixValues("matrixInputs");
@@ -530,44 +530,390 @@ function displayMatrix(matrix, targetId) {
     resultDiv.appendChild(table);
 }
 
-function economia(tipo){
-    if (tipo==="pagos"){
-
-
-        var imputs=document.querySelectorAll('.maineconomia-pagos-textinput');
-        var cont=0;
-        array=[];
-        imputs.forEach(function (imput){
-           console.log(imput.value);
-           array.push(imput.value);
-           cont++;
+function economia_calcular(tipovar) {
+    if (tipovar === "pagos") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
         });
-        var deuda=array[0];
-        var interes=array[2];
-        var tiempo=array[1];
+        var deuda = array[0];
+        var interes = array[2];
+        var tiempo = array[1];
 
-        console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
         fetch(
             `http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`
         ).then((response) => response.json())
 
             .then((data) => {
-                console.log(data);
-                document.getElementById("result_eco").innerText ="Intereses a pagar: "+data +" €";
-                document.getElementById("result_eco").style.color="white";
-                document.getElementById("result_eco").style.textAlign="center";
-                document.getElementById("result_eco").style.alignContent="center";
+                document.getElementById("result_eco").innerText = "Intereses a pagar: " + data + " €";
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
 
-                document.getElementById("result_eco").style.fontSize="30px";
+                document.getElementById("result_eco").style.fontSize = "30px";
+
+
+            });
+
+    } else if (tipovar === "interes_sencillo") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+       /* options_iva=[ "0%", "4%", "5%", "7%", "8%", "10%", "16%", "18%", "21%"];
+        options_igic=["0%", "3%", "7%", "9.5%", "15%", "20%"];
+        options_irpf=["0%", "1%", "2%", "7%", "15%", "19%"];
+        options_gen=[];
+        options_can=[];
+        options_comp=["Anual","Semianual","Cuatrimestral", "Trimestral", "Mensual"];*/
+
+
+        var capital = parseInt(array[0], 10);
+        var contribucion = parseInt(array[1], 10);
+        var interes = parseInt(array[2], 10);
+        var compound = array[3];
+        if (compound === "Anual"){
+            compound=1;
+        }
+        else if(compound==="Semianual"){
+            compound=2;
+        }
+        else if(compound==="Cuatrimestral"){
+            compound=3;
+        }
+        else if(compound==="Trimestral"){
+            compound=4;
+        }
+        else if(compound==="Mensual"){
+            compound=12;
+        }
+
+        var duracion=parseInt(array[4], 10);
+        var impuestos= parseInt(array[5], 10);
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        //console.log(`http://127.0.0.1:8000/interes_compuesto/${capital}-${interes}-${contribucion}-${compound}-${duracion}-${impuestos}`);
+        ///interes_compuesto/{capital}-{interes}-{contribucion}-{compound}-{duracion}-{impuestos}
+        fetch(
+            `http://127.0.0.1:8000/interes_compuesto/${capital}-${interes}-${contribucion}-${compound}-${duracion}-${impuestos}`
+        ).then((response) => response.json())
+
+            .then((data) => {
+
+                document.getElementById("result_eco").innerText = "Total de intereses= " + data + " €";
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
+
+                document.getElementById("result_eco").style.fontSize = "30px";
+
+            });
+
+    }
+    else if (tipovar === "interes_compuesto") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+        /* options_iva=[ "0%", "4%", "5%", "7%", "8%", "10%", "16%", "18%", "21%"];
+         options_igic=["0%", "3%", "7%", "9.5%", "15%", "20%"];
+         options_irpf=["0%", "1%", "2%", "7%", "15%", "19%"];
+         options_gen=[];
+         options_can=[];
+         options_comp=["Anual","Semianual","Cuatrimestral", "Trimestral", "Mensual"];*/
+
+
+        var interes = parseInt(array[0], 10);
+        var compoundl = array[1];
+        var compound;
+        if (compoundl === "Anual"){
+            compound=1;
+        }
+        else if(compoundl==="Semianual"){
+            compound=2;
+        }
+        else if(compoundl==="Cuatrimestral"){
+            compound=3;
+        }
+        else if(compoundl==="Trimestral"){
+            compound=4;
+        }
+        else if(compoundl==="Mensual"){
+            compound=12;
+        }
+
+        var compoundsall = array[2];
+        var compoundsal;
+        if (compoundsall === "Anual"){
+            compoundsal=1;
+        }
+        else if(compoundsall==="Semianual"){
+            compoundsal=2;
+        }
+        else if(compoundsall==="Cuatrimestral"){
+            compoundsal=3;
+        }
+        else if(compoundsall==="Trimestral"){
+            compoundsal=4;
+        }
+        else if(compoundsall==="Mensual"){
+            compoundsal=12;
+        }
+        // /conversor_compound/{ratio}-{compuestoE}-{compuestoS}
+        //console.log(`http://127.0.0.1:8000/conversor_compound/${interes}-${compound}-${compoundsal}`);
+        ///interes_compuesto/{capital}-{interes}-{contribucion}-{compound}-{duracion}-{impuestos}
+        fetch(
+            `http://127.0.0.1:8000/conversor_compound/${interes}-${compound}-${compoundsal}`
+        ).then((response) => response.json())
+
+            .then((data) => {
+
+                document.getElementById("result_eco").innerText = "Input Interes\tCompuesto\tOut Interes\tCompuesto\n\n"+interes+"\t\t\t"+compoundl+"\t"+data+"\t\t"+compoundsall;
+                document.getElementById("result_eco").style.color = "white";
+                //document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.whiteSpace = "pre";
+                document.getElementById("result_eco").style.alignContent = "center";
+
+                document.getElementById("result_eco").style.fontSize = "15px";
+
+            });
+
+    }
+    else if (tipovar === "salarios") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+        var salario = array[0];
+        var horas = array[1];
+        var diasS = array[2];
+        var diasV = array[3];
+
+
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+
+        fetch(
+            `http://127.0.0.1:8000/salario/${salario}*${horas}*${diasS}-${diasV}`
+
+        ).then((response) => response.json())
+
+            .then((data) => {
+                document.getElementById("result_eco").innerText = "Periodo\t\t\t\tCantidad\nDiario\t\t\t\t"+data[0]+"\nSemanal\t\t\t\t"+data[1]+"\nMensual\t\t\t\t"+data[2]+"\nCuatri\t\t\t\t"+data[3]+"\nAnual\t\t\t\t"+data[4];
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
+                document.getElementById("result_eco").style.whiteSpace = "pre";
+               // document.getElementById("result_eco").style.fontSize = "15px";
+
+                document.getElementById("result_eco").style.fontSize = "30px";
 
 
             });
 
     }
+    else if (tipovar === "impuestos_iva") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+        var importe= parseInt(array[0], 10);
+        var iva = parseInt(array[1].slice(0, -1),10);
+        var irpf = parseInt(array[2].slice(0, -1),10);
+
+
+
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        // /IVA/{base}-{ratioI}-{ratioIRPF}
+        fetch(
+            `http://127.0.0.1:8000/IVA/${importe}-${iva}-${irpf}`
+
+        ).then((response) => response.json())
+
+            .then((data) => {
+                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
+                document.getElementById("result_eco").style.whiteSpace = "pre";
+                // document.getElementById("result_eco").style.fontSize = "15px";
+
+                document.getElementById("result_eco").style.fontSize = "30px";
+
+
+            });
+
+    }
+    else if (tipovar === "impuestos_igic") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+        var importe= parseInt(array[0], 10);
+        var igic = parseInt(array[1].slice(0, -1),10);
+        var irpf = parseInt(array[2].slice(0, -1),10);
+
+
+
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        // /IVA/{base}-{ratioI}-{ratioIRPF}
+        fetch(
+            `http://127.0.0.1:8000/IVA/${importe}-${igic}-${irpf}`
+
+        ).then((response) => response.json())
+
+            .then((data) => {
+                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
+                document.getElementById("result_eco").style.whiteSpace = "pre";
+                // document.getElementById("result_eco").style.fontSize = "15px";
+
+                document.getElementById("result_eco").style.fontSize = "30px";
+
+
+            });
+
+    }
+    else if (tipovar === "impuestos_irpf") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+        var importe= parseInt(array[0], 10);
+        var irpf = parseInt(array[1].slice(0, -1),10);
+
+
+
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        // /IVA/{base}-{ratioI}-{ratioIRPF}
+        fetch(
+            `http://127.0.0.1:8000/IRPF/${importe}-${irpf}`
+
+        ).then((response) => response.json())
+
+            .then((data) => {
+                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
+                document.getElementById("result_eco").style.whiteSpace = "pre";
+                // document.getElementById("result_eco").style.fontSize = "15px";
+
+                document.getElementById("result_eco").style.fontSize = "30px";
+
+
+            });
+
+    }
+    else if (tipovar === "impuestos_aduana_gen") {
+
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+        var importe= parseInt(array[0], 10);
+        var rem = array[1];
+        if (rem==="empresa"){
+            rem = 1;
+        }
+        else{
+            rem=0;
+        }
+
+
+
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        // /IVA/{base}-{ratioI}-{ratioIRPF}
+        fetch(
+            `http://127.0.0.1:8000/Aduana/${importe}-${rem}`
+
+        ).then((response) => response.json())
+
+            .then((data) => {
+                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
+                document.getElementById("result_eco").style.whiteSpace = "pre";
+                // document.getElementById("result_eco").style.fontSize = "15px";
+
+                document.getElementById("result_eco").style.fontSize = "30px";
+
+
+            });
+
+    }
+    else if (tipovar === "impuestos_aduana_can") {
+        var imputs = document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont = 0;
+        array = [];
+        imputs.forEach(function (imput) {
+            array.push(imput.value);
+            cont++;
+        });
+        var importe= parseInt(array[0], 10);
+        var rem = array[1];
+        if (rem==="empresa"){
+            rem = 1;
+        }
+        else{
+            rem=0;
+        }
+
+
+
+        //console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        // /IVA/{base}-{ratioI}-{ratioIRPF}
+        fetch(
+            `http://127.0.0.1:8000/AduanaCanaria/${importe}-${rem}`
+
+        ).then((response) => response.json())
+
+            .then((data) => {
+                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").style.color = "white";
+                document.getElementById("result_eco").style.textAlign = "center";
+                document.getElementById("result_eco").style.alignContent = "center";
+                document.getElementById("result_eco").style.whiteSpace = "pre";
+                // document.getElementById("result_eco").style.fontSize = "15px";
+
+                document.getElementById("result_eco").style.fontSize = "30px";
+
+
+            });
+
+
+    }
+    return 0;
+
+
 
 }
-
-
 
 var global_eco="pagos";
 
@@ -670,20 +1016,23 @@ function economia_funcion(tipo){
         const interesDiv = createInputDiv('Interés','', '*%*', '20px');
 
         // Crear el botón
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'maineconomia-pagos-button17 button';
-        button.onclick= economia("pagos");
+        const button2 = document.createElement('button');
+        button2.type = 'button';
+        button2.className = 'maineconomia-pagos-button17 button';
+        button2.addEventListener('click', function() {
+            economia_calcular("pagos")
+        });
 
-        button.textContent = 'Calcular';
+
+
+        button2.textContent = 'Calcular';
 
 
         // Añadir los elementos al formulario
         form.appendChild(prestamoDiv);
         form.appendChild(duracionDiv);
         form.appendChild(interesDiv);
-        form.appendChild(button);
-
+        form.appendChild(button2);
         // Añadir el formulario al div con id="input_eco"
         document.getElementById('input_eco').appendChild(form);
 
@@ -724,11 +1073,15 @@ function economia_funcion(tipo){
 
 
         // Crear el botón
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'maineconomia-pagos-button17 button';
-        button.style.marginTop = '15%';
-        button.textContent = 'Calcular';
+        const button2 = document.createElement('button');
+        button2.type = 'button';
+        button2.className = 'maineconomia-pagos-button17 button';
+        button2.style.marginTop = '15%';
+        button2.addEventListener('click', function() {
+            economia_calcular("interes_sencillo")
+        });
+
+        button2.textContent = 'Calcular';
 
 
         // Añadir los elementos al formulario
@@ -739,7 +1092,7 @@ function economia_funcion(tipo){
         form.appendChild(durInv);
         form.appendChild(ratImp);
 
-        form.appendChild(button);
+        form.appendChild(button2);
 
         // Añadir el formulario al div con id="input_eco"
         document.getElementById('input_eco').appendChild(form);
@@ -780,7 +1133,9 @@ function economia_funcion(tipo){
         button.className = 'maineconomia-pagos-button17 button';
         button.style.marginTop = '15%';
         button.textContent = 'Calcular';
-
+        button.addEventListener('click', function() {
+            economia_calcular("interes_compuesto")
+        });
 
         // Añadir los elementos al formulario
         form.appendChild(ratInt);
@@ -829,6 +1184,9 @@ function economia_funcion(tipo){
         button.className = 'maineconomia-pagos-button17 button';
         button.style.marginTop = '20%';
         button.textContent = 'Calcular';
+        button.addEventListener('click', function() {
+            economia_calcular("salarios")
+        });
 
 
         // Añadir los elementos al formulario
@@ -874,7 +1232,9 @@ function economia_funcion(tipo){
         button.type = 'button';
         button.className = 'maineconomia-pagos-button17 button';
         button.textContent = 'Calcular';
-
+        button.addEventListener('click', function() {
+            economia_calcular("impuestos_iva")
+        });
         // Añadir los elementos al formulario
         form.appendChild(baseImp);
         form.appendChild(iva_input);
@@ -912,7 +1272,9 @@ function economia_funcion(tipo){
         button.type = 'button';
         button.className = 'maineconomia-pagos-button17 button';
         button.textContent = 'Calcular';
-
+        button.addEventListener('click', function() {
+            economia_calcular("impuestos_igic")
+        });
         // Añadir los elementos al formulario
         form.appendChild(baseImp);
         form.appendChild(igic_input);
@@ -947,6 +1309,9 @@ function economia_funcion(tipo){
         button.type = 'button';
         button.className = 'maineconomia-pagos-button17 button';
         button.textContent = 'Calcular';
+        button.addEventListener('click', function() {
+            economia_calcular("impuestos_irpf")
+        });
 
         // Añadir los elementos al formulario
         form.appendChild(baseImp);
@@ -981,6 +1346,9 @@ function economia_funcion(tipo){
         button.className = 'maineconomia-pagos-button17 button';
         button.textContent = 'Calcular';
 
+        button.addEventListener('click', function() {
+            economia_calcular("impuestos_aduana_gen")
+        });
         // Añadir los elementos al formulario
         form.appendChild(importe);
         form.appendChild(remitente);
@@ -1013,8 +1381,10 @@ function economia_funcion(tipo){
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'maineconomia-pagos-button17 button';
-        button.onclick= "";
         button.textContent = 'Calcular';
+        button.addEventListener('click', function() {
+            economia_calcular("impuestos_aduana_can")
+        });
 
         // Añadir los elementos al formulario
         form.appendChild(importe);
@@ -1038,8 +1408,8 @@ function economia_funcion(tipo){
 options_iva=[ "0%", "4%", "5%", "7%", "8%", "10%", "16%", "18%", "21%"];
 options_igic=["0%", "3%", "7%", "9.5%", "15%", "20%"];
 options_irpf=["0%", "1%", "2%", "7%", "15%", "19%"];
-options_gen=[];
-options_can=[];
+options_gen=["empresa", "particular"];
+options_can=["empresa", "particular"];
 options_comp=["Anual","Semianual","Cuatrimestral", "Trimestral", "Mensual"];
 
 function createInputDiv(labelText, type, placeholderText, marginRight) {
