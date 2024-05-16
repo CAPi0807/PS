@@ -29,6 +29,7 @@ function limpiar(){
 }
 
 
+
 function getAns(calc){
     if (calc==="basica"){
         document.getElementById('console').innerText += datoGlobalBas;
@@ -1285,4 +1286,108 @@ function insertImagen(idioma){
 
     // Devolver el nuevo valor
     return language.style.backgroundImage;
+}
+
+function principal5(cadena) {
+
+    // Separar los términos de la cadena por el signo más (+) o menos (-)
+    var terminos = cadena.substring(6,cadena.length).split(/(?=[+-])/);
+
+    terminos.reverse();
+    // Inicializar la lista de coeficientes
+    var coeficientes = [];
+
+    // Iterar sobre cada término para extraer el coeficiente
+    for(var i in terminos) {
+        var termino=terminos[i];
+        var match= termino.match(/([-+]?\d*)/)
+
+        if(match[1]===termino){
+
+
+            var coeficiente = match[1] ? parseInt(match[1]):0;var exponente = 0;coeficientes.push(coeficiente);
+        }
+        else {
+
+            var match = termino.match(/([-+]?\d*)(x\^?\d*)/);
+            // Obtener el coeficiente y el exponente del término
+            var coeficiente = match[1] ? parseInt(match[1]) : 1; // Si no hay coeficiente, se asume 1; si no hay x, se asume 0
+            var exponente = match[2]; // Si no hay exponente, se asume 1
+
+            if (exponente === "x") {
+                exponente = 1;
+            }
+            if (exponente === "x^2") {
+                exponente = 2;
+            }
+            if (exponente === "x^3") {
+                exponente = 3;
+            }
+            if (exponente === "x^4") {
+                exponente = 4;
+            }
+            if (exponente === "x^5") {
+                exponente = 5;
+            }
+
+
+            // Ajustar los coeficientes si el exponente es mayor que el índice actual
+            while (exponente > coeficientes.length) {
+                coeficientes.push(0);
+            }
+
+            // Asignar el coeficiente al índice correspondiente
+            coeficientes.push(coeficiente);
+        }
+
+
+    };
+
+    coeficientes.reverse();
+
+    // Convertir los coeficientes a una cadena separada por comas
+    var coeficientesStr = coeficientes.join(',');
+
+    // Enviar la solicitud a la API con los coeficientes separados
+
+    console.log(coeficientesStr);
+
+    // Enviar la solicitud a la API con los coeficientes separados
+    fetch(`http://127.0.0.1:8000/resolver_polinomios/${coeficientesStr}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error de red - Código de estado: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            var h="";
+            for (e in data){
+                h+= "x"+e+" = "+data[e]+"\n";
+            }
+            document.getElementById('console2').innerText=h;
+             // Mostrar el resultado en el campo de texto
+
+
+
+        })
+        .catch(error => {
+            console.error('Error al llamar a la API:', error);
+
+            //limpiar();
+            //alert("SyntaxError");
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 }

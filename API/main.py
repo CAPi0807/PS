@@ -23,6 +23,7 @@ hist = {}
 # Configurar el middleware CORS
 app.add_middleware(
     CORSMiddleware,
+
     allow_origins=["*"],  # Permite solicitudes desde cualquier origen
     allow_credentials=True,
     allow_methods=["*"],  # Permite todos los métodos HTTP

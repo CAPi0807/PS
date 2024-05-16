@@ -20,12 +20,131 @@
 
 </header>
 <main>
-    hola
+    <h1 id="titulo3">Resuelve tu polinomio</h1>
+    <a class="button" id="oper" title= "Calculadora" href="/PS/paginaWeb/operaciones.html">Operaciones con Polinomios</a>
+    <div class="interior">
+
+
+        <div class="calculadora4">
+            <div  id="console">f(x) = </div>
+        </div>
+        <div class="calculadora5">
+            <div  id="console2"></div>
+        </div>
+
+
+
+
+        <div class="filas33">
+            <button class="rectangle4" onclick="appendToConsole('x')">x</button>
+            <button class="rectangle4" onclick="appendToConsole('^')">^</button>
+            <button class="rectangle5" onclick="appendToConsole('^2')">^2</button>
+            <button class="rectangle4" onclick="appendToConsole('7')">7</button>
+            <button class="rectangle4" onclick="appendToConsole('8')">8</button>
+            <button class="rectangle4" onclick="appendToConsole('9')">9</button>
+        </div>
+        <div class="filas44">
+            <button class="rectangle4" onclick="appendToConsole('+')">+</button>
+            <button class="rectangle4" onclick="appendToConsole('-')">-</button>
+            <button class="rectangle5" onclick="appendToConsole('^3')">^3</button>
+            <button class="rectangle4" onclick="appendToConsole('4')">4</button>
+            <button class="rectangle4" onclick="appendToConsole('5')">5</button>
+            <button class="rectangle4" onclick="appendToConsole('6')">6</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('*')">x</button>-->
+            <button class="rectangle4" onclick="borrar()">Del</button>
+        </div>
+        <div class="filas55">
+            <button class="rectangle4" onclick="appendToConsole('1')">1</button>
+            <button class="rectangle4" onclick="appendToConsole('2')">2</button>
+            <button class="rectangle4" onclick="appendToConsole('3')">3</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('-')">-</button>-->
+            <button class="rectangle4" onclick="limpiar2('C')">C</button>
+        </div>
+        <div class="filas66">
+            <button class="rectangle4" onclick="appendToConsole('0')">0</button>
+            <button class="rectangle4" onclick="principal5(document.getElementById('console').innerText)">=</button>
+            <button class="rectangle4" onclick="appendToConsole('Ans')">Ans</button>
+            <!--<button class="rectangle4" onclick="appendToConsole('+')">+</button>-->
+        </div>
+
+
+    </div>
+
 </main>
 <footer>
     <p>Designed by: PS-Group 7</p>
 </footer>
 
 <script>
+    const keyMappings = {
+        48: "0",
+        49: "1",
+        50: "2",
+        51: "3",
+        52: "4",
+        53: "5",
+        54: "6",
+        55: "7",
+        56: "8",
+        57: "9",
+        96: "0", // Código de tecla para teclado numérico 0
+        97: "1", // Código de tecla para teclado numérico 1
+        98: "2", // Código de tecla para teclado numérico 2
+        99: "3", // Código de tecla para teclado numérico 3
+        100: "4", // Código de tecla para teclado numérico 4
+        101: "5", // Código de tecla para teclado numérico 5
+        102: "6", // Código de tecla para teclado numérico 6
+        103: "7", // Código de tecla para teclado numérico 7
+        104: "8", // Código de tecla para teclado numérico 8
+        105: "9", // Código de tecla para teclado numérico 9
+        107: "+", // Código de tecla para suma (+) en teclado numérico
+        109: "-", // Código de tecla para resta (-) en teclado numérico
+        106: "*", // Código de tecla para multiplicación (*) en teclado numérico
+        111: "/", // Código de tecla para división (/) en teclado numérico
+    };
+
+    // Agregar evento de teclado para el teclado numérico
+    document.addEventListener("keydown", function(event) {
+        // Obtener el código de la tecla presionada
+
+        var codigoTecla = event.keyCode;
+        if (codigoTecla === 46) {
+            // Limpiar el contenido de la consola
+            limpiar();
+            return;
+        }
+        if (codigoTecla === 8){
+            borrar();
+            return;
+        }
+        if (codigoTecla === 13 ){
+            principal5(document.getElementById('console').innerText);
+            return;
+        }
+        // Verificar si la tecla presionada está en nuestro mapeo
+
+        if (keyMappings.hasOwnProperty(codigoTecla)) {
+            var valor;
+            // Obtener el valor correspondiente al código de tecla
+            if (codigoTecla === 111){
+                valor = "÷";
+                valor = keyMappings[codigoTecla];
+            }
+            else{
+                valor = keyMappings[codigoTecla];
+            }
+
+
+            // Llamar a la función para agregar el valor a la consola
+            appendToConsole(valor);
+        }
+    });
+    function appendToConsole(value) {
+        document.getElementById('console').innerText += value;
+    }
     xLuIncludeFile();
+    function limpiar2(){
+        document.getElementById('console').innerText = "f(x) = ";
+        document.getElementById('console2').innerText = "";
+    }
 </script>
