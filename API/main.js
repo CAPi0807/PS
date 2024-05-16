@@ -528,6 +528,46 @@ function displayMatrix(matrix, targetId) {
 
     resultDiv.appendChild(table);
 }
+
+function economia(tipo){
+    if (tipo==="pagos"){
+
+
+        var imputs=document.querySelectorAll('.maineconomia-pagos-textinput');
+        var cont=0;
+        array=[];
+        imputs.forEach(function (imput){
+           console.log(imput.value);
+           array.push(imput.value);
+           cont++;
+        });
+        var deuda=array[0];
+        var interes=array[2];
+        var tiempo=array[1];
+
+        console.log(`http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`);
+        fetch(
+            `http://127.0.0.1:8000/deuda/${deuda}*${interes}:${tiempo}`
+        ).then((response) => response.json())
+
+            .then((data) => {
+                console.log(data);
+                document.getElementById("result_eco").innerText ="Intereses a pagar: "+data +" €";
+                document.getElementById("result_eco").style.color="white";
+                document.getElementById("result_eco").style.textAlign="center";
+                document.getElementById("result_eco").style.alignContent="center";
+
+                document.getElementById("result_eco").style.fontSize="30px";
+
+
+            });
+
+    }
+
+}
+
+
+
 var global_eco="pagos";
 
 function economia_funcion(tipo){
@@ -632,6 +672,8 @@ function economia_funcion(tipo){
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'maineconomia-pagos-button17 button';
+        button.onclick= economia("pagos");
+
         button.textContent = 'Calcular';
 
 
@@ -970,6 +1012,7 @@ function economia_funcion(tipo){
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'maineconomia-pagos-button17 button';
+        button.onclick= "";
         button.textContent = 'Calcular';
 
         // Añadir los elementos al formulario
