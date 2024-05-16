@@ -594,7 +594,7 @@ footer{
     left: 554px;
     width: 645px;
     height: 262px;
-    display: flex;
+    /*display: flex;*/
     position: absolute;
     border-radius: 21px;
     background-color: #000000;

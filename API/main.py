@@ -571,7 +571,7 @@ def octal_a_binario(a: int):
 
 @app.get("/deuda/{deuda}*{interes}:{tiempo}")
 def deuda(deuda: float, interes: float, tiempo: int):
-    return deuda*interes/tiempo
+    return deuda*(interes/100)*(tiempo)
 
 
 @app.get("/salario/{pagoHora}*{horasDia}*{diasSemana}-{vacaciones}")
