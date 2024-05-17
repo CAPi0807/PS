@@ -1,0 +1,160 @@
+<html lang="es">
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="This is an HTML5 example">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/PS/paginaWeb/xlu-include-file.js"></script>
+    <script src="/PS/API/main.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    <title>Calculator</title>
+
+</head>
+<body>
+<header xlu-include-file="/PS/paginaWeb/header/header.html">
+
+</header>
+<main>
+    <h1 id="titulo3">Operaciones con polinomios</h1>
+
+    <div class="interior">
+
+        <h2>Primer Polinomio</h2>
+        <div>
+            <label >Coeficientes:</label>
+            <input class="inputs" type="number" id="coeficientes_p1_0" value="0">x^5
+            <input class="inputs" type="number" id="coeficientes_p1_1" value="0">x^4
+            <input class="inputs" type="number" id="coeficientes_p1_2" value="0">x^3
+            <input class="inputs" type="number" id="coeficientes_p1_3" value="0">x^2
+            <input class="inputs" type="number" id="coeficientes_p1_4" value="0">x
+            <input class="inputs" type="number" id="coeficientes_p1_5" value="0">
+        </div>
+
+        <!-- Segundo polinomio -->
+        <h2>Segundo Polinomio</h2>
+        <div>
+            <label >Coeficientes:</label>
+            <input class="inputs" type="number" id="coeficientes_p2_0" value="0" >x^5
+            <input class="inputs" type="number" id="coeficientes_p2_1" value="0" >x^4
+            <input class="inputs" type="number" id="coeficientes_p2_2" value="0">x^3
+            <input class="inputs" type="number" id="coeficientes_p2_3" value="0">x^2
+            <input class="inputs" type="number" id="coeficientes_p2_4" value="0" >x
+            <input class="inputs" type="number" id="coeficientes_p2_5" value="0" >
+        </div>
+
+        <!-- Botones para calcular -->
+        <div>
+            <button onclick="sumarPolinomios()">Sumar Polinomios</button>
+            <button onclick="restarPolinomios()">Restar Polinomios</button>
+        </div>
+
+        <!-- Resultado -->
+        <h2>Resultado</h2>
+        <div id="resultado"></div>
+    </div>
+</main>
+<footer>
+    <p>Designed by: PS-Group 7</p>
+</footer>
+</body>
+
+
+<script>
+    function sumarPolinomios() {
+        const coeficientes_p1 = [];
+        const coeficientes_p2 = [];
+        for (let i = 0; i < 6; i++) {
+            coeficientes_p1.push(Number(document.getElementById(`coeficientes_p1_${i}`).value));
+            coeficientes_p2.push(Number(document.getElementById(`coeficientes_p2_${i}`).value));
+        }
+
+        const resultado = [];
+        for (let i = 0; i < 6; i++) {
+            resultado.push(coeficientes_p1[i] + coeficientes_p2[i]);
+        }
+        resultado.reverse();
+        mostrarResultado(resultado);
+    }
+
+    function restarPolinomios() {
+        const coeficientes_p1 = [];
+        const coeficientes_p2 = [];
+        for (let i = 5; i >= 0; i--) {
+            coeficientes_p1.push(Number(document.getElementById(`coeficientes_p1_${i}`).value));
+            coeficientes_p2.push(Number(document.getElementById(`coeficientes_p2_${i}`).value));
+        }
+
+        const resultado = [];
+        for (let i = 0; i < 6; i++) {
+            resultado.push(coeficientes_p1[i] - coeficientes_p2[i]);
+        }
+
+        mostrarResultado(resultado);
+    }
+
+
+    function mostrarResultado(resultado) {
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.innerHTML = "";
+
+        // Invertir el orden de los coeficientes
+
+
+        // Variable para almacenar el polinomio
+        let polinomio = "";
+
+        // Iterar sobre los coeficientes
+        for (let potencia = resultado.length - 1; potencia >= 0; potencia--) {
+            const coeficiente = resultado[potencia];
+
+            // Omitir los coeficientes iguales a cero
+            if (coeficiente === 0) {
+                continue;
+            }
+
+            // Determinar el término del polinomio para esta potencia
+            let termino = "";
+            if (potencia === 0) {
+                termino = `${coeficiente}`;
+            } else if (potencia === 1) {
+                if (coeficiente === 1) {
+                    termino = "x";
+                } else if (coeficiente === -1) {
+                    termino = "-x";
+                } else {
+                    termino = `${coeficiente}x`;
+                }
+            } else {
+                if (coeficiente === 1) {
+                    termino = `x^${potencia}`;
+                } else if (coeficiente === -1) {
+                    termino = `-x^${potencia}`;
+                } else {
+                    termino = `${coeficiente}x^${potencia}`;
+                }
+            }
+
+            // Agregar el término al polinomio
+            if (polinomio !== "") {
+
+                polinomio += ` + ${termino}`;
+            } else {
+                polinomio += termino;
+            }
+        }
+
+        // Mostrar el polinomio en el elemento resultadoDiv
+        const label = document.createElement("label");
+        label.textContent = polinomio;
+        resultadoDiv.appendChild(label);
+    }
+
+
+    xLuIncludeFile();
+</script>
+</html>
