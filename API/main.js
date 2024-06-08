@@ -555,7 +555,7 @@ function economia_calcular(tipovar) {
         ).then((response) => response.json())
 
             .then((data) => {
-                document.getElementById("result_eco").innerText = "Intereses a pagar: " + data + " €";
+                document.getElementById("result_eco").innerText = "Intereses a pagar: " + data.toFixed(4) + " €";
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
@@ -612,7 +612,7 @@ function economia_calcular(tipovar) {
 
             .then((data) => {
 
-                document.getElementById("result_eco").innerText = "Total de intereses= " + data + " €";
+                document.getElementById("result_eco").innerText = "Total de intereses= " + data.toFixed(4) + " €";
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
@@ -683,7 +683,7 @@ function economia_calcular(tipovar) {
 
             .then((data) => {
 
-                document.getElementById("result_eco").innerText = "Input Interes\tCompuesto\tOut Interes\tCompuesto\n\n"+interes+"\t\t\t"+compoundl+"\t"+data+"\t\t"+compoundsall;
+                document.getElementById("result_eco").innerText = "Input Interes\tCompuesto\tOut Interes\tCompuesto\n\n"+interes+"\t\t\t"+compoundl+"\t"+data.toFixed(4)+"\t\t"+compoundsall;
                 document.getElementById("result_eco").style.color = "white";
                 //document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.whiteSpace = "pre";
@@ -716,7 +716,7 @@ function economia_calcular(tipovar) {
         ).then((response) => response.json())
 
             .then((data) => {
-                document.getElementById("result_eco").innerText = "Periodo\t\t\t\tCantidad\nDiario\t\t\t\t"+data[0]+"\nSemanal\t\t\t\t"+data[1]+"\nMensual\t\t\t\t"+data[2]+"\nCuatri\t\t\t\t"+data[3]+"\nAnual\t\t\t\t"+data[4];
+                document.getElementById("result_eco").innerText = "Periodo\t\t\t\tCantidad\nDiario\t\t\t\t"+data[0].toFixed(4)+"\nSemanal\t\t\t\t"+data[1].toFixed(4)+"\nMensual\t\t\t\t"+data[2].toFixed(4)+"\nCuatri\t\t\t\t"+data[3].toFixed(4)+"\nAnual\t\t\t\t"+data[4];
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
@@ -751,7 +751,7 @@ function economia_calcular(tipovar) {
         ).then((response) => response.json())
 
             .then((data) => {
-                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").innerText = "Importe total = "+data.toFixed(4)+"€";
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
@@ -786,7 +786,7 @@ function economia_calcular(tipovar) {
         ).then((response) => response.json())
 
             .then((data) => {
-                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").innerText = "Importe total = "+data.toFixed(4)+"€";
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
@@ -820,7 +820,7 @@ function economia_calcular(tipovar) {
         ).then((response) => response.json())
 
             .then((data) => {
-                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").innerText = "Importe total = "+data.toFixed(4)+"€";
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
@@ -861,7 +861,7 @@ function economia_calcular(tipovar) {
         ).then((response) => response.json())
 
             .then((data) => {
-                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").innerText = "Importe total = "+data.toFixed(4)+"€";
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
@@ -901,7 +901,7 @@ function economia_calcular(tipovar) {
         ).then((response) => response.json())
 
             .then((data) => {
-                document.getElementById("result_eco").innerText = "Importe total = "+data+"€";
+                document.getElementById("result_eco").innerText = "Importe total = "+data.toFixed(4)+"€";
                 document.getElementById("result_eco").style.color = "white";
                 document.getElementById("result_eco").style.textAlign = "center";
                 document.getElementById("result_eco").style.alignContent = "center";
