@@ -165,12 +165,18 @@ function operacion(variable) {
                 alert("SyntaxError");
                 return;
             }
+
+            if (!Number.isInteger(data)){
+                data= data.toFixed(4);
+            }
+
             document.getElementById('console').innerText = data;
 
             datoGlobalBas=document.getElementById('console').innerText;
 
             histOper=variable;
             histResult=data;
+
             actualizaHist(variable, data);
 
 
@@ -1660,6 +1666,13 @@ function insertImagen(idioma){
 
 function principal5(cadena) {
 
+   /* if (cadena==="5"){
+        alert("Syntax error");
+        document.getElementById("console").innerText="f(x) = ";
+        document.getElementById("console2").innerText="";
+        return;
+    }*/
+
     // Separar los términos de la cadena por el signo más (+) o menos (-)
     var terminos = cadena.substring(6,cadena.length).split(/(?=[+-])/);
 
@@ -1670,19 +1683,30 @@ function principal5(cadena) {
     // Iterar sobre cada término para extraer el coeficiente
     for(var i in terminos) {
         var termino=terminos[i];
-        var match= termino.match(/([-+]?\d*)/)
+        var match= termino.match(/([-+]?\d*)/);
 
         if(match[1]===termino){
-
 
             var coeficiente = match[1] ? parseInt(match[1]):0;var exponente = 0;coeficientes.push(coeficiente);
         }
         else {
 
             var match = termino.match(/([-+]?\d*)(x\^?\d*)/);
+            if(match===null){
+                alert("Syntax error");
+                document.getElementById("console").innerText="f(x) = ";
+                document.getElementById("console2").innerText="";
+                return;
+            }
             // Obtener el coeficiente y el exponente del término
             var coeficiente = match[1] ? parseInt(match[1]) : 1; // Si no hay coeficiente, se asume 1; si no hay x, se asume 0
+
+
             var exponente = match[2]; // Si no hay exponente, se asume 1
+
+            if (exponente === "") {
+                exponente = 0;
+            }
 
             if (exponente === "x") {
                 exponente = 1;
@@ -1699,6 +1723,7 @@ function principal5(cadena) {
             if (exponente === "x^5") {
                 exponente = 5;
             }
+
 
 
             // Ajustar los coeficientes si el exponente es mayor que el índice actual
@@ -1720,6 +1745,12 @@ function principal5(cadena) {
 
     // Enviar la solicitud a la API con los coeficientes separados
 
+   /* if (coeficientesStr.length>=10){
+        alert("Syntax error");
+        document.getElementById("console").innerText="f(x) = ";
+        return;
+
+    }*/
     console.log(coeficientesStr);
 
     // Enviar la solicitud a la API con los coeficientes separados
@@ -1732,12 +1763,18 @@ function principal5(cadena) {
         })
         .then(data => {
             console.log(data);
+            if(data.length===0){
+                alert("Syntax error");
+                document.getElementById("console").innerText="f(x) = ";
+                document.getElementById("console2").innerText="";
+                return;
+            }
             var h="";
             for (e in data){
                 h+= "x"+e+" = "+data[e]+"\n";
             }
             document.getElementById('console2').innerText=h;
-             // Mostrar el resultado en el campo de texto
+            // Mostrar el resultado en el campo de texto
 
 
 
@@ -1747,7 +1784,14 @@ function principal5(cadena) {
 
             //limpiar();
             //alert("SyntaxError");
+            alert("Syntax error");
+            document.getElementById("console").innerText="f(x) = ";
+            document.getElementById("console2").innerText="";
+
         });
+
+
+
 
 
 
